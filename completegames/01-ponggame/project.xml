@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <project>
 	<meta 
-    title="Simple Mouse Game" 
-    package="com.haxegon.simplemousegame" 
+    title="Unlicensed Ball and Paddle game"
+    package="com.haxegon.ponggame" 
     version="1.0.0" 
     company="Your name here" 
   />
@@ -11,7 +11,7 @@
 	<app 
       main="haxegon.Load"
       path="bin" 
-      file="simplemousegame" 
+      file="ponggame" 
    />
    
 	<window
