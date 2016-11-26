@@ -20,6 +20,8 @@ class Main{
 	var enemyscore:Int = 0;
 	
 	function new() {
+    Text.font = "ganon";
+    
 	  Music.loadsound("bounce");
 		Music.loadsound("hit");
 		Music.loadsound("score");
@@ -134,16 +136,16 @@ class Main{
 		updateenemy();
 		
 		//Show the scores
-		Text.setfont("ganon", 3);
+		Text.size = 3;
 		Text.display(Gfx.screenwidthmid - 20, 4, "" + playerscore);
 		Text.display(Gfx.screenwidthmid + 20, 4, "" + enemyscore);
 	}
 
 	function titlescreen(){
-		Text.setfont("ganon", 4);
+		Text.size = 4;
 		Text.display(Text.CENTER, Text.CENTER, "Unlicensed Ball and Paddle game");
 		
-		Text.setfont("ganon", 2);
+		Text.size = 2;
 		Text.display(Text.CENTER, Text.BOTTOM, "press space to start");
 	}
 

@@ -62,14 +62,16 @@ class Main {
 		
 		if(counter % 2 == 0) updatestars();
 		drawstars();
-
-		Text.setfont("pixel", 3);
+		
+		Text.font = "pixel";
+		Text.size = 3;
 		Text.display(Text.CENTER, Gfx.screenheight - Text.height() - 4, "Click to change font");
 		
-		Text.setfont(fontlist[currentfont], 6);
+		Text.font = fontlist[currentfont];
+		Text.size = 6;
 		Text.display(Text.CENTER,Gfx.screenheightmid - Text.height(), "\"" + fontlist[currentfont] + "\"", Gfx.hsl((currentfont * coloroffset), 0.5, 0.5));
 		
-		Text.setfont(fontlist[currentfont], 3);
+		Text.size = 3;
 		
 		if(Text.width(fontcredits[currentfont])< Gfx.screenwidth){
 			Text.display(Text.CENTER,Gfx.screenheightmid + 2, fontcredits[currentfont], Gfx.hsl((currentfont * coloroffset), 0.15, 0.4));  
