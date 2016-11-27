@@ -15,9 +15,10 @@
   </output>
   <!-- Other classes to be compiled into your SWF -->
   <classpaths>
-    <class path="C:\coding\haxe\Haxe\lib\lime\3,4,1" />
-    <class path="C:\coding\haxe\Haxe\lib\haxegon\0,1,0-alpha" />
+    <class path="C:\coding\haxe\Haxe\lib\haxegon\0,3,0-alpha" />
     <class path="C:\coding\haxe\Haxe\lib\openfl\4,4,1" />
+    <class path="C:\coding\haxe\Haxe\lib\lime\3,4,1" />
+    <class path="haxegondev" />
     <class path="src" />
     <class path="C:\coding\haxe\Haxe\lib\openfl\4,4,1\externs\core\flash" />
     <class path="C:\coding\haxe\Haxe\lib\openfl\4,4,1\externs\core\openfl" />
@@ -26,12 +27,12 @@
   </classpaths>
   <!-- Build options -->
   <build>
-    <option directives="lime=3.4.1&#xA;haxegon=0.1.0-alpha&#xA;openfl=4.4.1&#xA;tools=3.4.1&#xA;no-compilation&#xA;openfl-flash&#xA;web&#xA;display" />
+    <option directives="haxegon=0.3.0-alpha&#xA;openfl=4.4.1&#xA;lime=3.4.1&#xA;tools=3.4.1&#xA;no-compilation&#xA;windowheight=480&#xA;openfl-flash&#xA;startfullscreen=false&#xA;windowwidth=768&#xA;web&#xA;display" />
     <option flashStrict="False" />
     <option noInlineOnDebug="False" />
     <option mainClass="ApplicationMain" />
     <option enabledebug="False" />
-    <option additional="--macro lime.Lib.extraParams()&#xA;--macro openfl._internal.utils.ExtraParams.include()&#xA;-swf-version 22" />
+    <option additional="--macro openfl._internal.utils.ExtraParams.include()&#xA;--macro lime.Lib.extraParams()&#xA;-swf-version 17" />
   </build>
   <!-- haxelib libraries -->
   <haxelib>

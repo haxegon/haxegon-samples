@@ -35,8 +35,8 @@
       if="cpp"
    ></window>
    
-	<source path="haxegondev" />
 	<source path="src" />
+	<haxelib name="haxegon" />
 	<haxelib name="openfl" />
 	<haxedef name="windowwidth" value="${windowwidth}" />
   <haxedef name="windowheight" value="${windowheight}" />
