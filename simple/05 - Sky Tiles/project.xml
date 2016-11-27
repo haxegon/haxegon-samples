@@ -5,17 +5,17 @@
   <set name="startfullscreen" value="false" />
   
 	<meta 
-    title="Hair Game" 
-    package="com.increpare.hairgame" 
+    title="Sky Tiles" 
+    package="com.haxegon.skytiles" 
     version="1.0.0" 
-    company="Increpare" 
+    company="Haxegon" 
   />
   
   <app swf-version="17.0" if="flash"/>
 	<app 
       main="haxegon.Load"
       path="bin" 
-      file="hairgame" 
+      file="skytiles" 
    />
 
 	<window

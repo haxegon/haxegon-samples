@@ -2,7 +2,7 @@
 <project>
   <set name="windowwidth" value="768" />
   <set name="windowheight" value="480" />
-  <set name="startfullscreen" value="true" />
+  <set name="startfullscreen" value="false" />
   
 	<meta 
     title="Moving Hexagon" 
