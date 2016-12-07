@@ -69,14 +69,14 @@ class Main {
 		
 		Text.font = fontlist[currentfont];
 		Text.size = 6;
-		Text.display(Text.CENTER,Gfx.screenheightmid - Text.height(), "\"" + fontlist[currentfont] + "\"", Gfx.hsl((currentfont * coloroffset), 0.5, 0.5));
+		Text.display(Text.CENTER,Gfx.screenheightmid - Text.height(), "\"" + fontlist[currentfont] + "\"", Col.hsl((currentfont * coloroffset), 0.5, 0.5));
 		
 		Text.size = 3;
 		
 		if(Text.width(fontcredits[currentfont])< Gfx.screenwidth){
-			Text.display(Text.CENTER,Gfx.screenheightmid + 2, fontcredits[currentfont], Gfx.hsl((currentfont * coloroffset), 0.15, 0.4));  
+			Text.display(Text.CENTER,Gfx.screenheightmid + 2, fontcredits[currentfont], Col.hsl((currentfont * coloroffset), 0.15, 0.4));  
 		}else{
-			Text.display(10 - scrollposition,Gfx.screenheightmid + 2, fontcredits[currentfont], Gfx.hsl((currentfont * coloroffset), 0.15, 0.4));
+			Text.display(10 - scrollposition,Gfx.screenheightmid + 2, fontcredits[currentfont], Col.hsl((currentfont * coloroffset), 0.15, 0.4));
 		}
 		
 		//Update scroller position
@@ -111,7 +111,7 @@ class Main {
 	function drawstars(){
 		for(i in 0 ... numstars){
 			starcol = Convert.toint(255 - (30 - starspeed[i]) * 10);
-			Gfx.fillbox(starx[i], stary[i], 3, 3, Gfx.rgb(starcol, starcol, starcol));
+			Gfx.fillbox(starx[i], stary[i], 3, 3, Col.rgb(starcol, starcol, starcol));
 		}
 	}
 }
