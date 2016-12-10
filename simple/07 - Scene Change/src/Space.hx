@@ -45,7 +45,7 @@ class Space {
 			}
 		}
 		
-		Text.changesize(16);
+		Text.size = 16;
 		Text.align(Text.LEFT);
 		Text.display(6, Gfx.screenheight - 25, "LEFT CLICK TO CHANGE", Col.GRAY);
 		Text.align(Text.RIGHT);
