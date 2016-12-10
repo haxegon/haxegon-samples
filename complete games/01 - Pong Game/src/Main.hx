@@ -20,9 +20,9 @@ class Main{
 	var enemyscore:Int = 0;
 	
 	function new() {
-    Text.font = "ganon";
+    		Text.font = "ganon";
     
-	  Music.loadsound("bounce");
+	  	Music.loadsound("bounce");
 		Music.loadsound("hit");
 		Music.loadsound("score");
 		Music.loadsound("miss");
@@ -147,23 +147,23 @@ class Main{
 		
 		Text.size = 2;
 		Text.display(Text.CENTER, Text.BOTTOM, "press space to start");
+		
+		if(Input.pressed(Key.SPACE)){
+			gamestate = "game";
+				
+			//Reset ball position
+			ballx = Gfx.screenwidth / 2;
+			bally = Gfx.screenheight / 2;
+				
+			//Reset score
+			playerscore = 0;
+			enemyscore = 0;
+		}
 	}
 
 	function update(){
 		if(gamestate == "title"){
 			titlescreen();
-			
-			if(Input.pressed(Key.SPACE)){
-				gamestate = "game";
-				
-				//Reset ball position
-				ballx = Gfx.screenwidth / 2;
-				bally = Gfx.screenheight / 2;
-				
-				//Reset score
-				playerscore = 0;
-				enemyscore = 0;
-			}
 		}else if(gamestate == "game"){
 			playgame();
 		}
