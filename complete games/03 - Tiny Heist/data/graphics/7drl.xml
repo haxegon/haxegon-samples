@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
+<!-- $TexturePacker:SmartUpdate:bc82130e1da9010ae0a8a0e8f15f43b7:d0fa8fd1aedd8f7fb873fa70427a9153:608aa963eed6e0ef5a48b9200ec5b245$ -->
+<TextureAtlas imagePath="7drl.png" width="646" height="225">
+    <SubTexture name="colorterminal" x="1" y="32" width="192" height="192"/>
+    <SubTexture name="fonts/fffhomepage/fffhomepage_0" x="389" y="69" width="256" height="56" frameX="0" frameY="0" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="fonts/fffhomepagebold/fffhomepagebold_0" x="389" y="1" width="256" height="66" frameX="0" frameY="0" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="guibar" x="1" y="1" width="384" height="29"/>
+    <SubTexture name="terminal" x="195" y="32" width="192" height="192"/>
+</TextureAtlas>
