@@ -197,9 +197,9 @@ class Openworld {
 				t = at(i, j);
 				if (t > 0) {
 					Gfx.fillbox((i + x) * Draw.tilewidth, (j + y) * Draw.tileheight, Draw.tilewidth, Draw.tileheight, backcolourmap(t, fogat(i, j)));
-					Gfx.imagecolor(colourmap(t, fogat(i, j)));
+					Gfx.imagecolor = colourmap(t, fogat(i, j));
 					Gfx.drawtile((i + x) * Draw.tilewidth, (j + y) * Draw.tileheight, tileset, charmap(t, fogat(i, j)));
-					Gfx.imagecolor();
+					Gfx.resetcolor();
 				}
 			}
 		}

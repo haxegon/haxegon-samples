@@ -96,9 +96,9 @@ class Ent_player extends Ent_generic {
 	override public function drawentity(i:Int):Void {
 		if (Game.health <= 0) {
 			Gfx.fillbox(Std.int(Obj.entities[i].xp - World.camerax) * Draw.tilewidth, Std.int(Obj.entities[i].yp - World.cameray) * Draw.tileheight, Draw.tilewidth, Draw.tileheight, Game.backgroundcolour);
-			Gfx.imagecolor(0xffea03);
+			Gfx.imagecolor = 0xffea03;
 			Gfx.drawtile(Std.int(Obj.entities[i].xp - World.camerax) * Draw.tilewidth, Std.int(Obj.entities[i].yp - World.cameray) * Draw.tileheight, Obj.entities[i].tileset, "#".charCodeAt(0));
-			Gfx.imagecolor();
+			Gfx.resetcolor();
 		}else{
 			Draw.draw_default_player(i);
 		}

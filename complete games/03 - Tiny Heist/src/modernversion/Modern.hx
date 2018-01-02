@@ -118,10 +118,10 @@ class Modern {
 			worldx = 50;
 			worldy = 50;
 			var outsideitemlist:Array<String> = [Item.HELIXWING];
-			outsideitemlist.push(Random.pickstring(Item.TIMESTOPPER, Item.CARDBOARDBOX, Weapon.MATCHSTICK, Weapon.TELEPORTER));
+			outsideitemlist.push(Random.pick([Item.TIMESTOPPER, Item.CARDBOARDBOX, Weapon.MATCHSTICK, Weapon.TELEPORTER]));
 			outsideitemlist.push("");
 			outsideitemlist.push("");
-			Random.shufflearray(outsideitemlist);
+			Random.shuffle(outsideitemlist);
 			itemtopleft = outsideitemlist.pop();
 			itemtopright = outsideitemlist.pop();
 			itembottomleft = outsideitemlist.pop();
@@ -675,18 +675,18 @@ class Modern {
 			//trying out only getting 1 of everything, so disabling ammo display
 			if(currentitem.hasmultipleshots == true){
 				drawbubble(tx + (i * 28), ty, 22, 22, Draw.shade(Col.rgb(currentitem.r, currentitem.g, currentitem.b), 0.8), 0x000000, 0x000000);
-				Gfx.imagecolor(Col.rgb(currentitem.r, currentitem.g, currentitem.b));
+				Gfx.imagecolor = Col.rgb(currentitem.r, currentitem.g, currentitem.b);
 				Gfx.drawtile(tx + (i * 28) + 5, ty + 5, "terminal", currentitem.character.charCodeAt(0));
-				Gfx.imagecolor();
+				Gfx.resetcolor();
 				
 				Gfx.fillbox(tx + (i * 28) + 14 - 1, ty - 3 - 1, Text.width("x" + inventory_num[i]) + 4, 10 + 2, 0x000000);
 				Gfx.fillbox(tx + (i * 28) + 14, ty - 3, Text.width("x" + inventory_num[i]) + 2, 10, Draw.shade(Col.rgb(currentitem.r, currentitem.g, currentitem.b), 0.8));
 				Text.display(tx + (i * 28) + 15, ty - 5, "x" + inventory_num[i], 0x000000);
 			}else if(currentitem.type == Inventory.USEABLE || currentitem.type == Inventory.GADGET){
 				drawbubble(tx + (i * 28), ty, 22, 22, Draw.shade(Col.rgb(currentitem.r, currentitem.g, currentitem.b), 0.8), 0x000000, 0x000000);
-				Gfx.imagecolor(Col.rgb(currentitem.r, currentitem.g, currentitem.b));
+				Gfx.imagecolor = Col.rgb(currentitem.r, currentitem.g, currentitem.b);
 				Gfx.drawtile(tx + (i * 28) + 5, ty + 5, "terminal", currentitem.character.charCodeAt(0));
-				Gfx.imagecolor();
+				Gfx.resetcolor();
 			}else {
 				drawbubble(tx + (i * 28), ty, 22, 22, 0x444444, 0x000000, 0x000000);
 			}

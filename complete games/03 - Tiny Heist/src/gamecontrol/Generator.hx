@@ -1495,7 +1495,7 @@ class Generator {
 				for (j in 0 ... 77) {
 					for (i in 0 ... 77) {
 						if (World.at(i, j) == Localworld.BACKGROUND) {
-							if(Random.rare()){
+							if(Random.chance(5)){
 								World.placetile(i, j, Localworld.ROOFSTARS);
 							}else {
 								World.placetile(i, j, Localworld.ROOFBACKGROUND);	
