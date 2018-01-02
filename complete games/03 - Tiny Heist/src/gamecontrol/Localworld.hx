@@ -909,7 +909,7 @@ class Localworld {
 		World.mapchanged = true;
 		if (Help.inboxw(x, y, 0, 0, World.mapwidth - 1, World.mapheight - 1)) {
 			if (World.at(x, y) == WALL || World.at(x, y) == BACKGROUND) {
-				World.placetile(x, y, Random.pickint(DEBRIS, DEBRIS, FLOOR));
+				World.placetile(x, y, Random.pick([DEBRIS, DEBRIS, FLOOR]));
 				if (World.at(x + xstep(Help.clockwise(dir)), y + ystep(Help.clockwise(dir))) == BACKGROUND) {
 					World.placetile(x + xstep(Help.clockwise(dir)), y + ystep(Help.clockwise(dir)), WALL);
 				}

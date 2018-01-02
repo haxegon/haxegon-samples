@@ -57,7 +57,7 @@ class Render {
 		Draw.twinkle = (((flash.Lib.getTimer() % 200) > 100)?0:3);
 			
 		Gfx.scale(scale, scale);
-		Gfx.imagecolor();
+		Gfx.resetcolor();
 		Gfx.drawtile(x, y, "terminal", 138 + Draw.twinkle);
 		Gfx.drawtile(x + (Draw.tilewidth * scale), y, "terminal", 139 + Draw.twinkle);
 		Gfx.drawtile(x + (Draw.tilewidth * scale) * 2, y, "terminal", 140 + Draw.twinkle);
@@ -67,9 +67,9 @@ class Render {
 		
 		Gfx.drawtile(x + (Draw.tilewidth * scale), y + (Draw.tileheight * scale) * 2, "terminal", 26);
 		
-		Gfx.imagecolor(0xffea03);	
+		Gfx.imagecolor = 0xffea03;	
 		Gfx.drawtile(x + (Draw.tilewidth * scale) * 1.5,  y + (Draw.tileheight * scale) * 3, "terminal", 27);
-		Gfx.imagecolor();
+		Gfx.resetcolor();
 		
 		Gfx.scale(1, 1);
 	}
@@ -99,12 +99,12 @@ class Render {
 	public static function showranknumber(gems:Int, ypos:Int) {	
 		var xoff:Int = 0;
 		if (gems == 0) {
-			Gfx.imagecolor(Col.rgb(255, 255, 96));
+			Gfx.imagecolor = Col.rgb(255, 255, 96);
 			Gfx.fillbox((Gfx.screenwidth * 0.75) - 12, ypos, 25, 25, Col.BLACK);
 			Gfx.scale(2, 2);
 			Gfx.drawtile((Gfx.screenwidth * 0.75) - 12, ypos + 1, "terminal", 48);
 			Gfx.scale(1, 1);
-			Gfx.imagecolor();
+			Gfx.resetcolor();
 		}else if (gems >= 100) {
 			//Rank info
 			xoff = Std.int((Gfx.screenwidth * 0.75) - 105 - 12);
@@ -117,14 +117,14 @@ class Render {
 				 || (i == 4 && gems >= 25 && gems < 50)
 				 || (i == 5 && gems >= 50 && gems < 100)
 				 || (i == 6 && gems >= 100)) {
-					Gfx.imagecolor(Col.rgb(255, 255, 96));
+					Gfx.imagecolor = Col.rgb(255, 255, 96);
 				}else {
-					Gfx.imagecolor(Col.rgb(40, 40, 40));
+					Gfx.imagecolor = Col.rgb(40, 40, 40);
 				}
 				Gfx.scale(2, 2);
 				Gfx.drawtile(xoff + (i * 30) + 1, ypos + 1, "terminal", 49 + i);
 				Gfx.scale(1, 1);
-				Gfx.imagecolor();
+				Gfx.resetcolor();
 			}
 		}else if (gems >= 50) {
 			//Rank info
@@ -137,14 +137,14 @@ class Render {
 				 || (i == 3 && gems >= 15 && gems < 25)
 				 || (i == 4 && gems >= 25 && gems < 50)
 				 || (i == 5 && gems >= 50)) {
-					Gfx.imagecolor(Col.rgb(255, 255, 96));
+					Gfx.imagecolor = Col.rgb(255, 255, 96);
 				}else {
-					Gfx.imagecolor(Col.rgb(40, 40, 40));
+					Gfx.imagecolor = Col.rgb(40, 40, 40);
 				}
 				Gfx.scale(2, 2);
 				Gfx.drawtile(xoff + (i * 30) + 1, ypos + 1, "terminal", 49 + i);
 				Gfx.scale(1, 1);
-				Gfx.imagecolor();
+				Gfx.resetcolor();
 			}
 		}else{
 			//Rank info
@@ -156,14 +156,14 @@ class Render {
 				 || (i == 2 && gems >= 10 && gems < 15)
 				 || (i == 3 && gems >= 15 && gems < 25)
 				 || (i == 4 && gems >= 25)) {
-					Gfx.imagecolor(Col.rgb(255, 255, 96));
+					Gfx.imagecolor = Col.rgb(255, 255, 96);
 				}else {
-					Gfx.imagecolor(Col.rgb(40, 40, 40));
+					Gfx.imagecolor = Col.rgb(40, 40, 40);
 				}
 				Gfx.scale(2, 2);
 				Gfx.drawtile(xoff + (i * 30) + 1, ypos + 1, "terminal", 49 + i);
 				Gfx.scale(1, 1);
-				Gfx.imagecolor();
+				Gfx.resetcolor();
 			}
 		}	
 	}
@@ -233,14 +233,14 @@ class Render {
 			Text.display(Gfx.screenwidth * 0.75, ypos, "No gems!", Col.rgb(255, 255, 96));
 		}else{
 			Draw.setboldtext(); Text.size = 2;
-			Gfx.imagecolor(Col.rgb(255, 255, 96));
+			Gfx.imagecolor = Col.rgb(255, 255, 96);
 			Text.align(Text.LEFT);
 
 			var xoff:Int = Std.int((Gfx.screenwidth * 0.75) - (Text.width(" " + gems + " gem" + ((gems > 1)?"s":"")) / 2) - 12);
 			Gfx.scale(2, 2);
 			Gfx.drawtile(xoff, ypos + 1, "terminal", 36);
 			Gfx.scale(1, 1);
-			Gfx.imagecolor();
+			Gfx.resetcolor();
 			Text.display(xoff + 24, ypos, " " + gems + " gem" + ((gems > 1)?"s":""), Col.rgb(255, 255, 96));
 			Draw.setnormaltext();	Text.size = 1;
 		}
@@ -286,9 +286,9 @@ class Render {
 			
 			if(Logic.endingstate == "start2"){
 				Gfx.scale(3, 3);
-				Gfx.imagecolor(0xffea03);	
+				Gfx.imagecolor = 0xffea03;	
 				Gfx.drawtile(Gfx.screenwidthmid - (Draw.tilewidth * 0.5) + 60, -(Draw.tileheight * 3) + Std.int((Gfx.screenheight + (Draw.tileheight * 3)) * (Logic.endingstatepara / 30)), "terminal", 28 + (((flash.Lib.getTimer() % 200) > 100)?1:0));
-				Gfx.imagecolor();
+				Gfx.resetcolor();
 				Gfx.scale(1, 1);
 			}
 		}else{
@@ -303,9 +303,9 @@ class Render {
 			
 			if(Logic.endingstate == "start2"){
 				Gfx.scale(3, 3);
-				Gfx.imagecolor(0xffea03);	
+				Gfx.imagecolor = 0xffea03;	
 				Gfx.drawtile(Gfx.screenwidthmid - (Draw.tilewidth * 0.5) - 60, -(Draw.tileheight * 3) + Std.int((Gfx.screenheight + (Draw.tileheight * 3)) * (Logic.endingstatepara / 30)), "terminal", 28 + (((flash.Lib.getTimer() % 200) > 100)?1:0));
-				Gfx.imagecolor();
+				Gfx.resetcolor();
 				Gfx.scale(1, 1);
 			}
 		}
@@ -578,9 +578,9 @@ class Render {
 				titleguardjumpframe-= 2;
 				if (titleguardjumpframe <= 0) titleguardjumpframe = 120;
 				if (titleguardjumpframe % 20 >= 10) {
-					Gfx.imagecolor(0xFFFF00);
+					Gfx.imagecolor = 0xFFFF00;
 				}else {
-					Gfx.imagecolor(0xFF0000);
+					Gfx.imagecolor = 0xFF0000;
 				}
 				
 				if (Help.tenseconds % 60 >= 30) {
@@ -593,7 +593,7 @@ class Render {
 					Gfx.drawtile((titleherox * Draw.tilewidth * 2) + titleheroanimx, (titleheroy * Draw.tileheight * 2) + titleheroanimy, "terminal", "!".charCodeAt(0));
 				}
 			}else{
-				Gfx.imagecolor(0xffea03);
+				Gfx.imagecolor = 0xffea03;
 				if(titleheroframe == 64){
 					Gfx.drawtile(((15 - titleherox) * Draw.tilewidth * 2) - titleheroanimx, ((9 - titleheroy) * Draw.tileheight * 2) - titleheroanimy, "terminal", titleheroframe + 1 + (((flash.Lib.getTimer() % 400) >= 200)?1:0) + 16);
 				}else {
@@ -601,18 +601,18 @@ class Render {
 				}
 			}
 		  
-			Gfx.imagecolor();
+			Gfx.resetcolor();
 		}else {
 		  if(!titleshowguard){	
-				Gfx.imagecolor(0xffea03);
+				Gfx.imagecolor = 0xffea03;
 				Gfx.drawtile((titleherox * Draw.tilewidth * 2) + titleheroanimx, (titleheroy * Draw.tileheight * 2) + titleheroanimy, "terminal", titleheroframe + 1 + (((flash.Lib.getTimer() % 400) >= 200)?1:0));
 			}else{
 				titleguardjumpframe-=2;
 				if (titleguardjumpframe <= 0) titleguardjumpframe = 120;
 				if (titleguardjumpframe % 20 >= 10) {
-					Gfx.imagecolor(0xFFFF00);
+					Gfx.imagecolor = 0xFFFF00;
 				}else {
-					Gfx.imagecolor(0xFF0000);
+					Gfx.imagecolor = 0xFF0000;
 				}
 				
 				if (Help.tenseconds % 60 >= 30) {
@@ -622,7 +622,7 @@ class Render {
 				}
 			}
 			
-			Gfx.imagecolor();
+			Gfx.resetcolor();
 		}
 		
 		Gfx.scale(1, 1);
@@ -650,11 +650,11 @@ class Render {
 		if (flash.Lib.getTimer() % 800 >= 400) {
 		  Gfx.imagecolor(0xffea03);	
 			Gfx.drawtile(Gfx.screenwidthmid - 64, 45, "terminal", 113);
-			Gfx.imagecolor();
+			Gfx.resetcolor();
 		}else {
 			Gfx.imagecolor(0xffea03);	
 			Gfx.drawtile(Gfx.screenwidthmid - 64, 45, "terminal", 114);
-			Gfx.imagecolor();
+			Gfx.resetcolor();
 		}
 		
 		Gfx.scale(1, 1);
@@ -669,11 +669,11 @@ class Render {
 		if (flash.Lib.getTimer() % 800 >= 400) {
 		  Gfx.imagecolor(0xffea03);	
 			Gfx.drawtile(Gfx.screenwidthmid + 37, 45, "terminal", 113);
-			Gfx.imagecolor();
+			Gfx.resetcolor();
 		}else {
 			Gfx.imagecolor(0xffea03);	
 			Gfx.drawtile(Gfx.screenwidthmid + 37, 45, "terminal", 114);
-			Gfx.imagecolor();
+			Gfx.resetcolor();
 		}
 		
 		Gfx.scale(1, 1);
@@ -761,12 +761,12 @@ class Render {
 			}*/
 			
 			if (Game.messagedelay != 0) {
-				Gfx.imagecolor(Draw.messagecolback(Game.messagecol));
+				Gfx.imagecolor = Draw.messagecolback(Game.messagecol);
 			}else {
-				Gfx.imagecolor(Game.backgroundcolour);
+				Gfx.imagecolor = Game.backgroundcolour;
 			}
 			Gfx.drawimage(0, Gfx.screenheight - 29, "guibar");
-			Gfx.imagecolor();
+			Gfx.resetcolor();
 			
 			if (Game.messagedelay != 0) {
 				Draw.setboldtext();
@@ -795,12 +795,12 @@ class Render {
 					for (i in 0 ... 3) {
 						//Gfx.imagecolor(Col.rgb(180, 64, 64));
 						Draw.precoloured_drawtile(hptextx + 14 + (i * 12), texty + 1, 19);
-						//Gfx.imagecolor();
+						//Gfx.resetcolor();
 					}
 					for (i in 0 ... Game.health) {
 						//Gfx.imagecolor(Col.rgb(255, 64, 64));
 						Draw.precoloured_drawtile(hptextx + 14 + (i * 12), texty + 1, 3);
-						//Gfx.imagecolor();
+						//Gfx.resetcolor();
 					}
 				}else {
 					var hpflashamount:Int = Col.rgb(Std.int(Math.min(220 + Modern.hpflash * 5, 255)), 
@@ -808,31 +808,31 @@ class Render {
 																					Std.int(Math.min(64 + Modern.hpflash * 5, 255)));
 					Text.display(hptextx, texty, "HP", hpflashamount);
 					for (i in 0 ... 3) {
-						Gfx.imagecolor(Col.rgb(180, 64, 64));
+						Gfx.imagecolor = Col.rgb(180, 64, 64);
 						Gfx.drawtile(hptextx + 14 + (i * 12), texty + 1, "terminal", 19);
-						Gfx.imagecolor();
+						Gfx.resetcolor();
 					}
 					for (i in 0 ... Game.health) {
-						Gfx.imagecolor(hpflashamount);
+						Gfx.imagecolor = hpflashamount;
 						Gfx.drawtile(hptextx + 14 + (i * 12), texty + 1, "terminal", 3);
-						Gfx.imagecolor();
+						Gfx.resetcolor();
 					}
 					Modern.hpflash--;
 				}
 				
 				if (Game.keys > 0) {
 					if (Modern.keyflash == 0) {
-						Gfx.imagecolor(Col.rgb(128, 255, 128));
+						Gfx.imagecolor = Col.rgb(128, 255, 128);
 						Gfx.drawtile(keytextx, texty + 1, "terminal", 12);
-						Gfx.imagecolor();
+						Gfx.resetcolor();
 						Text.display(keytextx + 12, texty, "x" + Std.string(Game.keys), Col.rgb(128, 255, 128));
 					}else {
 						var keyflashcol:Int = Col.rgb(Std.int(Math.min(128 + Modern.keyflash * 8, 255)), 
 					                                Std.int(Math.min(255 + Modern.keyflash * 8, 255)), 
 																					Std.int(Math.min(128 + Modern.keyflash * 8, 255)));
-						Gfx.imagecolor(keyflashcol);
+						Gfx.imagecolor = keyflashcol;
 						Gfx.drawtile(keytextx, texty + 1, "terminal", 12);
-						Gfx.imagecolor();
+						Gfx.resetcolor();
 						Text.display(keytextx + 12, texty, "x" + Std.string(Game.keys), keyflashcol);
 					  Modern.keyflash--;	
 					}
@@ -840,17 +840,17 @@ class Render {
 				
 				if (Game.cash > 0) {
 					if(Modern.gemflash == 0){
-						Gfx.imagecolor(Col.rgb(255, 255, 128));
+						Gfx.imagecolor = Col.rgb(255, 255, 128);
 						Gfx.drawtile(gemtextx, texty + 1, "terminal", "$".charCodeAt(0));
-						Gfx.imagecolor();
+						Gfx.resetcolor();
 						Text.display(gemtextx + 12, texty, "x" + Std.string(Game.cash), Col.rgb(255, 255, 128));
 					}else {
 						var gemflashcol:Int = Col.rgb(Std.int(Math.min(255 + Modern.gemflash * 8, 255)), 
 					                                Std.int(Math.min(255 + Modern.gemflash * 8, 255)), 
 																					Std.int(Math.min(128 + Modern.gemflash * 8, 255)));
-						Gfx.imagecolor(gemflashcol);
+						Gfx.imagecolor = gemflashcol;
 						Gfx.drawtile(gemtextx, texty + 1, "terminal", "$".charCodeAt(0));
-						Gfx.imagecolor();
+						Gfx.resetcolor();
 						Text.display(gemtextx + 12, texty, "x" + Std.string(Game.cash), Col.rgb(255, 255, 128));
 					  Modern.gemflash--;	
 					}
@@ -891,9 +891,9 @@ class Render {
 			
 			Text.align(Text.CENTER);
 			Draw.setboldtext();
-			Gfx.imagecolor(Modern.shopkeepcol);
+			Gfx.imagecolor = Modern.shopkeepcol;
 			Gfx.drawtile(Gfx.screenwidthmid - 6 - 40, ty + 5, "terminal", 2);
-			Gfx.imagecolor();
+			Gfx.resetcolor();
 			Text.display(Gfx.screenwidthmid, ty + 5, "    Shopkeeper", Draw.messagecol("white"));	
 			Draw.setnormaltext();
 			Text.display(Gfx.screenwidthmid, ty + 22, "Sorry, I've got nothing else to sell!", Draw.messagecol("white"));	
@@ -913,9 +913,9 @@ class Render {
 			
 			Text.align(Text.CENTER);
 			Draw.setboldtext();
-			Gfx.imagecolor(Modern.shopkeepcol);
+			Gfx.imagecolor = Modern.shopkeepcol;
 			Gfx.drawtile(Gfx.screenwidthmid - 6 - 40, ty + 5, "terminal", 2);
-			Gfx.imagecolor();
+			Gfx.resetcolor();
 			Text.display(Gfx.screenwidthmid, ty + 5, "    Shopkeeper", Draw.messagecol("white"));	
 			Draw.setnormaltext();
 			Text.align(Text.LEFT);
@@ -925,9 +925,9 @@ class Render {
 			Draw.setboldtext();
 			Text.display(Gfx.screenwidthmid - Std.int(slen / 2) - 3 + slen2 + 18, ty + 22, Modern.popupitem.name + "?", Col.rgb(Modern.popupitem.r, Modern.popupitem.g, Modern.popupitem.b));	
 			
-			Gfx.imagecolor(Col.rgb(Modern.popupitem.r, Modern.popupitem.g, Modern.popupitem.b));
+			Gfx.imagecolor = Col.rgb(Modern.popupitem.r, Modern.popupitem.g, Modern.popupitem.b);
 			Gfx.drawtile(Gfx.screenwidthmid - Std.int(slen / 2) - 3 + slen2 + 3, ty + 22, "terminal", Modern.popupitem.character.charCodeAt(0));
-			Gfx.imagecolor();
+			Gfx.resetcolor();
 			
 			Draw.setnormaltext();
 			
@@ -969,9 +969,9 @@ class Render {
 			
 			Text.align(Text.CENTER);
 			Draw.setboldtext();
-			Gfx.imagecolor(Modern.shopkeepcol);
+			Gfx.imagecolor = Modern.shopkeepcol;
 			Gfx.drawtile(Gfx.screenwidthmid - 6 - 40, ty + 5, "terminal", 2);
-			Gfx.imagecolor();
+			Gfx.resetcolor();
 			Text.display(Gfx.screenwidthmid, ty + 5, "    Shopkeeper", Draw.messagecol("white"));	
 			Draw.setnormaltext();
 			Text.display(Gfx.screenwidthmid, ty + 22, "Hello! Want some keys? I can help!", Draw.messagecol("white"));	
@@ -1008,23 +1008,23 @@ class Render {
 			if (Modern.popupmode == "newitem_drop") ty -= 15;
 			if(Modern.popupitem.hasmultipleshots){
 				Modern.drawbubble(tx, ty, 240, boxheight, Draw.shade(Col.rgb(Modern.popupitem.r, Modern.popupitem.g, Modern.popupitem.b), 0.8), 0x000000, 0x000000);
-				Gfx.imagecolor(Col.rgb(Modern.popupitem.r, Modern.popupitem.g, Modern.popupitem.b));
+				Gfx.imagecolor = Col.rgb(Modern.popupitem.r, Modern.popupitem.g, Modern.popupitem.b);
 				Gfx.drawtile(Gfx.screenwidthmid - 6 - 8, ty + 25, "terminal", Modern.popupitem.character.charCodeAt(0));
-				Gfx.imagecolor();
+				Gfx.resetcolor();
 				
 				Gfx.fillbox(Gfx.screenwidthmid - 6 + 6 - 1, ty + 26 - 1, Text.width("x" + Modern.popupitem.typical) + 4, 10 + 2, 0x000000);
 				Gfx.fillbox(Gfx.screenwidthmid - 6 + 6, ty + 26, Text.width("x" + Modern.popupitem.typical) + 2, 10, Draw.shade(Col.rgb(Modern.popupitem.r, Modern.popupitem.g, Modern.popupitem.b), 0.8));
 				Text.display(Gfx.screenwidthmid - 6 + 7, ty + 26 - 2, "x" + Modern.popupitem.typical, 0x000000);
 			}else if (Modern.popupitem.type == Inventory.USEABLE) {
 				Modern.drawbubble(tx, ty, 240, boxheight, Draw.shade(Col.rgb(Modern.popupitem.r, Modern.popupitem.g, Modern.popupitem.b), 0.8), 0x000000, 0x000000);
-				Gfx.imagecolor(Col.rgb(Modern.popupitem.r, Modern.popupitem.g, Modern.popupitem.b));
+				Gfx.imagecolor = Col.rgb(Modern.popupitem.r, Modern.popupitem.g, Modern.popupitem.b);
 				Gfx.drawtile(Gfx.screenwidthmid - 6, ty + 25, "terminal", Modern.popupitem.character.charCodeAt(0));
-				Gfx.imagecolor();
+				Gfx.resetcolor();
 			}else if(Modern.popupitem.type == Inventory.GADGET){
 				Modern.drawbubble(tx, ty, 240, boxheight, Draw.shade(Col.rgb(Modern.popupitem.r, Modern.popupitem.g, Modern.popupitem.b), 0.8), 0x000000, 0x000000);
-				Gfx.imagecolor(Col.rgb(Modern.popupitem.r, Modern.popupitem.g, Modern.popupitem.b));
+				Gfx.imagecolor = Col.rgb(Modern.popupitem.r, Modern.popupitem.g, Modern.popupitem.b);
 				Gfx.drawtile(Gfx.screenwidthmid - 6, ty + 25, "terminal", Modern.popupitem.character.charCodeAt(0));
-				Gfx.imagecolor();
+				Gfx.resetcolor();
 			}
 			
 			Draw.setnormaltext();
@@ -1082,18 +1082,18 @@ class Render {
 					Modern.currentitem = Itemstats.get(Modern.inventory[i]);
 					if(Modern.currentitem.hasmultipleshots){
 						Modern.drawbubble(tx + (i * gap), ty, 22, 22, Draw.shade(Col.rgb(Modern.currentitem.r, Modern.currentitem.g, Modern.currentitem.b), 0.8), 0x000000, 0x000000);
-						Gfx.imagecolor(Col.rgb(Modern.currentitem.r, Modern.currentitem.g, Modern.currentitem.b));
+						Gfx.imagecolor = Col.rgb(Modern.currentitem.r, Modern.currentitem.g, Modern.currentitem.b);
 						Gfx.drawtile(tx + (i * gap) + 5, ty + 5, "terminal", Modern.currentitem.character.charCodeAt(0));
-						Gfx.imagecolor();
+						Gfx.resetcolor();
 						
 						Gfx.fillbox(tx + (i * gap) + 12 - 1, ty - 3 - 1, Text.width("x" + Modern.inventory_num[i]) + 4, 10 + 2, 0x000000);
 						Gfx.fillbox(tx + (i * gap) + 12, ty - 3, Text.width("x" + Modern.inventory_num[i]) + 2, 10, Draw.shade(Col.rgb(Modern.currentitem.r, Modern.currentitem.g, Modern.currentitem.b), 0.8));
 						Text.display(tx + (i * gap) + 13, ty - 5, "x" + Modern.inventory_num[i], 0x000000);
 					}else if(Modern.currentitem.type == Inventory.USEABLE || Modern.currentitem.type == Inventory.GADGET){
 						Modern.drawbubble(tx + (i * gap), ty, 22, 22, Draw.shade(Col.rgb(Modern.currentitem.r, Modern.currentitem.g, Modern.currentitem.b), 0.8), 0x000000, 0x000000);
-						Gfx.imagecolor(Col.rgb(Modern.currentitem.r, Modern.currentitem.g, Modern.currentitem.b));
+						Gfx.imagecolor = Col.rgb(Modern.currentitem.r, Modern.currentitem.g, Modern.currentitem.b);
 						Gfx.drawtile(tx + (i * gap) + 5, ty + 5, "terminal", Modern.currentitem.character.charCodeAt(0));
-						Gfx.imagecolor();
+						Gfx.resetcolor();
 					}else {
 						Modern.drawbubble(tx + (i * gap), ty, 22, 22, 0x444444, 0x000000, 0x000000);
 					}

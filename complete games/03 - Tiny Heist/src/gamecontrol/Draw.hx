@@ -322,14 +322,14 @@ class Draw {
 								}
 								
 								if(Localworld.foregroundcolour_needschanging > 1){
-									Gfx.imagecolor(frontcolour);
+									Gfx.imagecolor = frontcolour;
 									Gfx.drawtile(cameraxoff + (i * Draw.tilewidth) - (World.camerax * Draw.tilewidth), camerayoff + (j * Draw.tileheight) - (World.cameray * Draw.tileheight), tileset, Localworld.charmap(i, j, currentblock));
-									Gfx.imagecolor();
+									Gfx.resetcolor();
 									//Also do a shade!
 									Draw.filltile_half(cameraxoff + (i * Draw.tilewidth) - (World.camerax * Draw.tilewidth), camerayoff + (j * Draw.tileheight) - (World.cameray * Draw.tileheight) + 4, backcolour);
-									Gfx.imagecolor(frontcolour_wallshade);
+									Gfx.imagecolor = frontcolour_wallshade;
 									Gfx.drawtile(cameraxoff + (i * Draw.tilewidth) - (World.camerax * Draw.tilewidth), camerayoff + (j * Draw.tileheight) - (World.cameray * Draw.tileheight), tileset, Localworld.charmap(i, j, currentblock) + 1);
-									Gfx.imagecolor();
+									Gfx.resetcolor();
 								}else if (Localworld.foregroundcolour_needschanging == 1) {
 									//Precached lit wall verge
 									Draw.precoloured_drawtile(cameraxoff + (i * Draw.tilewidth) - (World.camerax * Draw.tilewidth), camerayoff + (j * Draw.tileheight) - (World.cameray * Draw.tileheight), Localworld.charmap(i, j, currentblock) + 1 + 16);
@@ -348,9 +348,9 @@ class Draw {
 								Draw.filltile(cameraxoff + (i * Draw.tilewidth) - (World.camerax * Draw.tilewidth), camerayoff + (j * Draw.tileheight) - (World.cameray * Draw.tileheight),  backcolour);
 							}
 							if (Localworld.foregroundcolour_needschanging > 1) {
-								Gfx.imagecolor(frontcolour);
+								Gfx.imagecolor = frontcolour;
 								Gfx.drawtile(cameraxoff + (i * Draw.tilewidth) - (World.camerax * Draw.tilewidth), camerayoff + (j * Draw.tileheight) - (World.cameray * Draw.tileheight), tileset, Localworld.charmap(i, j, currentblock));
-								Gfx.imagecolor();
+								Gfx.resetcolor();
 							}else if (Localworld.foregroundcolour_needschanging == 1) {
 								//Ok, we've cached a lit version of the wall, use that!
 								Draw.precoloured_drawtile(cameraxoff + (i * Draw.tilewidth) - (World.camerax * Draw.tilewidth), camerayoff + (j * Draw.tileheight) - (World.cameray * Draw.tileheight), Localworld.charmap(i, j, currentblock) + 16);
@@ -369,9 +369,9 @@ class Draw {
 						if (currentblock == Localworld.FLOOR) {
 							//All the floors are precaclulated!
 							if (Localworld.foregroundcolour_needschanging > 1) {
-								Gfx.imagecolor(frontcolour);
+								Gfx.imagecolor = frontcolour;
 								Gfx.drawtile(cameraxoff + (i * Draw.tilewidth) - (World.camerax * Draw.tilewidth), camerayoff + (j * Draw.tileheight) - (World.cameray * Draw.tileheight), tileset, Localworld.charmap(i, j, currentblock));
-								Gfx.imagecolor();
+								Gfx.resetcolor();
 							}else if (Localworld.foregroundcolour_needschanging == 1) {
 								Draw.precoloured_drawtile(cameraxoff + (i * Draw.tilewidth) - (World.camerax * Draw.tilewidth), camerayoff + (j * Draw.tileheight) - (World.cameray * Draw.tileheight), Localworld.charmap(i, j, currentblock) + 16);
 							}else {
@@ -393,9 +393,9 @@ class Draw {
 							}
 							Draw.precoloured_drawtile(cameraxoff + (i * Draw.tilewidth) - (World.camerax * Draw.tilewidth), camerayoff + (j * Draw.tileheight) - (World.cameray * Draw.tileheight), Localworld.charmap(i, j, currentblock) + twinkle);
 						}else{
-							Gfx.imagecolor(frontcolour);
+							Gfx.imagecolor = frontcolour;
 							Gfx.drawtile(cameraxoff + (i * Draw.tilewidth) - (World.camerax * Draw.tilewidth), camerayoff + (j * Draw.tileheight) - (World.cameray * Draw.tileheight), tileset, Localworld.charmap(i, j, currentblock));
-							Gfx.imagecolor();
+							Gfx.resetcolor();
 						}
 					}else {
 						//Optimisation: We're drawing a fogged out area here, we don't need the fillrect
@@ -419,15 +419,15 @@ class Draw {
 	}
 	
 	public static function filltile(xp:Int, yp:Int, col:Int) {
-		Gfx.imagecolor(col);
+		Gfx.imagecolor = col;
 		Gfx.drawtile(xp, yp, "terminal", 17);
-		Gfx.imagecolor();
+		Gfx.resetcolor();
 	}
 	
 	public static function filltile_half(xp:Int, yp:Int, col:Int) {
-	  Gfx.imagecolor(col);
+		Gfx.imagecolor = col;
 		Gfx.drawtile(xp, yp, "terminal", 18);
-		Gfx.imagecolor();
+		Gfx.resetcolor();
 	}
 	
 	public static function drawmapfade(px:Int, py:Int, tileset:String, fadelevel:Int):Void {
@@ -698,15 +698,15 @@ class Draw {
 		Draw.filltile(cameraxoff + Obj.entities[i].animx + Std.int(Obj.entities[i].xp - World.camerax) * Draw.tilewidth, 
 		              camerayoff + Obj.entities[i].animy + Std.int(Obj.entities[i].yp - World.cameray) * Draw.tileheight, Game.backgroundcolour);
 		if (Obj.entities[i].shakecount > 0) {
-			Gfx.imagecolor(Obj.entities[i].col);
+			Gfx.imagecolor = Obj.entities[i].col;
 			Gfx.drawtile(cameraxoff + Obj.entities[i].animx + Std.int(Obj.entities[i].xp - World.camerax) * Draw.tilewidth + Std.int(Obj.entities[i].shakex()), 
 			             camerayoff + Obj.entities[i].animy + Std.int(Obj.entities[i].yp - World.cameray) * Draw.tileheight + Std.int(Obj.entities[i].shakey()), Obj.entities[i].tileset, Obj.entities[i].drawframe);
-			Gfx.imagecolor();
+			Gfx.resetcolor();
 		}else {
-			Gfx.imagecolor(Obj.entities[i].col);
+			Gfx.imagecolor = Obj.entities[i].col;
 			Gfx.drawtile(cameraxoff + Obj.entities[i].animx + Std.int(Obj.entities[i].xp - World.camerax) * Draw.tilewidth, 
 			             camerayoff + Obj.entities[i].animy + Std.int(Obj.entities[i].yp - World.cameray) * Draw.tileheight, Obj.entities[i].tileset, Obj.entities[i].drawframe);
-			Gfx.imagecolor();
+			Gfx.resetcolor();
 		}
 	}
 	
@@ -715,15 +715,15 @@ class Draw {
 		Draw.filltile(cameraxoff + Obj.entities[i].animx + Std.int(Obj.entities[i].xp - World.camerax) * Draw.tilewidth, 
 		              camerayoff + Obj.entities[i].animy + Std.int(Obj.entities[i].yp - World.cameray) * Draw.tileheight, Localworld.backcolourmap(Obj.entities[i].xp, Obj.entities[i].yp, World.at(Obj.entities[i].xp, Obj.entities[i].yp)));
 		if (Obj.entities[i].shakecount > 0) {
-			Gfx.imagecolor(Obj.entities[i].col);
+			Gfx.imagecolor = Obj.entities[i].col;
 			Gfx.drawtile(cameraxoff + Obj.entities[i].animx + Std.int(Obj.entities[i].xp - World.camerax) * Draw.tilewidth + Std.int(Obj.entities[i].shakex()), 
 			             camerayoff + Obj.entities[i].animy + Std.int(Obj.entities[i].yp - World.cameray) * Draw.tileheight + Std.int(Obj.entities[i].shakey()), Obj.entities[i].tileset, Obj.entities[i].drawframe);
-			Gfx.imagecolor();
+			Gfx.resetcolor();
 		}else {
-			Gfx.imagecolor(Obj.entities[i].col);
+			Gfx.imagecolor = Obj.entities[i].col;
 			Gfx.drawtile(cameraxoff + Obj.entities[i].animx + Std.int(Obj.entities[i].xp - World.camerax) * Draw.tilewidth, 
 			             camerayoff + Obj.entities[i].animy + Std.int(Obj.entities[i].yp - World.cameray) * Draw.tileheight, Obj.entities[i].tileset, Obj.entities[i].drawframe);
-			Gfx.imagecolor();
+			Gfx.resetcolor();
 		}
 	}
 	
@@ -736,15 +736,15 @@ class Draw {
 		              camerayoff + Obj.entities[i].animy + Std.int(Obj.entities[i].yp - World.cameray) * Draw.tileheight, backcolour);
 		}
 		if (Obj.entities[i].shakecount > 0) {
-			Gfx.imagecolor(Obj.entities[i].col);
+			Gfx.imagecolor = Obj.entities[i].col;
 			Gfx.drawtile(cameraxoff + Obj.entities[i].animx + Std.int(Obj.entities[i].xp - World.camerax) * Draw.tilewidth + Std.int(Obj.entities[i].shakex()), 
 			             camerayoff + Obj.entities[i].animy + Std.int(Obj.entities[i].yp - World.cameray) * Draw.tileheight + Std.int(Obj.entities[i].shakey()), Obj.entities[i].tileset, Obj.entities[i].drawframe);
-			Gfx.imagecolor();
+			Gfx.resetcolor();
 		}else {
-			Gfx.imagecolor(Obj.entities[i].col);
+			Gfx.imagecolor = Obj.entities[i].col;
 			Gfx.drawtile(cameraxoff + Obj.entities[i].animx + Std.int(Obj.entities[i].xp - World.camerax) * Draw.tilewidth, 
 			             camerayoff + Obj.entities[i].animy + Std.int(Obj.entities[i].yp - World.cameray) * Draw.tileheight, Obj.entities[i].tileset, Obj.entities[i].drawframe);
-			Gfx.imagecolor();
+			Gfx.resetcolor();
 		}
 	}
 	
@@ -798,10 +798,10 @@ class Draw {
 	public static function draw_unknown_dangerous(i:Int):Void {
 		Draw.filltile(cameraxoff + Std.int(Obj.entities[i].xp - World.camerax) * Draw.tilewidth, 
 		              camerayoff + Std.int(Obj.entities[i].yp - World.cameray) * Draw.tileheight, Game.backgroundcolour);
-		Gfx.imagecolor(0xFF4444);
+		Gfx.imagecolor = 0xFF4444;
 		Gfx.drawtile(cameraxoff + Obj.entities[i].animx + Std.int(Obj.entities[i].xp - World.camerax) * Draw.tilewidth, 
 		             camerayoff + Obj.entities[i].animy + Std.int(Obj.entities[i].yp - World.cameray) * Draw.tileheight, Obj.entities[i].tileset, "?".charCodeAt(0));
-		Gfx.imagecolor();
+		Gfx.resetcolor();
 	}
 	
 	public static function draw_defaultinit(i:Int, xoff:Int, yoff:Int, t:Int):Void {
