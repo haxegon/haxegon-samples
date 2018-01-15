@@ -6,7 +6,7 @@ class Main {
 	var radius:Int;
 	var speed:Int;
 	
-	function new(){
+	function init(){
 		x = Gfx.screenwidthmid;
 		y = Gfx.screenheightmid;
 		radius = 80;

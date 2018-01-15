@@ -4,7 +4,7 @@ class Main {
 	//Gameplay variables
 	var counter = 45;
 	var boxsize = 80;
-	var gamespeed = 45;
+	var gamespeed = 90;
 
 	//Current box position
 	var x = 0;
@@ -14,16 +14,10 @@ class Main {
 	var score = 0;
   var highscore = 0;
 	
-	function new() {
-		//Load in sound effects from data/sounds/ folder
-	  Music.loadsound("hit");
-		Music.loadsound("miss");
-	}
-	
 	function update(){
 		if(Mouse.leftclick()){
 			if (Mouse.x > x && Mouse.y > y && Mouse.x < x + boxsize && Mouse.y < y + boxsize) {
-				Music.playsound("hit");
+				Sound.play("hit");
 				
 			  //If we click on the box, increase our score and restart the counter
 			  counter = 0;
@@ -48,13 +42,13 @@ class Main {
 				x = Random.int(0, Gfx.screenwidth - boxsize);
 				y = Random.int(0, Gfx.screenheight - boxsize);
 			}else {
-				Music.playsound("miss");
+				Sound.play("miss");
 				
 			  //We missed the box: reset the game.	
 			  counter = 0;
 				score = 0;
 				boxsize = 80;
-				gamespeed = 45;
+				gamespeed = 90;
 				
 				x = Random.int(0, Gfx.screenwidth - boxsize);
 				y = Random.int(0, Gfx.screenheight - boxsize);
@@ -73,6 +67,7 @@ class Main {
 		
 		Gfx.fillbox(x, y, boxsize, boxsize, Col.RED);
 		
+		Text.size = 4;
 		Text.display(Text.LEFT, 0, "SCORE: " + score);
 		Text.display(Text.RIGHT, 0, "HIGHSCORE: " + highscore);
 	}
