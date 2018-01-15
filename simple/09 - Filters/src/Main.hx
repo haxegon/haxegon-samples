@@ -1,10 +1,6 @@
 import haxegon.*;
 
 class Main {	
-	function new(){
-		Gfx.loadimage("constellation");
-	}
-	
 	var currentfilter = "None";
 	
 	function update(){
@@ -28,7 +24,7 @@ class Main {
 		}else if (Input.justpressed(Key.THREE)){
 			//Turn on blur
 			Filter.reset();
-			Filter.blur = true;
+			Filter.blur = 1;
 			currentfilter = "Blur";
 		}else if (Input.justpressed(Key.FOUR)){
 			//Turn off everything

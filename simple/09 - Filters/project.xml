@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <project>
-  <set name="windowwidth" value="768" />
-  <set name="windowheight" value="480" />
-  <set name="startfullscreen" value="false" />
+  <set name="windowwidth" value="1280" />
+  <set name="windowheight" value="720" />
   
 	<meta 
     title="Filters" 
@@ -15,38 +14,30 @@
 	<app 
       main="haxegon.Load"
       path="bin" 
-      file="filters" 
+      file="newproject" 
    />
 
-	<window
-      width="${windowwidth}" height="${windowheight}" unless="mobile" 
-   ></window>
-   
+  <window width="${windowwidth}" height="${windowheight}" if="flash || cpp"></window>
+  <window width="0" height="0" if="html5 || mobile"></window>
+	 
 	<window
       fps="60"
       background="0x000000"
       orientation="landscape"
       hardware="true"
       vsync="true"
-   ></window>
-   
-	<window
-      antialiasing="0" 
-      if="cpp"
+      allow-high-dpi="true"
    ></window>
    
 	<source path="src" />
-	<haxelib name="haxegon" />
 	<haxelib name="openfl" />
+	<haxelib name="haxegon" />
 	<haxedef name="windowwidth" value="${windowwidth}" />
   <haxedef name="windowheight" value="${windowheight}" />
-  <haxedef name="startfullscreen" value="${startfullscreen}" />
+  
+	<assets path="data" exclude="*.mp3" if="cpp"/>
+	<assets path="data" exclude="*.ogg" if="flash"/>
+	<assets path="data" if="html5"/>
 	
-	<assets path="data/sounds/mp3" rename="data/sounds" if="flash"/> 
-	<assets path="data/sounds/ogg" rename="data/sounds" unless="flash"/> 
-	<assets path="data/text"/>
-	
-	<assets path="data" exclude="*.svg|*.mp3|*.ogg|*.wav|*.txt"/>
-	
-	<icon path="data/graphics/icon/play.svg"/>
+	<icon path="data/icon.png"/>
 </project>
