@@ -15,23 +15,23 @@
   </output>
   <!-- Other classes to be compiled into your SWF -->
   <classpaths>
-    <class path="C:\coding\haxe\Haxe\lib\haxegon\git" />
-    <class path="C:\coding\haxe\Haxe\lib\openfl\4,4,1" />
-    <class path="C:\coding\haxe\Haxe\lib\lime\3,4,1" />
+    <class path="C:\coding\haxe\haxe\lib\haxegon\0,9,1" />
+    <class path="C:\coding\haxe\haxe\lib\openfl\5,1,5" />
+    <class path="C:\coding\haxe\haxe\lib\lime\5,2,1" />
     <class path="src" />
-    <class path="C:\coding\haxe\Haxe\lib\openfl\4,4,1\externs\core\flash" />
-    <class path="C:\coding\haxe\Haxe\lib\openfl\4,4,1\externs\core\openfl" />
-    <class path="C:\coding\haxe\Haxe\lib\openfl\4,4,1\externs\extras" />
-    <class path="bin\flash\debug\haxe" />
+    <class path="C:\coding\haxe\haxe\lib\openfl\5,1,5\externs\core\flash" />
+    <class path="C:\coding\haxe\haxe\lib\openfl\5,1,5\externs\core\openfl" />
+    <class path="C:\coding\haxe\haxe\lib\openfl\5,1,5\externs\extras" />
+    <class path="bin\flash\release\haxe" />
   </classpaths>
   <!-- Build options -->
   <build>
-    <option directives="haxegon=0.3.2-alpha&#xA;openfl=4.4.1&#xA;lime=3.4.1&#xA;tools=3.4.1&#xA;no-compilation&#xA;windowheight=480&#xA;openfl-flash&#xA;startfullscreen=false&#xA;windowwidth=768&#xA;web&#xA;display" />
+    <option directives="haxegon=0.9.1&#xA;openfl=5.1.5&#xA;lime=5.2.1&#xA;tools=5.2.1&#xA;no-compilation&#xA;windowheight=480&#xA;openfl-flash&#xA;startfullscreen=false&#xA;windowwidth=768&#xA;web&#xA;display" />
     <option flashStrict="False" />
     <option noInlineOnDebug="False" />
     <option mainClass="ApplicationMain" />
     <option enabledebug="False" />
-    <option additional="--macro openfl._internal.utils.ExtraParams.include()&#xA;--macro lime.Lib.extraParams()&#xA;-swf-version 17&#xA;-debug " />
+    <option additional="--macro openfl._internal.utils.ExtraParams.include()&#xA;--macro lime.Lib.extraParams()&#xA;-swf-version 17" />
   </build>
   <!-- haxelib libraries -->
   <haxelib>
