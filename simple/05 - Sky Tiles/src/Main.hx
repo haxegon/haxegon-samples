@@ -1,7 +1,7 @@
 import haxegon.*;
 
 class Main {
-	function new() {
+	function init() {
 		//Use the entire window, with a height of 480
 		Gfx.resizescreen(0, 480);
 		
