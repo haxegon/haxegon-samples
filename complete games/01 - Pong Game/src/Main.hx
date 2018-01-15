@@ -15,26 +15,19 @@ class Main{
 	var playerspeed:Int = 15;
 	var playerscore:Int = 0;
 
-	var enemyx:Float = Gfx.screenwidth - 25;
+	var enemyx:Float = 730;
 	var enemyy:Float = 10;
 	var enemyscore:Int = 0;
 	
-	function new() {
-    		Text.font = "ganon";
+	function init() {
+		Gfx.resizescreen(768, 480);
+		
+    Text.font = "ganon";
     
-	  	Music.loadsound("bounce");
-		Music.loadsound("hit");
-		Music.loadsound("score");
-		Music.loadsound("miss");
-	}
-
-	function inbox(x:Float, y:Float, boxx:Float, boxy:Float, boxw:Float, boxh:Float){
-		if(x >= boxx && x < boxx + boxw){
-			if(y >= boxy && y < boxy + boxh){
-				return true;
-			}
-		}
-		return false;
+	  Sound.load("bounce");
+		Sound.load("hit");
+		Sound.load("score");
+		Sound.load("miss");
 	}
 
 	function updateball(){
@@ -44,7 +37,7 @@ class Main{
 		bally += ychange;
 		
 		if (ballx > Gfx.screenwidth) {
-			Music.playsound("score");
+			Sound.play("score");
 			
 			//Reset the ball position
 			ballx = Gfx.screenwidth / 2;
@@ -56,7 +49,7 @@ class Main{
 				gamestate = "title";
 			}
 		}else if (ballx < 0) {
-		  Music.playsound("miss");	
+		  Sound.play("miss");	
 			
 			//Reset the ball position
 			ballx = Gfx.screenwidth / 2;
@@ -70,24 +63,24 @@ class Main{
 		}
 		
 		if(bally > Gfx.screenheight){
-			Music.playsound("bounce");
+			Sound.play("bounce");
 			ychange = -ballspeed;
 		}else if(bally < 0){
-			Music.playsound("bounce");
+			Sound.play("bounce");
 			ychange = ballspeed;
 		}
 		
-		if(inbox(ballx, bally, playerx, playery, 15, 75) || 
-			 inbox(ballx - 12, bally, playerx, playery, 15, 75) ||
-			 inbox(ballx + 12, bally, playerx, playery, 15, 75)){
-			Music.playsound("hit");
+		if(Geom.inbox(ballx, bally, playerx, playery, 15, 75) || 
+			 Geom.inbox(ballx - 12, bally, playerx, playery, 15, 75) ||
+			 Geom.inbox(ballx + 12, bally, playerx, playery, 15, 75)){
+			Sound.play("hit");
 			xchange = ballspeed;
 		}
 		
-		if(inbox(ballx, bally, enemyx, enemyy, 15, 75) || 
-			 inbox(ballx - 12, bally, enemyx, enemyy, 15, 75) ||
-			 inbox(ballx + 12, bally, enemyx, enemyy, 15, 75)){
-			Music.playsound("hit");
+		if(Geom.inbox(ballx, bally, enemyx, enemyy, 15, 75) || 
+			 Geom.inbox(ballx - 12, bally, enemyx, enemyy, 15, 75) ||
+			 Geom.inbox(ballx + 12, bally, enemyx, enemyy, 15, 75)){
+			Sound.play("hit");
 			xchange = -ballspeed;
 		}
 	}
