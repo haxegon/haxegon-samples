@@ -1,10 +1,10 @@
 import haxegon.*;
 
 class Main {
-	var starx:Array<Float> = [];
-	var stary:Array<Float> = [];
-	var starspeed:Array<Float> = [];
-	var numstars:Int = 30;
+	var starx:Array<Float>;
+	var stary:Array<Float>;
+	var starspeed:Array<Float>;
+	var numstars:Int;
 
 	var fontlist:Array<String>;
 	var fontcredits:Array<String>;
@@ -14,9 +14,14 @@ class Main {
 	var counter:Int = 0;
 	var coloroffset:Int = 60;
 
-	function init() {
+	function new() {
+		numstars = 30;
+		starspeed = [];
+		starx = [];
+		stary = [];
+		
 		for(i in 0 ... numstars){
-			starspeed.push(Random.int(8,15));
+			starspeed.push(Random.int(15,30));
 			starx.push(Random.int(0, Gfx.screenwidth * 2));
 			stary.push(Random.int(0, Gfx.screenheight));
 		} 
@@ -25,7 +30,7 @@ class Main {
 								"dos", "ganon", "nokia", "oldenglish", "pixel",
 								"pressstart", "retrofuture", "roman", "special",
 								"thin", "tiny", "yoster"];
-		
+
 		fontcredits = [];
 		fontcredits.push("04B11 by Yuji Oshimoto, 04.jp.org");
 		fontcredits.push("Standard C64 font. Converted by ck! of Freaky Fonts as \"Adore64\".");
@@ -55,7 +60,7 @@ class Main {
 			scrollposition = 0;
 		}
 		
-		updatestars();
+		if(counter % 2 == 0) updatestars();
 		drawstars();
 		
 		Text.font = "pixel";
@@ -64,11 +69,11 @@ class Main {
 		
 		Text.font = fontlist[currentfont];
 		Text.size = 6;
-		Text.display(Text.CENTER,Gfx.screenheightmid - Text.height(), "\"" + fontlist[currentfont] + "\"", Col.hsl((currentfont * coloroffset), 0.5, 0.5));		
+		Text.display(Text.CENTER,Gfx.screenheightmid - Text.height(), "\"" + fontlist[currentfont] + "\"", Col.hsl((currentfont * coloroffset), 0.5, 0.5));
 		
 		Text.size = 3;
 		
-		if(Text.width(fontcredits[currentfont]) < Gfx.screenwidth){
+		if(Text.width(fontcredits[currentfont])< Gfx.screenwidth){
 			Text.display(Text.CENTER,Gfx.screenheightmid + 2, fontcredits[currentfont], Col.hsl((currentfont * coloroffset), 0.15, 0.4));  
 		}else{
 			Text.display(10 - scrollposition,Gfx.screenheightmid + 2, fontcredits[currentfont], Col.hsl((currentfont * coloroffset), 0.15, 0.4));
@@ -95,7 +100,7 @@ class Main {
 		for(i in 0 ... numstars){
 			starx[i] -= starspeed[i];
 			if(starx[i] < -10){    
-				starspeed[i] = Random.int(8, 15);
+				starspeed[i] = Random.int(15, 30);
 				starx[i] = Gfx.screenwidth;
 				stary[i] = Random.int(0, Gfx.screenheight);
 			}
