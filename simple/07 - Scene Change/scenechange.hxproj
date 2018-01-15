@@ -5,9 +5,9 @@
     <movie outputType="CustomBuild" />
     <movie input="" />
     <movie path="project.xml" />
-    <movie fps="30" />
-    <movie width="768" />
-    <movie height="480" />
+    <movie fps="60" />
+    <movie width="1280" />
+    <movie height="720" />
     <movie version="1" />
     <movie minorVersion="0" />
     <movie platform="Lime" />
@@ -15,23 +15,22 @@
   </output>
   <!-- Other classes to be compiled into your SWF -->
   <classpaths>
-    <class path="C:\coding\haxe\Haxe\lib\haxegon\git" />
-    <class path="C:\coding\haxe\Haxe\lib\openfl\4,5,0" />
-    <class path="C:\coding\haxe\Haxe\lib\lime\3,5,0" />
+    <class path="C:\coding\haxe\haxe\lib\lime\5,9,1" />
+    <class path="C:\My Stuff\games\current\haxegon\current\haxegondev" />
+    <class path="C:\coding\haxe\haxe\lib\openfl\6,5,3" />
     <class path="src" />
-    <class path="C:\coding\haxe\Haxe\lib\openfl\4,5,0\externs\core\flash" />
-    <class path="C:\coding\haxe\Haxe\lib\openfl\4,5,0\externs\core\openfl" />
-    <class path="C:\coding\haxe\Haxe\lib\openfl\4,5,0\externs\extras" />
-    <class path="bin\flash\release\haxe" />
+    <class path="C:\coding\haxe\haxe\lib\openfl\6,5,3\externs\core\openfl" />
+    <class path="C:\coding\haxe\haxe\lib\openfl\6,5,3\externs\extras" />
+    <class path="bin\html5\haxe" />
   </classpaths>
   <!-- Build options -->
   <build>
-    <option directives="haxegon=0.3.2-alpha&#xA;openfl=4.5.0&#xA;lime=3.5.0&#xA;tools=3.5.0&#xA;no-compilation&#xA;windowheight=480&#xA;openfl-flash&#xA;startfullscreen=startfullscreen&#xA;windowwidth=768&#xA;web&#xA;display" />
+    <option directives="lime=5.9.1&#xA;haxegon=0.10.0&#xA;openfl=6.5.3&#xA;tools=5.9.1&#xA;howlerjs&#xA;no-compilation&#xA;openfl-html5&#xA;windowheight=720&#xA;lime-html5&#xA;windowwidth=1280&#xA;html5&#xA;web&#xA;html5&#xA;display" />
     <option flashStrict="False" />
     <option noInlineOnDebug="False" />
     <option mainClass="ApplicationMain" />
     <option enabledebug="False" />
-    <option additional="--macro openfl._internal.utils.ExtraParams.include()&#xA;--macro lime.Lib.extraParams()&#xA;-swf-version 17" />
+    <option additional="--macro lime.Lib.extraParams()&#xA;--macro openfl._internal.utils.ExtraParams.include()&#xA;--remap flash:openfl" />
   </build>
   <!-- haxelib libraries -->
   <haxelib>

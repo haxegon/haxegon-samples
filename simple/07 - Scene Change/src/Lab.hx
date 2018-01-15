@@ -10,7 +10,7 @@ class Lab {
 	var box_vy:Array<Int>;
 	var brightness:Array<Int>;
 	
-	function new() {
+	function init() {
 		//Initalise the arrays, and put some default values in them.
 		brightness = [];
 		box_x = []; box_y = []; box_width = []; box_height = [];
@@ -25,14 +25,14 @@ class Lab {
 			if (Random.bool()) {  // 50-50 chance of picking either a vertical or horizontal box
 				//Horizontal: Choose random speed for vx between 8 and 20 pixels per second, 
 				//in either left or right direction. vy is zero.
-				box_vx[i] = Random.int(4, 10) * Random.pickint( -2, 2);
+				box_vx[i] = Random.int(4, 10) * Random.pick([ -2, 2]);
 				//Horizontal box, so set width to 64 and height to 24.
 				box_width.push(64);
 				box_height.push(24);
 			}else {
 				//Vertical: Choose random speed for vy between 8 and 20 pixels per second, 
 				//in either up or down direction. vx is zero.
-				box_vy[i] = Random.int(4, 10) * Random.pickint( -2, 2);
+				box_vy[i] = Random.int(4, 10) * Random.pick([ -2, 2]);
 				//Horizontal box, so set width to 24 and height to 64.
 				box_width.push(24);
 				box_height.push(64);
@@ -81,9 +81,9 @@ class Lab {
 			}
 		}
 		
-		Text.size = 16;
+		Text.size = 2;
 		Text.align(Text.LEFT);
-		Text.display(6, Gfx.screenheight - 25, "LEFT CLICK TO CHANGE", Col.GRAY);
+		Text.display(6, 5, "LEFT CLICK TO CHANGE", Col.GRAY);
 		Text.align(Text.RIGHT);
 		Text.display(Gfx.screenwidth - 6, Gfx.screenheight - 25, "[now running from \"Lab.hx\"]", Col.WHITE);
   }

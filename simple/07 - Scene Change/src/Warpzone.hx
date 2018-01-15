@@ -9,7 +9,7 @@ class Warpzone {
 	var frontcol:Int;
 	var backcol:Int;
 	
-	function new() {
+	function init() {
 		backcol = 0x0D100A;    // A dark green
 	  frontcol = 0x142210;   // A slightly less dark green
 		
@@ -45,9 +45,9 @@ class Warpzone {
 			i = i - 1;
 		}
 		
-		Text.size = 16;
+		Text.size = 2;
 		Text.align(Text.LEFT);
-		Text.display(6, Gfx.screenheight - 25, "LEFT CLICK TO CHANGE", Col.GRAY);
+		Text.display(6, 5, "LEFT CLICK TO CHANGE", Col.GRAY);
 		Text.align(Text.RIGHT);
 		Text.display(Gfx.screenwidth - 6, Gfx.screenheight - 25, "[now running from \"Warpzone.hx\"]", Col.WHITE);
   }

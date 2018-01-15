@@ -6,7 +6,7 @@ class Space {
 	var star_y:Array<Int>;
 	var star_speed:Array<Int>;
 	
-	function new() {
+	function init() {
 		//Initalise the arrays, and put some default values in them.
 		star_x = []; star_y = []; star_speed = [];
 		
@@ -45,9 +45,9 @@ class Space {
 			}
 		}
 		
-		Text.size = 16;
+		Text.size = 2;
 		Text.align(Text.LEFT);
-		Text.display(6, Gfx.screenheight - 25, "LEFT CLICK TO CHANGE", Col.GRAY);
+		Text.display(6, 5, "LEFT CLICK TO CHANGE", Col.GRAY);
 		Text.align(Text.RIGHT);
 		Text.display(Gfx.screenwidth - 6, Gfx.screenheight - 25, "[now running from \"Space.hx\"]", Col.WHITE);
   }
