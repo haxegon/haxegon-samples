@@ -14,7 +14,7 @@
 	<app 
       main="haxegon.Load"
       path="bin" 
-      file="newproject" 
+      file="filters" 
    />
 
   <window width="${windowwidth}" height="${windowheight}" if="flash || cpp"></window>

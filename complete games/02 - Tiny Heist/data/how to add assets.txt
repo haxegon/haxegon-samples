@@ -1,0 +1,178 @@
+ ---=== loading assets in haxegon ===--- 
+ 
+Haxegon can currently load in the following assets:
+  
+fonts: Supports Truetype TTF format fonts (.ttf), or Angelcode format Bitmap fonts (.fnt + .png).
+  data/fonts/example_truetype.ttf
+  data/fonts/example_bitmap.fnt
+  data/fonts/example_bitmap_0.png
+  in haxegon:
+    Text.font = "example_truetype";
+    Text.font = "example_bitmap";
+  
+graphics: Supports .png or .jpg format images.
+  data/graphics/example.png
+  in haxegon:
+    Gfx.drawimage(x, y, "example");
+  
+sound: Supports .mp3, .ogg or .wav, depending on the target platform. See the sounds section below for details.
+  data/sounds/example.wav
+  in haxegon:
+    Sound.play("example");
+    
+text: Supports .txt or .csv files.
+  data/text/info.txt
+  in haxegon:
+    var stringarray:Array<String> = Data.loadtext("info");
+  
+icon: Supports .png icons.
+  replace icon.png in data/ with your own icon file.
+
+Detailed information about file formats follows:
+
+ ---=== fonts ===---
+ 
+  Haxegon supports Truetype fonts (in .ttf format) or Angelcode Bitmap Fonts (a .fnt file with an associated .png file).
+  These assets should be placed in the data/fonts/ folder.
+  
+  about Truetype TTF fonts:
+  =-=-=-=-
+  add ttf files to the fonts/ folder:
+    data/fonts/opensans.ttf
+    data/fonts/arvo-italic.ttf
+    data/fonts/arial-bold.ttf
+  
+  in haxegon, these can be used like this:
+    Text.font = "opensans";
+    Text.size = 16;
+  
+    Text.font = "arvo-italic";
+    Text.size = 24;
+  
+  TTF font sizes are given in point sizes.
+  They traditionally look best in multiples of 8 - like 8, 16, 24, 32, 48, 72, etc, but you can use any size you like.
+  
+  You do not need to generate webfont formats for html5 (e.g. .svg, .eot, .woff, .woff2) - any required files will be automatically generated.
+  
+  about bitmap fonts:
+  =-=-=-=-=-
+  add Angelcode Bitmap Fonts with .fnt and associated .png files to the data/fonts/ folder:
+    data/fonts/retrofuture.fnt
+    data/fonts/retrofuture_0.png
+  
+  These are used in the same way as TTF fonts, i.e:
+    Text.font = "retrofuture";
+    Text.size = 1;
+
+  Bitmap font sizes are given in multiples of their original size. 
+  Text.size = 3 will be three times whatever size the bitmap font was originally generated at.
+  
+  There are webtools for converting TTF fonts to bitmap fonts - for example, Littera:
+  http://kvazars.com/littera/
+  
+  Or on windows, you can use AngelCode.com's bitmap font generator, "bmfont":
+  http://www.angelcode.com/products/bmfont/
+  
+  You can use any tool that generates bitmap fonts in the Angelcode format. Use XML for the font descriptor, 
+  PNG for the texture, and use the extension .fnt. In bmfont, use the "white text with alpha" preset.
+  
+  A selection of free to use compatible bitmap fonts can be found here:
+  https://github.com/TerryCavanagh/haxegon-samples/tree/master/simple/04%20-%20Bitmap%20Fonts/data/fonts
+  
+ ---=== graphics ===---
+ 
+  Only .png or .jpg format images are supported.
+  
+  Add the image files to the data/graphics/ folder:
+    data/graphics/playersprite.png
+    data/graphics/background01.jpg
+    data/graphics/tiles.png
+    
+  They can then be preloaded into haxegon like this:
+    Gfx.loadimage("playersprite");
+    Gfx.loadimage("background01");
+    
+  You can load an image and split it into a tileset with the Gfx.loadtiles() command:
+    Gfx.loadtiles("tiles", 16, 16);
+    
+  You can then display images and tiles like this:
+    Gfx.drawimage(x, y, "playersprite");
+    Gfx.drawtile(x, y, "tiles", tilenum);
+    
+  When loading images, haxegon will look for .png graphics first, and if it can't find them, it will fall back to .jpg.
+  If you use an overlapping name, you won't be able to access the .jpg version.
+  (e.g. if you have both "player.png" and "player.jpg", Gfx.loadimage("player") will only load the .png file.)
+  
+  If your graphics are not preloaded, they will be automatically loaded by haxegon the first time they're drawn.
+  
+  Haxegon also supports packed textures! When using Texture Packing tools, check to see if they have a "starling" setting.
+  Then place the generated .xml and .png files in the data/graphics/ folder, and continue using as normal.
+ 
+  ---=== sound ===---
+ 
+  Haxegon's audio support depends on which platform you're targetting. You will need either .mp3, .ogg or .wavs, depending on your platform.
+  
+  .wav files can be used on every platform, so are great for development.
+  
+  HTML5:    
+    HTML5 builds can use .wav files, but if you're using compressed audio, your html5 build will require BOTH .ogg and .mp3 files 
+    for cross browser compatibility. Different browsers will use different files as needed!
+
+  Native Destop builds:
+    Native desktop builds on PC, Mac and Linux require .wav or .ogg files, but cannot play .mp3 files.
+    This is because Haxegon uses open source libraries to play audio on these platforms, and these libraries don't support mp3 files.
+  
+  Other:
+    Legacy Flash and AIR builds require .wav or .mp3 files, and cannot play .oggs.
+    (If you're building a legacy flash project, unfortunately the maximum .wav file size is 16mb).
+
+  On windows, I use a tool called "FlicFlac" to quickly convert .wav files to .ogg and .mp3 as needed.
+  flicflac: http://www.sector-seven.net/software/flicflac
+
+  Add all your audio files to data/sounds/ to use:
+    data/sounds/beachtheme.wav
+    data/sounds/beachtheme.mp3
+    data/sounds/beachtheme.ogg
+    data/sounds/mountaintheme.mp3
+    data/sounds/mountaintheme.ogg
+    data/sounds/explosion.wav
+    data/sounds/explosion.mp3
+    data/sounds/explosion.ogg  
+  
+  You can preload your sounds into haxegon like this:
+    Sound.load("beachtheme");
+    Sound.load("mountaintheme");
+    Sound.load("explosion");
+    
+  There are two ways to play sounds in haxegon - as sounds, which play once and stop:
+    Sound.play("explosion");
+  
+  Or as background music, which loops until told to stop:
+    Music.play("beachtheme");
+    Music.stop();
+    
+  If you call Music.play() while there is already a music track playing, it will stop the music and start playing the new song:
+    Music.play("mountaintheme");
+  
+  If your sounds are not preloaded, they will be automatically loaded by haxegon the first time they're played.
+  
+  For more advanced usage, including looping sounds, fading and layering music tracks, see the reference guide at haxegon.com.
+ 
+ ---=== text ===---
+ 
+  Haxegon can load .txt and .csv files.
+  
+  Add the files to your data/text/ folder:
+    data/text/info.txt
+    data/text/mapdata.csv
+    
+  You can then load them into the game like this:
+    var stringarray:Array<String> = Data.loadtext("info");
+    var worldmap:Array<Array<Int>> = Data.loadcsv("mapdata");
+
+ ---=== icon ===---
+
+  Your application's icon will be generated from the icon.png file in your data/ folder.
+  
+  This icon file will generate all sizes needed for all platforms, so I recommend making it at least 2048x2048.
+  
