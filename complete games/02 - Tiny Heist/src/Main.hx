@@ -13,6 +13,7 @@ import starling.core.Starling;
 class Main {
 	public function new () {
 		Gfx.resizescreen(384, 240);
+		Gfx.createimage("cachemap", 384, 240);
 		Achievements.init();
 		
 		Controls.init();
@@ -41,7 +42,7 @@ class Main {
 			Game.changestate(Game.EXPIREDMODE);
 		}
 		
-		//Turn this on for testing unless it's not needed right now
+		//Turn this on for testing
 		//Profiler.init();
 	}
 	
@@ -93,6 +94,7 @@ class Main {
 				Text.display(Gfx.screenwidthmid, Gfx.screenheight - 25, "Press F5 to toggle fullscreen");
 			}
 		}
+		
 		//Profiler.callafterframe();
 	}
 	
@@ -111,7 +113,7 @@ class Main {
 		Textbox.updatetextboxes();
 		Lerp.update();
 		
-		Profiler.startframe(Profiler.PROFILE_LOGIC);
+		//Profiler.startframe(Profiler.PROFILE_LOGIC);
 		switch(Game.gamestate) {
 			case Game.TITLEMODE: Logic.titlelogic();
 			case Game.GAMEMODE: Logic.gamelogic(); 
@@ -119,7 +121,7 @@ class Main {
 			case Game.FALLINGFROMTOWER: Logic.fallfromtowerlogic();
 			case Game.SPLASHSCREEN: Logic.splashscreenlogic();
 		}
-		Profiler.endframe(Profiler.PROFILE_LOGIC);
+		//Profiler.endframe(Profiler.PROFILE_LOGIC);
 		
 		Game.fadelogic();
 		Obj.cleanup();
@@ -150,7 +152,7 @@ class Main {
 	}
 	
 	function dorender() {
-		Profiler.startframe(Profiler.PROFILE_RENDER);
+		//Profiler.startframe(Profiler.PROFILE_RENDER);
 		switch(Game.gamestate) {
 			case Game.TITLEMODE: Render.titlerender();
 			case Game.GAMEMODE: Render.gamerender(); 
@@ -158,7 +160,7 @@ class Main {
 			case Game.FALLINGFROMTOWER: Render.fallfromtowerrender();
 			case Game.SPLASHSCREEN: Render.splashscreenrender();
 		}
-		Profiler.endframe(Profiler.PROFILE_RENDER);
+		//Profiler.endframe(Profiler.PROFILE_RENDER);
 		
 		Draw.drawfade();
 	}

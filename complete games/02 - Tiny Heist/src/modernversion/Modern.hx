@@ -191,6 +191,8 @@ class Modern {
 		
 		while (!AIDirector.assessroom()) Levelgen.createroom();
 		startfadein();
+		
+		Render.backgrounddirty = true;
 	}
 	
 	public static function updatepalette(?forcechange:Roomstyle) {
@@ -458,6 +460,7 @@ class Modern {
 			}
 		}
 		
+		Render.backgrounddirty = true;
 		startfadein();
 	}
 	

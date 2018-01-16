@@ -707,10 +707,17 @@ class Render {
 	}
 	
 	public static var texty:Int;
+	public static var backgrounddirty:Bool = true;
 	public static function gamerender() {
 		if (Menu.textmode == 0) {	
-			Draw.drawbackground();
-			Draw.drawmap(World.tileset);
+			if(backgrounddirty){
+				Gfx.drawtoimage("cachemap");
+				Draw.drawbackground();
+				Draw.drawmap(World.tileset);
+				Gfx.drawtoscreen();
+				backgrounddirty = false;
+			}
+			Gfx.drawimage(0, 0, "cachemap");
 			
 			/*if (Game.alarm) {
 				if ((flash.Lib.getTimer() % 1000) >= 500) {
@@ -729,7 +736,6 @@ class Render {
 			}else if (Modern.endlevelanimationstate < 0) {
 				Draw.drawmapfade(Modern.endlevelanimationx, Modern.endlevelanimationy, World.tileset, -Modern.endlevelanimationstate);
 			}
-			
 			if (Game.timestop > 0) {
 				Draw.grayscale();
 				Obj.templates[Obj.entindex.get(Obj.entities[Obj.getplayer()].rule)].drawentity(Obj.getplayer());

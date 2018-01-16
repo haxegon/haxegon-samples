@@ -297,6 +297,8 @@ class World {
 		Obj.entities[i].vy = 0;
 		
 		Localworld.loadlevel(s, t);
+		
+		Render.backgrounddirty = true;
 	}
 	
 	public static function loadmapfromstring(s:String, t:String, givenlevelstring:String):Void {

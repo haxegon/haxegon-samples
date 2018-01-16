@@ -694,6 +694,7 @@ class Game {
 	}
 
 	public static function startmove(t:String):Void {
+		Render.backgrounddirty = true;
 		if (t == "wait") Modern.waitflash = Modern.flashtime;
 		resetplayermove(Obj.getplayer(), t);
 		interactwithdir(Obj.getplayer(), t);

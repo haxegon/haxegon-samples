@@ -315,6 +315,7 @@ class Logic {
 		}
 		
 		if (Game.turn == "domove") {
+			Render.backgrounddirty = true;
 			//trace("Entering phase: Do moves!");
 			//trace("------------");
 			//Do it!
@@ -417,7 +418,8 @@ class Logic {
 			if (turndelay > 0) {
 			  turndelay--;	
 			}else {
-				//END of turn - update stuff here.	
+				//END of turn - update stuff here.					
+				Render.backgrounddirty = true;
 				Game.turn = "playermove";
 				endturn();
 			}

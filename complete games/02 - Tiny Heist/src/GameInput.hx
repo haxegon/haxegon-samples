@@ -108,6 +108,7 @@ class GameInput {
 					}
 					
 					if (useitemnow) {
+						Render.backgrounddirty = true;
 						var player:Int = Obj.getplayer();
 						if(player > -1){
 							if (Modern.inventory[Modern.currentslot] != "") {
