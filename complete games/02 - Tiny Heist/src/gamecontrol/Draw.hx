@@ -517,9 +517,9 @@ class Draw {
 			x = x * 12;
 		}
 		if (drawbacking) {
-			roundfillrect(x - 4 + xoffset, y - 4 + yoffset+4, Text.width(t)+8, Text.height()+8 - 1, 0, 0, 0);
-			roundfillrect(x - 2 + xoffset, y - 2 + yoffset+4, Text.width(t)+4, Text.height()+4 - 1, bordercol);
-			roundfillrect(x + xoffset, y + yoffset+4, Text.width(t), Text.height() - 1, backingcol);
+			roundfillrect(x - 4 + xoffset, y - 4 + yoffset+4, Text.width(t)+8, Text.height()+3+8 - 1, 0, 0, 0);
+			roundfillrect(x - 2 + xoffset, y - 2 + yoffset+4, Text.width(t)+4, Text.height()+3+4 - 1, bordercol);
+			roundfillrect(x + xoffset, y + yoffset+4, Text.width(t), Text.height() + 3 - 1, backingcol);
 		}
 		
 		Text.display(x + xoffset - 1, y + yoffset + 3 - 1, t, col);

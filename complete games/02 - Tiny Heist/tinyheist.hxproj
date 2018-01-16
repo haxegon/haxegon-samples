@@ -19,18 +19,19 @@
     <class path="C:\My Stuff\games\current\haxegon\current\haxegondev" />
     <class path="C:\coding\haxe\haxe\lib\openfl\6,5,3" />
     <class path="src" />
+    <class path="C:\coding\haxe\haxe\lib\openfl\6,5,3\externs\core\flash" />
     <class path="C:\coding\haxe\haxe\lib\openfl\6,5,3\externs\core\openfl" />
     <class path="C:\coding\haxe\haxe\lib\openfl\6,5,3\externs\extras" />
-    <class path="bin\windows\haxe" />
+    <class path="bin\flash\haxe" />
   </classpaths>
   <!-- Build options -->
   <build>
-    <option directives="lime=5.9.1&#xA;haxegon=0.10.0&#xA;openfl=6.5.3&#xA;tools=5.9.1&#xA;no-compilation&#xA;windowheight=480&#xA;native&#xA;lime-native&#xA;lime-vorbis&#xA;openfl-native&#xA;lime-cffi&#xA;windowwidth=768&#xA;windows&#xA;desktop&#xA;display" />
+    <option directives="lime=5.9.1&#xA;haxegon=0.10.0&#xA;openfl=6.5.3&#xA;tools=5.9.1&#xA;no-compilation&#xA;windowheight=480&#xA;openfl-flash&#xA;windowwidth=768&#xA;web&#xA;display" />
     <option flashStrict="False" />
     <option noInlineOnDebug="False" />
     <option mainClass="ApplicationMain" />
     <option enabledebug="False" />
-    <option additional="--macro lime.Lib.extraParams()&#xA;--macro openfl._internal.utils.ExtraParams.include()&#xA;--remap flash:openfl" />
+    <option additional="--macro lime.Lib.extraParams()&#xA;--macro openfl._internal.utils.ExtraParams.include()&#xA;-swf-version 17" />
   </build>
   <!-- haxelib libraries -->
   <haxelib>
