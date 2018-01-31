@@ -15,23 +15,22 @@
   </output>
   <!-- Other classes to be compiled into your SWF -->
   <classpaths>
-    <class path="C:\coding\haxe\haxe\lib\lime\5,9,1" />
+    <class path="C:\coding\haxe\haxe\lib\lime\6,0,1" />
     <class path="C:\My Stuff\games\current\haxegon\current\haxegondev" />
-    <class path="C:\coding\haxe\haxe\lib\openfl\6,5,3" />
+    <class path="C:\coding\haxe\haxe\lib\openfl\7,0,0\src" />
     <class path="src" />
-    <class path="C:\coding\haxe\haxe\lib\openfl\6,5,3\externs\core\flash" />
-    <class path="C:\coding\haxe\haxe\lib\openfl\6,5,3\externs\core\openfl" />
-    <class path="C:\coding\haxe\haxe\lib\openfl\6,5,3\externs\extras" />
-    <class path="bin\flash\haxe" />
+    <class path="C:\coding\haxe\haxe\lib\openfl\7,0,0\src\externs\core\openfl" />
+    <class path="C:\coding\haxe\haxe\lib\openfl\7,0,0\src\externs\extras" />
+    <class path="bin\windows\haxe" />
   </classpaths>
   <!-- Build options -->
   <build>
-    <option directives="lime=5.9.1&#xA;haxegon=0.10.0&#xA;openfl=6.5.3&#xA;tools=5.9.1&#xA;no-compilation&#xA;windowheight=720&#xA;openfl-flash&#xA;windowwidth=1280&#xA;web&#xA;display" />
+    <option directives="lime=6.0.1&#xA;haxegon=0.11.0&#xA;openfl=7.0.0&#xA;tools=6.0.1&#xA;no-compilation&#xA;windowheight=720&#xA;native&#xA;lime-native&#xA;lime-vorbis&#xA;openfl-native&#xA;lime-cffi&#xA;windowwidth=1280&#xA;windows&#xA;desktop&#xA;display" />
     <option flashStrict="False" />
     <option noInlineOnDebug="False" />
     <option mainClass="ApplicationMain" />
     <option enabledebug="False" />
-    <option additional="--macro lime.Lib.extraParams()&#xA;--macro openfl._internal.utils.ExtraParams.include()&#xA;-swf-version 17" />
+    <option additional="--macro lime.Lib.extraParams()&#xA;--macro openfl._internal.utils.ExtraParams.include()&#xA;--remap flash:openfl" />
   </build>
   <!-- haxelib libraries -->
   <haxelib>

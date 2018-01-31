@@ -22,7 +22,7 @@ class Main {
 		} 
 
 		fontlist = ["04b11", "c64", "comic", "crypt", "default",
-								"dos", "ganon", "nokia", "oldenglish", "pixel",
+								"dos", "ganon", "legibitmap", "legibitmapcaption", "nokia", "oldenglish", "pixel",
 								"pressstart", "retrofuture", "roman", "special",
 								"thin", "tiny", "yoster"];
 		
@@ -34,6 +34,8 @@ class Main {
 		fontcredits.push("\"Normal\" Font from PC Paint by Mouse Systems. Converted by codeman38, zone38.net");
 		fontcredits.push("Standard DOS VGA font. Ported to Zeedonk from Wikipedia's Code page 437 image.");
 		fontcredits.push("Inspired by the font from Zelda: A Link to the Past. Converted by codeman38, zone38.net");
+		fontcredits.push("Drawn for maximum readability by @pixellerjeremy. https://pixellerjeremy.deviantart.com/art/Pixel-typefaces-724787079");
+		fontcredits.push("Modified version of legibitmap for UI, uppercase only. https://pixellerjeremy.deviantart.com/art/Pixel-typefaces-724787079");
 		fontcredits.push("As seen in Flixel! Nokia Cellphone font by Zeh Fernando, zehfernando.com");
 		fontcredits.push("\"Old English\" Font from PC Paint by Mouse Systems. Converted by codeman38, zone38.net");
 		fontcredits.push("Slightly modified version of PixelZim by Zeh Fernando, zehfernando.com");

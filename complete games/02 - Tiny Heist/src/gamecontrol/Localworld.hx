@@ -39,7 +39,7 @@ class Localworld {
 	public static var numworldblocks:Int = 14;
 	
 	public static function init():Void {
-		for (i in 0 ... 100) {
+		for (i in 0 ... 23) {
 			worldblock.push(new Worldblockclass());
 		}
 		
