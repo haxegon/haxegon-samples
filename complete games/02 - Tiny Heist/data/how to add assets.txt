@@ -20,10 +20,12 @@ sound: Supports .mp3, .ogg or .wav, depending on the target platform. See the so
   in haxegon:
     Sound.play("example");
     
-text: Supports .txt or .csv files.
+text: Supports .txt, .csv, .json and .xml files.
   data/text/info.txt
+  data/text/books.xml
   in haxegon:
     var stringarray:Array<String> = Data.loadtext("info");
+    var bookdata:Dynamic = Data.loadxml("books");
   
 icon: Supports .png icons.
   replace icon.png in data/ with your own icon file.
@@ -160,16 +162,35 @@ Detailed information about file formats follows:
  
  ---=== text ===---
  
-  Haxegon can load .txt and .csv files.
+  Haxegon can load .txt, .csv, .json and .xml files.
   
-  Add the files to your data/text/ folder:
-    data/text/info.txt
-    data/text/mapdata.csv
+  *.txt files are loaded into String arrays, like this: 
+  
+    If this file is in your data/text/ folder:
+      data/text/info.txt
     
-  You can then load them into the game like this:
-    var stringarray:Array<String> = Data.loadtext("info");
-    var worldmap:Array<Array<Int>> = Data.loadcsv("mapdata");
-
+    You can then load it into the game like this:
+      var stringarray:Array<String> = Data.loadtext("info");
+    
+  *.csv files are loaded into 2d arrays of any type, like this: 
+    
+    If this file is in your data/text/ folder:
+      data/text/mapdata.csv
+      
+    You can then load it into the game like this:
+      var worldmap:Array<Array<Int>> = Data.loadcsv("mapdata");
+      
+  *.json and *.xml files are parsed as dynamic objects. This creates an object where the fields correspond to the json or xml file!
+  For more information on how to handle json and xml objects in haxegon, see the full documentation at haxegon.com.
+  
+    If these files are in your data/text/ folder:
+      data/text/movies.json
+      data/text/books.xml
+      
+    You can then load them into the game like this:
+      var moviedata:Dynamic = Data.loadjson("movies");
+      var bookdata:Dynamic = Data.loadxml("books");
+  
  ---=== icon ===---
 
   Your application's icon will be generated from the icon.png file in your data/ folder.
