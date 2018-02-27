@@ -1,0 +1,14 @@
+{
+	"fruits": {
+		"apple": {
+			"size": "Medium",
+			"color": "Green"
+		},
+		"banana": {
+			"size": "Large",
+			"color": "Yellow"
+		}
+	},
+	"4": "This is a field with an inaccessible name",
+	"node:data-text": "This is a field with invalid characters"
+}

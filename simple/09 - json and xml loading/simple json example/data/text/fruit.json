@@ -1,0 +1,20 @@
+{
+	"fruits": {
+		"apple": {
+			"size": "Medium",
+			"color": "Green"
+		},
+		"banana": {
+			"size": "Large",
+			"color": "Yellow"
+		},
+		"raspberry": {
+			"size": "Small",
+			"color": "Red"
+		},
+		"pineapple": {
+			"size": "Very Large",
+			"color": "Yellow"
+		}
+	}
+}
