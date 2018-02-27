@@ -30,6 +30,7 @@
    ></window>
    
 	<source path="src" />
+	<source path="plugins" />
 	<haxelib name="openfl" />
 	<haxelib name="haxegon" />
 	<haxedef name="windowwidth" value="${windowwidth}" />
