@@ -117,16 +117,18 @@ Detailed information about file formats follows:
   .wav files can be used on every platform, so are great for development.
   
   HTML5:    
-    HTML5 builds can use .wav files, but if you're using compressed audio, your html5 build will require BOTH .ogg and .mp3 files 
-    for cross browser compatibility. Different browsers will use different files as needed!
+    HTML5 builds can use .mp3 or .wav files on all browsers. .oggs will work in some browsers, but support is mixed, so .mp3 is recommended.
 
   Native Destop builds:
     Native desktop builds on PC, Mac and Linux require .wav or .ogg files, but cannot play .mp3 files.
-    This is because Haxegon uses open source libraries to play audio on these platforms, and these libraries don't support mp3 files.
+    
+    This is because Haxegon uses open source libraries to play audio on these platforms, and these libraries don't currently support mp3 files.
+    mp3 patent licences finally expired at the end of 2017, so this will probably change soon! mp3 support for native targets is an ongoing
+    project for OpenFL, and Haxegon will support it as soon as OpenFL does.
   
   Other:
     Legacy Flash and AIR builds require .wav or .mp3 files, and cannot play .oggs.
-    (If you're building a legacy flash project, unfortunately the maximum .wav file size is 16mb).
+    (If you're building a legacy flash project, the maximum .wav file size is 16mb).
 
   On windows, I use a tool called "FlicFlac" to quickly convert .wav files to .ogg and .mp3 as needed.
   flicflac: http://www.sector-seven.net/software/flicflac
