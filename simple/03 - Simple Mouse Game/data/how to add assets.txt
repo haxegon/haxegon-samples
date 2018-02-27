@@ -1,33 +1,42 @@
  ---=== loading assets in haxegon ===--- 
  
 Haxegon can currently load in the following assets:
-  
-fonts: Supports Truetype TTF format fonts (.ttf), or Angelcode format Bitmap fonts (.fnt + .png).
+
+fonts: Truetype fonts (.ttf) or Bitmap fonts (.fnt + .png).
+
   data/fonts/example_truetype.ttf
   data/fonts/example_bitmap.fnt
   data/fonts/example_bitmap_0.png
+  
   in haxegon:
     Text.font = "example_truetype";
     Text.font = "example_bitmap";
   
 graphics: Supports .png or .jpg format images.
+
   data/graphics/example.png
+  
   in haxegon:
     Gfx.drawimage(x, y, "example");
   
-sound: Supports .mp3, .ogg or .wav, depending on the target platform. See the sounds section below for details.
-  data/sounds/example.wav
+sound: Supports .mp3, .ogg or .wav.
+
+  data/sounds/example.mp3
+  
   in haxegon:
     Sound.play("example");
     
 text: Supports .txt, .csv, .json and .xml files.
+
   data/text/info.txt
   data/text/books.xml
+  
   in haxegon:
     var stringarray:Array<String> = Data.loadtext("info");
     var bookdata:Dynamic = Data.loadxml("books");
   
 icon: Supports .png icons.
+
   replace icon.png in data/ with your own icon file.
 
 Detailed information about file formats follows:
@@ -45,16 +54,14 @@ Detailed information about file formats follows:
     data/fonts/arial-bold.ttf
   
   in haxegon, these can be used like this:
-    Text.font = "opensans";
-    Text.size = 16;
+    Text.setfont("opensans", 16);
   
     Text.font = "arvo-italic";
     Text.size = 24;
   
-  TTF font sizes are given in point sizes.
-  They traditionally look best in multiples of 8 - like 8, 16, 24, 32, 48, 72, etc, but you can use any size you like.
+  TTF font sizes are given in point sizes (e.g. 8, 16, 24). You can use any size you like, including floats.
   
-  You do not need to generate webfont formats for html5 (e.g. .svg, .eot, .woff, .woff2) - any required files will be automatically generated.
+  HTML5 webfont formats (like .svg, .eot, .woff, .woff2) are automatically generated for .ttf files.
   
   about bitmap fonts:
   =-=-=-=-=-
@@ -83,7 +90,7 @@ Detailed information about file formats follows:
   
  ---=== graphics ===---
  
-  Only .png or .jpg format images are supported.
+  .png or .jpg format images are supported.
   
   Add the image files to the data/graphics/ folder:
     data/graphics/playersprite.png
@@ -101,10 +108,6 @@ Detailed information about file formats follows:
     Gfx.drawimage(x, y, "playersprite");
     Gfx.drawtile(x, y, "tiles", tilenum);
     
-  When loading images, haxegon will look for .png graphics first, and if it can't find them, it will fall back to .jpg.
-  If you use an overlapping name, you won't be able to access the .jpg version.
-  (e.g. if you have both "player.png" and "player.jpg", Gfx.loadimage("player") will only load the .png file.)
-  
   If your graphics are not preloaded, they will be automatically loaded by haxegon the first time they're drawn.
   
   Haxegon also supports packed textures! When using Texture Packing tools, check to see if they have a "starling" setting.
@@ -112,54 +115,37 @@ Detailed information about file formats follows:
  
   ---=== sound ===---
  
-  Haxegon's audio support depends on which platform you're targetting. You will need either .mp3, .ogg or .wavs, depending on your platform.
-  
-  .wav files can be used on every platform, so are great for development.
+  .mp3, .ogg or .wavs are supported, depending on your platform. Place all sound files in data/sounds/.
   
   HTML5:    
-    HTML5 builds can use .mp3 or .wav files on all browsers. .oggs will work in some browsers, but support is mixed, so .mp3 is recommended.
+    HTML5 builds can use .mp3 or .wav files on all browsers. .oggs *will* work in some browsers, but support is varied, so .mp3 is recommended.
 
   Native Destop builds:
     Native desktop builds on PC, Mac and Linux require .wav or .ogg files, but cannot play .mp3 files.
     
-    This is because Haxegon uses open source libraries to play audio on these platforms, and these libraries don't currently support mp3 files.
     mp3 patent licences finally expired at the end of 2017, so this will probably change soon! mp3 support for native targets is an ongoing
-    project for OpenFL, and Haxegon will support it as soon as OpenFL does.
+    project for Haxegon's parent library OpenFL, and Haxegon will support it as soon as OpenFL does.
   
   Other:
-    Legacy Flash and AIR builds require .wav or .mp3 files, and cannot play .oggs.
+    Legacy Flash and AIR builds can play .mp3 or .wav files, but cannot play .oggs.
     (If you're building a legacy flash project, the maximum .wav file size is 16mb).
 
   On windows, I use a tool called "FlicFlac" to quickly convert .wav files to .ogg and .mp3 as needed.
   flicflac: http://www.sector-seven.net/software/flicflac
 
   Add all your audio files to data/sounds/ to use:
-    data/sounds/beachtheme.wav
-    data/sounds/beachtheme.mp3
-    data/sounds/beachtheme.ogg
-    data/sounds/mountaintheme.mp3
-    data/sounds/mountaintheme.ogg
-    data/sounds/explosion.wav
+    data/sounds/backgroundmusic.mp3
+    data/sounds/backgroundmusic.ogg
     data/sounds/explosion.mp3
     data/sounds/explosion.ogg  
   
-  You can preload your sounds into haxegon like this:
-    Sound.load("beachtheme");
-    Sound.load("mountaintheme");
-    Sound.load("explosion");
-    
   There are two ways to play sounds in haxegon - as sounds, which play once and stop:
     Sound.play("explosion");
   
   Or as background music, which loops until told to stop:
-    Music.play("beachtheme");
+    Music.play("backgroundmusic");
     Music.stop();
     
-  If you call Music.play() while there is already a music track playing, it will stop the music and start playing the new song:
-    Music.play("mountaintheme");
-  
-  If your sounds are not preloaded, they will be automatically loaded by haxegon the first time they're played.
-  
   For more advanced usage, including looping sounds, fading and layering music tracks, see the reference guide at haxegon.com.
  
  ---=== text ===---
@@ -168,30 +154,18 @@ Detailed information about file formats follows:
   
   *.txt files are loaded into String arrays, like this: 
   
-    If this file is in your data/text/ folder:
-      data/text/info.txt
+      var stringarray:Array<String> = Data.loadtext("info");           //Loads data/text/info.txt as an array of Strings
     
-    You can then load it into the game like this:
-      var stringarray:Array<String> = Data.loadtext("info");
+  *.csv files are loaded into either regular arrays, or 2d arrays of any type, like this: 
     
-  *.csv files are loaded into 2d arrays of any type, like this: 
-    
-    If this file is in your data/text/ folder:
-      data/text/mapdata.csv
+      var worldmap:Array<String> = Data.loadcsv("mapdata");            //Loads data/text/mapdata.csv into an array of Strings
+      var worldmap:Array<Array<Float>> = Data.load2dcsv("mapdata");    //Loads data/text/mapdata.csv into a 2d array of Floats
       
-    You can then load it into the game like this:
-      var worldmap:Array<Array<Int>> = Data.loadcsv("mapdata");
-      
-  *.json and *.xml files are parsed as dynamic objects. This creates an object where the fields correspond to the json or xml file!
+  *.json and *.xml files are parsed as dynamic objects. This creates an object where the fields correspond to the json or xml file.
   For more information on how to handle json and xml objects in haxegon, see the full documentation at haxegon.com.
   
-    If these files are in your data/text/ folder:
-      data/text/movies.json
-      data/text/books.xml
-      
-    You can then load them into the game like this:
-      var moviedata:Dynamic = Data.loadjson("movies");
-      var bookdata:Dynamic = Data.loadxml("books");
+      var moviedata:Dynamic = Data.loadjson("movies");                 //Loads data/text/movies.json as a dynamic object "moviedata"
+      var bookdata:Dynamic = Data.loadxml("books");                    //Loads data/text/books.xml as a dynamic object "bookdata"
   
  ---=== icon ===---
 
