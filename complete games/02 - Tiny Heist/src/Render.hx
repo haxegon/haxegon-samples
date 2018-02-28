@@ -172,13 +172,13 @@ class Render {
 		Draw.setboldtext();
 		Text.size = 2;
 		
-		Text.align(Text.CENTER);
+		Text.align = Text.CENTER;
 		Text.display(Gfx.screenwidth * 0.75, ypos, "YOU ESCAPED", 0xffea03);
 	}
 	
 	public static function showcongratulationsyouhavereachedrank(ypos:Int) {	
 		Draw.setnormaltext();	Text.size = 1;
-		Text.align(Text.CENTER);
+		Text.align = Text.CENTER;
 		Text.display(Gfx.screenwidth * 0.75, ypos, "Congratulations! You have reached rank:", Col.WHITE);
 	}
 	
@@ -234,7 +234,7 @@ class Render {
 		}else{
 			Draw.setboldtext(); Text.size = 2;
 			Gfx.imagecolor = Col.rgb(255, 255, 96);
-			Text.align(Text.LEFT);
+			Text.align = Text.LEFT;
 
 			var xoff:Int = Std.int((Gfx.screenwidth * 0.75) - (Text.width(" " + gems + " gem" + ((gems > 1)?"s":"")) / 2) - 12);
 			Gfx.scale(2, 2);
@@ -310,7 +310,7 @@ class Render {
 			}
 		}
 		
-		Text.align(Text.LEFT);
+		Text.align = Text.LEFT;
 		
 		if (Modern.endlevelanimationstate > 0) {
 			Draw.drawfade_withoutmap(16, 10, World.tileset, Std.int(Math.max(Draw.screentileheight - 10, 10)) - Modern.endlevelanimationstate);
@@ -432,7 +432,7 @@ class Render {
 		
 		*/
 		
-		Text.align(Text.LEFT);
+		Text.align = Text.LEFT;
 	}
 	/*
 	public static var titletext:Array<String> = [ 
@@ -631,7 +631,7 @@ class Render {
 		Gfx.fillbox(78, 36 + 48 - 6, 228, 50, 0x5892c7);
 		Draw.setboldtext();
 		Text.size = 4;
-		Text.align(Text.CENTER);
+		Text.align = Text.CENTER;
 		//Text.display(Gfx.screenwidthmid, 40, "Ataboy", Col.WHITE);
 		//Text.display(Gfx.screenwidthmid, 40, "Arroba", Col.WHITE);
 		//Text.display(Gfx.screenwidthmid, 80, "Rogue, like", Col.WHITE);
@@ -681,9 +681,8 @@ class Render {
 		
 		Draw.setnormaltext();
 		Text.size = 1;
-		Text.align(Text.LEFT);
 		
-		Text.align(Text.CENTER);
+		Text.align = Text.CENTER;
 		
 		/*Text.display(Gfx.screenwidthmid, 12 * 12, "ARROWS:   Move", Col.rgb(128, 128, 128));
 		Text.display(Gfx.screenwidthmid, 13 * 12, "SPACE/Z:   Wait", Col.rgb(128, 128, 128));
@@ -697,7 +696,7 @@ class Render {
 		Gfx.fillbox(76, Gfx.screenheight - 36, 232, 24, 0x112945);
 		Gfx.fillbox(78, Gfx.screenheight - 36, 228, 20, 0x5892c7);
 		Text.display(Gfx.screenwidthmid, Gfx.screenheight - 33, "Terry Cavanagh 2016", Col.WHITE);
-		Text.align(Text.LEFT);
+		Text.align = Text.LEFT;
 		
 		if (Modern.endlevelanimationstate > 0) {
 			Draw.drawfade_withoutmap(16, 10, World.tileset, Std.int(Math.max(Draw.screentileheight - 10, 10)) - Modern.endlevelanimationstate);
@@ -778,9 +777,9 @@ class Render {
 				Draw.setboldtext();
 				if(Game.messagecol == "kludge") Draw.setnormaltext();
 				//Gfx.fillbox(0, Gfx.screenheight - 12, Gfx.screenwidth, 12, Draw.messagecolback(Game.messagecol));
-				Text.align(Text.CENTER);
+				Text.align = Text.CENTER;
 				Text.display((Gfx.screenwidth - (Modern.inventoryslots * 26)) / 2, texty, Game.message, Draw.messagecol(Game.messagecol));
-				Text.align(Text.LEFT);
+				Text.align = Text.LEFT;
 				Draw.setnormaltext();
 			}else {
 				Draw.setnormaltext();
@@ -895,7 +894,7 @@ class Render {
 			Modern.drawbubble(tx, ty, 240, boxheight, Draw.shade(Modern.shopkeepcol, 0.8), 0x000000, 0x000000);
 			ty += 2;
 			
-			Text.align(Text.CENTER);
+			Text.align = Text.CENTER;
 			Draw.setboldtext();
 			Gfx.imagecolor = Modern.shopkeepcol;
 			Gfx.drawtile(Gfx.screenwidthmid - 6 - 40, ty + 5, "terminal", 2);
@@ -903,12 +902,12 @@ class Render {
 			Text.display(Gfx.screenwidthmid, ty + 5, "    Shopkeeper", Draw.messagecol("white"));	
 			Draw.setnormaltext();
 			Text.display(Gfx.screenwidthmid, ty + 22, "Sorry, I've got nothing else to sell!", Draw.messagecol("white"));	
-			Text.align(Text.LEFT);
+			Text.align = Text.LEFT;
 			
-			Text.align(Text.CENTER);
+			Text.align = Text.CENTER;
 			Text.display(Gfx.screenwidthmid, ty + 40, "> Oh, ok. <", Draw.messagecol("flashing"));	
 			
-			Text.align(Text.LEFT);
+			Text.align = Text.LEFT;
 		}else if (Modern.popupmode == "itemshopkeeper") {
 			var boxheight:Int = 90;
 			var tx = Gfx.screenwidthmid - 120;
@@ -917,14 +916,14 @@ class Render {
 			Modern.drawbubble(tx, ty, 240, boxheight, Draw.shade(Modern.shopkeepcol, 0.8), 0x000000, 0x000000);
 			ty += 2;
 			
-			Text.align(Text.CENTER);
+			Text.align = Text.CENTER;
 			Draw.setboldtext();
 			Gfx.imagecolor = Modern.shopkeepcol;
 			Gfx.drawtile(Gfx.screenwidthmid - 6 - 40, ty + 5, "terminal", 2);
 			Gfx.resetcolor();
 			Text.display(Gfx.screenwidthmid, ty + 5, "    Shopkeeper", Draw.messagecol("white"));	
 			Draw.setnormaltext();
-			Text.align(Text.LEFT);
+			Text.align = Text.LEFT;
 			var slen:Int = Std.int(Text.width("Can I interest you in this " + Modern.popupitem.name + "?") + 24);
 			var slen2:Int = Std.int(Text.width("Can I interest you in this "));
 			Text.display(Gfx.screenwidthmid - Std.int(slen / 2) - 3, ty + 22, "Can I interest you in this ", Draw.messagecol("white"));	
@@ -937,7 +936,7 @@ class Render {
 			
 			Draw.setnormaltext();
 			
-			Text.align(Text.LEFT);
+			Text.align = Text.LEFT;
 			var slen:Int = Std.int(Text.width("It's yours for just " + Modern.popupitem.cost + " GEM" + (Modern.popupitem.cost>1?"S":"") + "!"));
 			Text.display(Gfx.screenwidthmid - Std.int(slen / 2), ty + 34, "It's yours for just ", Draw.messagecol("white"));	
 			var slen2:Int = Std.int(Gfx.screenwidthmid - Std.int(slen / 2) + Text.width("It's yours for just "));
@@ -945,7 +944,7 @@ class Render {
 			Text.display(slen2 + 4, ty + 34, Modern.popupitem.cost + " GEM" + (Modern.popupitem.cost>1?"S":"") + "!", Draw.messagecol("player"));	
 			Draw.setnormaltext();
 			
-			Text.align(Text.CENTER);
+			Text.align = Text.CENTER;
 			if (Modern.slotsfree() == 0 && Modern.popupstate != 2) {
 				Text.display(Gfx.screenwidthmid, ty + 54 + 5, "> I don't have room for that! <", Draw.messagecol("flashing"));
 			}else if (Modern.popupitem.cost > Game.cash && Modern.popupstate != 2) {
@@ -964,7 +963,7 @@ class Render {
 				}
 			}
 			
-			Text.align(Text.LEFT);
+			Text.align = Text.LEFT;
 		}else	if (Modern.popupmode == "shopkeeper") {
 			var boxheight:Int = 90;
 			var tx = Gfx.screenwidthmid - 120;
@@ -973,7 +972,7 @@ class Render {
 			Modern.drawbubble(tx, ty, 240, boxheight, Draw.shade(Modern.shopkeepcol, 0.8), 0x000000, 0x000000);
 			ty += 2;
 			
-			Text.align(Text.CENTER);
+			Text.align = Text.CENTER;
 			Draw.setboldtext();
 			Gfx.imagecolor = Modern.shopkeepcol;
 			Gfx.drawtile(Gfx.screenwidthmid - 6 - 40, ty + 5, "terminal", 2);
@@ -981,7 +980,7 @@ class Render {
 			Text.display(Gfx.screenwidthmid, ty + 5, "    Shopkeeper", Draw.messagecol("white"));	
 			Draw.setnormaltext();
 			Text.display(Gfx.screenwidthmid, ty + 22, "Hello! Want some keys? I can help!", Draw.messagecol("white"));	
-			Text.align(Text.LEFT);
+			Text.align = Text.LEFT;
 			var slen:Int = Std.int(Text.width("I sell keys for just " + Modern.keygemrate + " GEM" + (Modern.keygemrate>1?"S":"") + "!"));
 			Text.display(Gfx.screenwidthmid - Std.int(slen / 2), ty + 34, "I sell keys for just ", Draw.messagecol("white"));	
 			var slen2:Int = Std.int(Gfx.screenwidthmid - Std.int(slen / 2) + Text.width("I sell keys for just "));
@@ -989,7 +988,7 @@ class Render {
 			Text.display(slen2 + 3, ty + 34, Modern.keygemrate + " GEM" + (Modern.keygemrate>1?"S":"") + "!", Draw.messagecol("player"));	
 			Draw.setnormaltext();
 			
-			Text.align(Text.CENTER);
+			Text.align = Text.CENTER;
 			if (Modern.keygemrate > Game.cash && Modern.popupstate != 2) {
 				Text.display(Gfx.screenwidthmid, ty + 54 + 5, "> I can't afford that! <", Draw.messagecol("flashing"));	
 			}else{
@@ -1006,7 +1005,7 @@ class Render {
 				}
 			}
 			
-			Text.align(Text.LEFT);
+			Text.align = Text.LEFT;
 		}else	if (Modern.popupmode == "newitem_drop" || Modern.popupmode == "newitem"){
 			var boxheight:Int = 68 + (Modern.popupitem.descriptionsize * 10);
 			var tx = Gfx.screenwidthmid - 120;
@@ -1037,7 +1036,7 @@ class Render {
 			Modern.drawbubble(tx - 10, ty - 5, 60, 18, Draw.shade(Col.rgb(Modern.popupitem.r, Modern.popupitem.g, Modern.popupitem.b), 0.8), 0x000000, 0x000000);
 			Text.display(tx - 4, ty - 3, "NEW ITEM!", Draw.messagecol("shout"));
 			
-			Text.align(Text.CENTER);
+			Text.align = Text.CENTER;
 			Draw.setboldtext();
 			Text.display(Gfx.screenwidthmid, ty + 5, Modern.popupitem.name, Draw.messagecol("shout"));
 			
@@ -1075,7 +1074,7 @@ class Render {
 				ty += 25;
 				var gap:Int = 32;
 				tx = Gfx.screenwidth - 100 - 6 - Std.int((Modern.inventory.length * gap) / 2) + Std.int((gap - 24) / 2);
-				Text.align(Text.LEFT);
+				Text.align = Text.LEFT;
 				for (i in 0 ... Modern.inventory.length) {
 					if (i == Modern.inventory.length - 1) {
 						tx += 12;
@@ -1106,17 +1105,17 @@ class Render {
 				}
 				
 				Modern.currentitem = Itemstats.get(Modern.inventory[Modern.currentslot]);
-				Text.align(Text.CENTER);
+				Text.align = Text.CENTER;
 				if(Modern.currentitem.hasmultipleshots){
 					Text.display(Gfx.screenwidth - 100, ty + 26, Modern.inventory[Modern.currentslot].toUpperCase() + " [x" + Modern.inventory_num[Modern.currentslot] +"]", Itemstats.get(Modern.inventory[Modern.currentslot]).highlightcol);	
 				}else if (Modern.currentitem.type == Inventory.USEABLE || Modern.currentitem.type == Inventory.GADGET) {
 					Text.display(Gfx.screenwidth - 100, ty + 26, Modern.inventory[Modern.currentslot].toUpperCase(), Itemstats.get(Modern.inventory[Modern.currentslot]).highlightcol);		
 				}
 				
-				Text.align(Text.LEFT);
+				Text.align = Text.LEFT;
 			}
 		}
-		Text.align(Text.LEFT);	
+		Text.align = Text.LEFT;
 	}
 	
 	public static var floortextx:Int = 5;

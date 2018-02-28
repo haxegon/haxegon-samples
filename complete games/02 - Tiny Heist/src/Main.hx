@@ -83,7 +83,7 @@ class Main {
 			if (gamemenu) {
 			  Gfx.fillbox(0, 0, Gfx.screenwidth, Gfx.screenheight, Col.BLACK, 0.6);	
 				Draw.setboldtext(); Text.size = 2;
-				Text.align(Text.CENTER);
+				Text.align = Text.CENTER;
 				
 				Text.display(Gfx.screenwidthmid, Gfx.screenheightmid - 20, "Do you want to quit?");
 				Draw.setnormaltext(); Text.size = 1;

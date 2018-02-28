@@ -714,7 +714,7 @@ class Modern {
 			Text.align(Text.LEFT);
 		}*/
 		if (Game.messagedelay == 0) {
-			Text.align(Text.RIGHT);
+			Text.align = Text.RIGHT;
 			var waitcol:Int = Col.rgb(220, 220, 220);
 			if (waitflash > 0) {
 				var waitflashamount:Int = Std.int(Math.min(220 + waitflash * 5, 255));
@@ -722,7 +722,7 @@ class Modern {
 				waitflash--;
 			}
 			Text.display(Gfx.screenwidth - (inventoryslots * 26) - 18, Gfx.screenheight - 14, "Z - Wait", waitcol);
-			Text.align(Text.LEFT);
+			Text.align = Text.LEFT;
 		}
 	}
 }
