@@ -113,7 +113,7 @@ class Main {
 		Gfx.drawimage(0, 0, "dontlookback");
 		
 		//Display some text showing the song that's playing, and the current sound effect.
-		Text.align(Text.RIGHT);
+		Text.align = Text.RIGHT;
 		if (songplaying) {
 		  Text.display(Gfx.screenwidth - 10, 5, "[NOW PLAYING] " + (currentsong + 1) + ": \"" + musiclist[currentsong] + "\"", 0xf19599);	
 			Text.display(Gfx.screenwidth - 10, 30, "Press UP and DOWN to change.", 0xf19599);
@@ -124,7 +124,7 @@ class Main {
 			Text.display(Gfx.screenwidth - 10, 55, "Press ENTER to play.", 0xf19599);
 		}
 		
-		Text.align(Text.LEFT);
+		Text.align = Text.LEFT;
 		Text.display(10, 5, (currentsoundeffect + 1) + ": \"" + soundlist[currentsoundeffect]+ "\"", 0xf19599);	
 		Text.display(10, 30, "Press LEFT and RIGHT to change.", 0xf19599);
 		Text.display(10, 55, "Press SPACE to play.", 0xf19599);
