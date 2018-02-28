@@ -46,9 +46,9 @@ class Space {
 		}
 		
 		Text.size = 2;
-		Text.align(Text.LEFT);
+		Text.align = Text.LEFT;
 		Text.display(6, 5, "LEFT CLICK TO CHANGE", Col.GRAY);
-		Text.align(Text.RIGHT);
+		Text.align = Text.RIGHT;
 		Text.display(Gfx.screenwidth - 6, Gfx.screenheight - 25, "[now running from \"Space.hx\"]", Col.WHITE);
   }
 }
