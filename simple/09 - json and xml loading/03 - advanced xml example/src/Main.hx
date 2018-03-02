@@ -3,7 +3,7 @@ import haxegon.*;
 class Main {
 	var xmlfile:Dynamic;
 	
-	function new(){
+	function init(){
 		Gfx.resizescreen(0, 0);
 		Text.setfont("opensans", 32);
 		

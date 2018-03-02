@@ -17,7 +17,7 @@
       file="simplexml" 
    />
 
-  <window width="${windowwidth}" height="${windowheight}" if="flash || cpp"></window>
+  <window width="${windowwidth}" height="${windowheight}" if="flash || cpp || neko"></window>
   <window width="0" height="0" if="html5 || mobile"></window>
 	 
 	<window
@@ -36,7 +36,7 @@
 	<haxedef name="windowwidth" value="${windowwidth}" />
   <haxedef name="windowheight" value="${windowheight}" />
   
-	<assets path="data" exclude="*.mp3" if="cpp"/>
+	<assets path="data" exclude="*.mp3" if="cpp || neko"/>
 	<assets path="data" exclude="*.ogg" if="flash"/>
 	<assets path="data" if="html5"/>
 	

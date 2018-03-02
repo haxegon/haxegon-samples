@@ -309,6 +309,7 @@ class Generator {
 			setbounds("anywhere");
 			//Try to place a random room on the map of the given type.
 			tx1 = -1; ty1 = -1;
+			tx2 = -1; ty2 = -1;
 			attempts = 500;
 			
 			while (!checkfreespace(tx1, ty1, tx2, ty2, 1) && attempts > 0) {
