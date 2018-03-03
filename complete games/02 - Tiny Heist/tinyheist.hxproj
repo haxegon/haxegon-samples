@@ -26,7 +26,7 @@
   </classpaths>
   <!-- Build options -->
   <build>
-    <option directives="lime=6.2.0&#xA;haxegon=0.12.0&#xA;openfl=7.1.2&#xA;tools=6.2.0&#xA;no-compilation&#xA;windowheight=480&#xA;native&#xA;lime-native&#xA;lime-vorbis&#xA;openfl-native&#xA;lime-cffi&#xA;windowwidth=768&#xA;windows&#xA;desktop&#xA;display" />
+    <option directives="lime=6.2.0&#xA;haxegon=0.12.1&#xA;openfl=7.1.2&#xA;tools=6.2.0&#xA;no-compilation&#xA;windowheight=480&#xA;native&#xA;lime-native&#xA;lime-vorbis&#xA;openfl-native&#xA;lime-cffi&#xA;windowwidth=768&#xA;windows&#xA;desktop&#xA;display" />
     <option flashStrict="False" />
     <option noInlineOnDebug="False" />
     <option mainClass="ApplicationMain" />

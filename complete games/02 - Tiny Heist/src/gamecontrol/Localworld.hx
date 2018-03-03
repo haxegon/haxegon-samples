@@ -907,7 +907,8 @@ class Localworld {
 	public static function drill(x:Int, y:Int, dir:Int):Void {
 		//Drill a hole in the wall!
 		World.mapchanged = true;
-		if (Help.inboxw(x, y, 0, 0, World.mapwidth - 1, World.mapheight - 1)) {
+		var drillcomplete:Bool = false;
+		while(Help.inboxw(x, y, 0, 0, World.mapwidth - 1, World.mapheight - 1) && !drillcomplete) {
 			if (World.at(x, y) == WALL || World.at(x, y) == BACKGROUND) {
 				World.placetile(x, y, Random.pick([DEBRIS, DEBRIS, FLOOR]));
 				if (World.at(x + xstep(Help.clockwise(dir)), y + ystep(Help.clockwise(dir))) == BACKGROUND) {
@@ -916,10 +917,11 @@ class Localworld {
 				if (World.at(x + xstep(Help.anticlockwise(dir)), y + ystep(Help.anticlockwise(dir))) == BACKGROUND) {
 					World.placetile(x + xstep(Help.anticlockwise(dir)), y + ystep(Help.anticlockwise(dir)), WALL);
 				}
-				drill(x + xstep(dir), y + ystep(dir), dir);
+				x += xstep(dir);
+				y += ystep(dir);
+			}else{
+				drillcomplete = true;
 			}
-		}else {
-			World.placetile(x, y, WALL);
 		}
 	}
 	
