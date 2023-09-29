@@ -1,13 +1,12 @@
 package;
 
-import modernversion.Modern;
-import openfl.display.*;
-import openfl.Assets;
-import config.*;
-import gamecontrol.*;
 import haxegon.*;
-import terrylib.*;
-import objs.*;
+import entities.entities.*;
+import gamecontrol.Game;
+import modernversion.Modern;
+import entities.Obj;
+import util.Rand;
+import visuals.Starfield;
 
 class Init {
 	public static function loadresources() {
@@ -47,30 +46,23 @@ class Init {
 		Music.play("silence");
 		
 		//Load Tiles
-		//Gfx.makescaledtiles("terminal", 12, 12);
 		Gfx.loadtiles("terminal", 12, 12);
 		Gfx.loadtiles("colorterminal", 12, 12);
 		
 		Gfx.loadimage("guibar");
-		//Load large images
-		//IMPLEMENT
-		//Gfx.loadimage("perlin");
-		//Draw.perlinnoise = Gfx.imageindex.get("perlin");
 		
 		//Import fonts
 		Text.size = 1; Text.font = "fffhomepage";
 		Text.size = 1; Text.font = "fffhomepagebold";	
 	}
 	
-	public static function init():Void {
-		World.changecamera("none");
-		
+	public static function init():Void {		
 		//Init all entity types
-		Obj.templates.push(new Ent_player());
-		Obj.templates.push(new Ent_enemy());
-		Obj.templates.push(new Ent_item());
-		Obj.templates.push(new Ent_treasure());
-		Obj.templates.push(new Ent_npc());
+		Obj.templates.push(new PlayerEntity());
+		Obj.templates.push(new EnemyEntity());
+		Obj.templates.push(new ItemEntity());
+		Obj.templates.push(new TreasureEntity());
+		Obj.templates.push(new ShopkeeperEntity());
 		Obj.loadtemplates();
 		
 		//Load resources
@@ -78,23 +70,15 @@ class Init {
 		
 		Rand.setseed(Std.int(Math.random() * 50000));
 		
-		Openworld.generate("day5");
-		
-		Render.initstars();
+		Starfield.init();
 		
 		//Init the game
-		if (Achievements.splashscreen) {
-			Text.font = "fffhomepage";
-			Game.changestate(Game.SPLASHSCREEN);
-		}else{
-			Game.changestate(Game.TITLEMODE);
-			//Game.changestate(Game.GAMEMODE);
-			Sound.play("start");
-			Modern.start();
-			
-			//Start the game
-			Text.font = "fffhomepage";
-			//Game.changestate(Game.ENDINGMODE);
-		}
+		Game.changestate(Game.TITLEMODE);
+		Sound.play("start");
+		Modern.start();
+		
+		//Start the game
+		Text.font = "fffhomepage";
+		//Game.changestate(Game.ENDINGMODE);
 	}
 }

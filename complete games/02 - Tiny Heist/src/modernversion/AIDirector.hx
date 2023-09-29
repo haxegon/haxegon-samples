@@ -1,38 +1,19 @@
 package modernversion;
 
 import haxegon.*;
-import terrylib.*;
+import entities.ItemType;
+import entities.EnemyType;
+import entities.Obj;
+import world.Levelgen;
+import world.Roomstyle;
+import world.World;
+import util.Rand;
 import gamecontrol.Game;
-import gamecontrol.Generator;
-import gamecontrol.Localworld;
-/* 
- * The AI Director makes decisions to overrule the random generator. It looks at the state of the player
- * at various points, and tweaks things to be fairer and more fun. If it's doing it's job correctly,
- * it shouldn't be obvious that it's there at all.
- * */
+import world.Glitch;
+import world.Generator;
+import world.Localworld;
+import GameData.ItemData;
 
- /*
-	* Blueprint list:
-
-"robot_firstfloor"
-"robot_small"
-"robot_large"
-"robot_topfloor" (not implemented)
-"intro_firstfloor"
-"simpleempty" (testing only)
-"intro_small"
-"intro_small2"
-"intro_small3"
-"intro_topfloor"
-"high_medium1"
-"firstfloor"
-"small"
-"medium"
-"big"
-"cross"
-"square"
-	
-	*/
 class AIDirector {
 	public static function restart() {
 	  //reset internal variables
@@ -48,7 +29,7 @@ class AIDirector {
 		Modern.newrecord = false;
 		
 		outside = false;
-		glitchmode = false;
+		Glitch.glitchmode = false;
 		
 		onthisrun_keys = 0;
 		onthisrun_keysused = 0;
@@ -76,7 +57,7 @@ class AIDirector {
 		Localworld.worldblock[Localworld.ENTRANCE].charcode_lit = "-".charCodeAt(0);
 		Localworld.worldblock[Localworld.ENTRANCE].charcode_fog = "-".charCodeAt(0);
 		Localworld.worldblock[Localworld.STAIRS].charcode_fog = 44;
-		reinforcements = [Enemy.GUARD];
+		reinforcements = [EnemyType.GUARD];
 		reinforcementtime = [60];
 		reinforcementdelay = 15;
 		gems = 0;
@@ -92,7 +73,7 @@ class AIDirector {
 		switch(floor) {
 			case 1:
 				if(Buildconfig.showtraces) trace(" - designing floor 1");
-				style = Roomstyle.intro;
+				style = Roomstyle.INTRO;
 				roomlit = true;
 				
 				gems = 1;
@@ -101,17 +82,17 @@ class AIDirector {
 				
 				blueprint = ["intro_firstfloor"]; //firstfloor
 				
-				reinforcements = [Enemy.GUARD];
+				reinforcements = [EnemyType.GUARD];
 				reinforcementtime = [60];
-				enemylist = [Enemy.GUARD, Enemy.CAMERA];
+				enemylist = [EnemyType.GUARD, EnemyType.CAMERA];
 				if (Rand.poccasional()) {
-				  enemylist.push(Rand.ppickstring(Enemy.GUARD, Enemy.DOG, Enemy.CAMERA));
+				  enemylist.push(Rand.ppickstring(EnemyType.GUARD, EnemyType.DOG, EnemyType.CAMERA));
 				}
 				//Always give a slightly crappy item on floor one to prevent restart spamming
-				itemlist.push(Rand.ppickstring(Item.LIGHTBULB, Item.SIGNALJAMMER, Item.BANANAPEEL));
+				itemlist.push(Rand.ppickstring(ItemType.LIGHTBULB, ItemType.SIGNALJAMMER, ItemType.BANANAPEEL));
 			case 2, 3, 4:
 				if(Buildconfig.showtraces) trace(" - designing floor " + floor);
-				style = Roomstyle.intro;
+				style = Roomstyle.INTRO;
 				//Ok, let do more interesting stuff
 				blueprint = ["intro_small", "intro_small2", "intro_small3"];
 				
@@ -124,31 +105,31 @@ class AIDirector {
 					lockedexit = false;
 				}
 				
-				reinforcements = [Enemy.GUARD];
+				reinforcements = [EnemyType.GUARD];
 				reinforcementtime = [60];
-				enemylist = [Enemy.GUARD, Enemy.GUARD, Enemy.CAMERA];
+				enemylist = [EnemyType.GUARD, EnemyType.GUARD, EnemyType.CAMERA];
 				if (Rand.poccasional()) {
-				  enemylist.push(Rand.ppickstring(Enemy.GUARD, Enemy.DOG, Enemy.CAMERA));
+				  enemylist.push(Rand.ppickstring(EnemyType.GUARD, EnemyType.DOG, EnemyType.CAMERA));
 				}
 				if (Rand.poccasional()) {
-				  enemylist.push(Rand.ppickstring(Enemy.GUARD, Enemy.DOG, Enemy.CAMERA));
+				  enemylist.push(Rand.ppickstring(EnemyType.GUARD, EnemyType.DOG, EnemyType.CAMERA));
 				}else {
 				  if (Rand.prare()) {
-					  enemylist.push(Rand.ppickstring(Enemy.ROBOT, Enemy.CAMERA));	
+					  enemylist.push(Rand.ppickstring(EnemyType.ROBOT, EnemyType.CAMERA));	
 					}
 				}
 				
 				//What about items?
 				if (floor == 4 && Game.health <= 1) {
 					//You're not doing so well. Eh, it's the intro stage - have a health pack
-					itemlist.push(Item.FIRSTAIDKIT);
+					itemlist.push(ItemType.FIRSTAIDKIT);
 				}
 				
 				if (itemsgiven_intro == 0 && floor == 4) {
 				  //If I haven't given you anything by floor 4, let's make up for it now
 					itemlist.push(Rand.ppickstring(
-							Weapon.PISTOL, Weapon.LEAFBLOWER, Item.BANANAPEEL, Item.CARDBOARDBOX, Item.BOMB,
-							Item.FIRSTAIDKIT, Item.SIGNALJAMMER, Item.LIGHTBULB, Item.DRILL, Weapon.SKATEBOARD
+							ItemType.PISTOL, ItemType.LEAFBLOWER, ItemType.BANANAPEEL, ItemType.CARDBOARDBOX, ItemType.BOMB,
+							ItemType.FIRSTAIDKIT, ItemType.SIGNALJAMMER, ItemType.LIGHTBULB, ItemType.DRILL, ItemType.SKATEBOARD
 						));
 					itemsgiven_intro++;
 				}else	if (itemsgiven_intro < 2) {
@@ -156,20 +137,20 @@ class AIDirector {
 					if (Rand.prare()) {
 					  //1/20 chance of getting something weird
 						itemlist.push(Rand.ppickstring(
-						  Weapon.MATCHSTICK, 
-							Weapon.SWORD,
-							Item.TIMESTOPPER,
-							Weapon.SKATEBOARD,
-							Weapon.TELEPORTER
+						  ItemType.MATCHSTICK, 
+							ItemType.SWORD,
+							ItemType.TIMESTOPPER,
+							ItemType.SKATEBOARD,
+							ItemType.TELEPORTER
 						));
 						itemsgiven_intro++;
 					}else {
 						if (Rand.poccasional()) {
 						  //1/5 chance of getting something standard
 							itemlist.push(Rand.ppickstring(
-							  Weapon.PISTOL, Weapon.LEAFBLOWER, Item.CARDBOARDBOX, Item.BANANAPEEL,
-								Item.FIRSTAIDKIT, Item.SIGNALJAMMER, Item.LIGHTBULB, Item.DRILL, Item.DRILL,
-								Item.BOMB
+							  ItemType.PISTOL, ItemType.LEAFBLOWER, ItemType.CARDBOARDBOX, ItemType.BANANAPEEL,
+								ItemType.FIRSTAIDKIT, ItemType.SIGNALJAMMER, ItemType.LIGHTBULB, ItemType.DRILL, ItemType.DRILL,
+								ItemType.BOMB
 							));
 							itemsgiven_intro++;
 						}
@@ -180,10 +161,10 @@ class AIDirector {
 					if (Rand.poccasional()) {
 						//Let's occasionally give you a pistol, but that's it
 						if(Rand.pbool()){
-							itemlist.push(Weapon.PISTOL);
+							itemlist.push(ItemType.PISTOL);
 							itemsgiven_intro += 2;
 						}else {
-							itemlist.push(Item.DRILL);
+							itemlist.push(ItemType.DRILL);
 							itemsgiven_intro += 1;
 						}
 					}
@@ -191,9 +172,9 @@ class AIDirector {
 			case 5:
 				//Floor five is the first "special" floor - let's bring out the special layout!
 				blueprint = ["intro_topfloor"];
-				style = Roomstyle.intro;
+				style = Roomstyle.INTRO;
 				
-				reinforcements = [Enemy.GUARD, Enemy.GUARD, Enemy.ROBOT];
+				reinforcements = [EnemyType.GUARD, EnemyType.GUARD, EnemyType.ROBOT];
 				reinforcementtime = [60, 60, 60];
 			case 6, 7, 8, 9:
 				if (floor == 6 || floor == 7) {
@@ -205,7 +186,7 @@ class AIDirector {
 					blueprint = ["high_big3"];
 				}
 				
-				style = Roomstyle.high;
+				style = Roomstyle.HIGH;
 				
 				gems = 1;
 				//They always do the locked exit thing
@@ -213,18 +194,18 @@ class AIDirector {
 				lockedexit = true;
 				
 				//Enemy lists is similar to earlier floors, but with a chance of harder enemies
-				reinforcements = [Enemy.GUARD, Enemy.LASERGUARD];
+				reinforcements = [EnemyType.GUARD, EnemyType.LASERGUARD];
 				reinforcementtime = [50, 60];
 				
-				enemylist = [Enemy.GUARD, Enemy.GUARD, Enemy.LASERCAMERA];
+				enemylist = [EnemyType.GUARD, EnemyType.GUARD, EnemyType.LASERCAMERA];
 				if (Rand.poccasional()) {
-				  enemylist.push(Rand.ppickstring(Enemy.GUARD, Enemy.DOG, Enemy.CAMERA));
+				  enemylist.push(Rand.ppickstring(EnemyType.GUARD, EnemyType.DOG, EnemyType.CAMERA));
 				}
 				if (Rand.poccasional()) {
-				  enemylist.push(Rand.ppickstring(Enemy.LASERGUARD, Enemy.LASERCAMERA, Enemy.LASERGUARD));
+				  enemylist.push(Rand.ppickstring(EnemyType.LASERGUARD, EnemyType.LASERCAMERA, EnemyType.LASERGUARD));
 				}else {
 				  if (Rand.prare()) {
-					  enemylist.push(Enemy.ROBOT);	
+					  enemylist.push(EnemyType.ROBOT);	
 					}
 				}
 				
@@ -234,9 +215,9 @@ class AIDirector {
 					if (Rand.prare()) {
 					  //1/20 chance of getting something weird
 						itemlist.push(Rand.ppickstring(
-						  Weapon.MATCHSTICK, 
-							Weapon.SWORD,
-							Item.TIMESTOPPER
+						  ItemType.MATCHSTICK, 
+							ItemType.SWORD,
+							ItemType.TIMESTOPPER
 						));
 						itemsgiven_high++;
 					}else {
@@ -244,11 +225,11 @@ class AIDirector {
 						  //1/5 chance of getting something standard
 							if (floor == 9 && Game.health <= 1) {
 								//You're not doing so well. Find a health pack!
-								itemlist.push(Item.FIRSTAIDKIT);
+								itemlist.push(ItemType.FIRSTAIDKIT);
 							}else{				
 								itemlist.push(Rand.ppickstring(
-									Weapon.PISTOL, Weapon.LEAFBLOWER, Item.CARDBOARDBOX, Item.BANANAPEEL,
-									Item.FIRSTAIDKIT, Item.SIGNALJAMMER, Item.LIGHTBULB, Item.DRILL, Item.DRILL, Item.BOMB
+									ItemType.PISTOL, ItemType.LEAFBLOWER, ItemType.CARDBOARDBOX, ItemType.BANANAPEEL,
+									ItemType.FIRSTAIDKIT, ItemType.SIGNALJAMMER, ItemType.LIGHTBULB, ItemType.DRILL, ItemType.DRILL, ItemType.BOMB
 								));
 							}
 							itemsgiven_high++;
@@ -261,10 +242,10 @@ class AIDirector {
 					if (Rand.poccasional()) {
 						//Let's occasionally give you a pistol, but that's it
 						if(Rand.pbool()){
-							itemlist.push(Weapon.PISTOL);
+							itemlist.push(ItemType.PISTOL);
 							itemsgiven_high += 2;
 						}else {
-							itemlist.push(Item.DRILL);
+							itemlist.push(ItemType.DRILL);
 							itemsgiven_high += 1;
 						}
 					}
@@ -272,25 +253,25 @@ class AIDirector {
 			case 10:
 				//Floor ten is the second "special" floor - let's bring out the special layout!
 				blueprint = ["high_topfloor"];
-				style = Roomstyle.high;
+				style = Roomstyle.HIGH;
 				
 				//We only want robots here because of the crazy layout
 				//And we want them to be significantly slower than on other floors
-				reinforcements = [Enemy.ROBOT];
+				reinforcements = [EnemyType.ROBOT];
 				reinforcementtime = [240];
 			case 11:
 				//Floor eleven is the shopkeeper! We're into the finish now!
 				blueprint = ["floor11"];
-				style = Roomstyle.shopkeeper;
+				style = Roomstyle.SHOPKEEPER;
 				
 				roomlit = true;
 				//Turn off reinforcements obviously
 				reinforcements = [];
 				reinforcementtime = [];
 				
-				var shopitems:Array<String> = [Weapon.PISTOL, Weapon.LEAFBLOWER, Weapon.SKATEBOARD, Item.BANANAPEEL,
-							Item.FIRSTAIDKIT, Item.FIRSTAIDKIT, Item.SIGNALJAMMER, Item.LIGHTBULB, Item.DRILL,
-							Weapon.TELEPORTER];
+				var shopitems:Array<String> = [ItemType.PISTOL, ItemType.LEAFBLOWER, ItemType.SKATEBOARD, ItemType.BANANAPEEL,
+							ItemType.FIRSTAIDKIT, ItemType.FIRSTAIDKIT, ItemType.SIGNALJAMMER, ItemType.LIGHTBULB, ItemType.DRILL,
+							ItemType.TELEPORTER];
 				for (i in 0 ... 5) {
 				  Rand.pshuffle(shopitems);	
 					if (shopitems.length > 0) {
@@ -299,7 +280,7 @@ class AIDirector {
 				}
 			case 12:
 				if(Buildconfig.showtraces) trace(" - designing floor 12");
-				style = Roomstyle.robot;
+				style = Roomstyle.ROBOT;
 				roomlit = false;
 				
 				gems = 1;
@@ -307,24 +288,24 @@ class AIDirector {
 				lockedexit = false;
 				
 				blueprint = ["robot_firstfloor"]; //firstfloor
-				reinforcements = [Enemy.ROOK, Enemy.ROBOT];
+				reinforcements = [EnemyType.ROOK, EnemyType.ROBOT];
 				reinforcementtime = [50, 50];
 				
-				enemylist = [Enemy.ROOK, Enemy.ROBOT];
+				enemylist = [EnemyType.ROOK, EnemyType.ROBOT];
 				if (Rand.poccasional()) {
-				  enemylist.push(Rand.ppickstring(Enemy.LASERCAMERA, Enemy.CAMERA, Enemy.GUARD));
+				  enemylist.push(Rand.ppickstring(EnemyType.LASERCAMERA, EnemyType.CAMERA, EnemyType.GUARD));
 				}
 				if (Rand.pbool()) {
-					itemlist.push(Rand.ppickstring(Weapon.SKATEBOARD, Weapon.PISTOL));
+					itemlist.push(Rand.ppickstring(ItemType.SKATEBOARD, ItemType.PISTOL));
 				}else{
-					itemlist.push(Rand.ppickstring(Weapon.LEAFBLOWER, Weapon.SKATEBOARD, Item.DRILL, Weapon.PISTOL, Item.LIGHTBULB, Item.LIGHTBULB));
+					itemlist.push(Rand.ppickstring(ItemType.LEAFBLOWER, ItemType.SKATEBOARD, ItemType.DRILL, ItemType.PISTOL, ItemType.LIGHTBULB, ItemType.LIGHTBULB));
 				}
 				if (Rand.poccasional()) {
-				  itemlist.push(Rand.ppickstring(Item.LIGHTBULB, Item.SIGNALJAMMER, Weapon.SWORD, Item.BANANAPEEL));
+				  itemlist.push(Rand.ppickstring(ItemType.LIGHTBULB, ItemType.SIGNALJAMMER, ItemType.SWORD, ItemType.BANANAPEEL));
 				}
 			case 13:
 				if(Buildconfig.showtraces) trace(" - designing floor " + floor);
-				style = Roomstyle.robot;
+				style = Roomstyle.ROBOT;
 				roomlit = false;
 				
 				gems = 1;
@@ -332,23 +313,23 @@ class AIDirector {
 				lockedexit = false;
 				
 				blueprint = ["robot_small"];
-				reinforcements = [Enemy.ROOK, Enemy.ROBOT];
+				reinforcements = [EnemyType.ROOK, EnemyType.ROBOT];
 				reinforcementtime = [50, 50];
 				
-				enemylist = [Enemy.ROOK, Enemy.ROBOT, Enemy.ROOK];
+				enemylist = [EnemyType.ROOK, EnemyType.ROBOT, EnemyType.ROOK];
 				
 				if (Rand.poccasional()) {
-				  enemylist.push(Rand.ppickstring(Enemy.LASERCAMERA, Enemy.CAMERA, Enemy.GUARD, Enemy.ROOK));
+				  enemylist.push(Rand.ppickstring(EnemyType.LASERCAMERA, EnemyType.CAMERA, EnemyType.GUARD, EnemyType.ROOK));
 				}
 				if (Rand.poccasional()) {
-				  itemlist.push(Rand.ppickstring(Weapon.LEAFBLOWER, Weapon.SKATEBOARD, Item.DRILL, Weapon.SKATEBOARD, Item.LIGHTBULB, Item.LIGHTBULB));
+				  itemlist.push(Rand.ppickstring(ItemType.LEAFBLOWER, ItemType.SKATEBOARD, ItemType.DRILL, ItemType.SKATEBOARD, ItemType.LIGHTBULB, ItemType.LIGHTBULB));
 				}
 				if (Rand.poccasional()) {
-				  itemlist.push(Rand.ppickstring(Item.LIGHTBULB, Item.SIGNALJAMMER, Weapon.SWORD));
+				  itemlist.push(Rand.ppickstring(ItemType.LIGHTBULB, ItemType.SIGNALJAMMER, ItemType.SWORD));
 				}
 			case 14:
 				if(Buildconfig.showtraces) trace(" - designing floor " + floor);
-				style = Roomstyle.robot;
+				style = Roomstyle.ROBOT;
 				roomlit = false;
 				
 				gems = 1;
@@ -356,148 +337,56 @@ class AIDirector {
 				lockedexit = false;
 				
 				blueprint = ["robot_large"]; //the last robot floor!
-				reinforcements = [Enemy.ROOK, Enemy.ROBOT];
+				reinforcements = [EnemyType.ROOK, EnemyType.ROBOT];
 				reinforcementtime = [50, 50];
 				
-				enemylist = [Enemy.ROOK, Enemy.ROBOT, Enemy.ROOK, Enemy.LASERGUARD, Enemy.LASERGUARD, Enemy.LASERCAMERA, Enemy.LASERCAMERA];
+				enemylist = [EnemyType.ROOK, EnemyType.ROBOT, EnemyType.ROOK, EnemyType.LASERGUARD, EnemyType.LASERGUARD, EnemyType.LASERCAMERA, EnemyType.LASERCAMERA];
 				
 				if (Rand.poccasional()) {
-				  enemylist.push(Rand.ppickstring(Enemy.LASERCAMERA, Enemy.CAMERA, Enemy.LASERCAMERA, Enemy.ROOK));
+				  enemylist.push(Rand.ppickstring(EnemyType.LASERCAMERA, EnemyType.CAMERA, EnemyType.LASERCAMERA, EnemyType.ROOK));
 				}
 				if (Rand.poccasional()) {
-				  itemlist.push(Rand.ppickstring(Weapon.LEAFBLOWER, Weapon.SKATEBOARD, Item.DRILL, Weapon.SKATEBOARD, Item.LIGHTBULB, Item.LIGHTBULB));
+				  itemlist.push(Rand.ppickstring(ItemType.LEAFBLOWER, ItemType.SKATEBOARD, ItemType.DRILL, ItemType.SKATEBOARD, ItemType.LIGHTBULB, ItemType.LIGHTBULB));
 				}
 				if (Rand.poccasional()) {
-				  itemlist.push(Rand.ppickstring(Item.LIGHTBULB, Item.SIGNALJAMMER, Weapon.SWORD));
+				  itemlist.push(Rand.ppickstring(ItemType.LIGHTBULB, ItemType.SIGNALJAMMER, ItemType.SWORD));
 				}
 				if (Game.health <= 1 && Rand.poccasional()) {
 					//You're not doing so well. Find a health pack!
-					itemlist.push(Item.FIRSTAIDKIT);
+					itemlist.push(ItemType.FIRSTAIDKIT);
 				}
 			case 15:
 				//Floor 15 is the top floor for stage 3, just before the "roof" level
 				blueprint = ["robot_topfloor"];
-				style = Roomstyle.robot;
+				style = Roomstyle.ROBOT;
 				
 				gems = 2;
 				keys = 1;
 				lockedexit = false;
 				
-				reinforcements = [Enemy.TERMINATOR];
+				reinforcements = [EnemyType.TERMINATOR];
 				reinforcementtime = [220];
 			case 16:
 				Localworld.worldblock[Localworld.STAIRS].charcode_fog = 43;
 				roomlit = true;
 				//The rooftop!
 				blueprint = ["rooftop"];
-				style = Roomstyle.rooftop;
+				style = Roomstyle.ROBOT;
 				
 				gems = 0;
 				keys = 0;
 				lockedexit = false;
 				
-				reinforcements = [Enemy.TERMINATOR];
+				reinforcements = [EnemyType.TERMINATOR];
 				reinforcementtime = [200];
 		  default:
 				//If I haven't specifically designed it, just give me something totally Rand.
 				if(Buildconfig.showtraces) trace(" - huh! giving up");
-				style = Roomstyle.error;
+				style = Roomstyle.ERROR;
 		}
 		
-		if (glitchmode) {
-			style = Random.pick([Roomstyle.robot, Roomstyle.high, Roomstyle.shopkeeper, Roomstyle.intro, Roomstyle.rooftop, Roomstyle.error, Roomstyle.outside]);
-		}
-	}
-	
-	public static var tempx:Int;
-	public static var tempy:Int;
-	public static var tempx2:Int;
-	public static var tempy2:Int;
-	public static var t1:Int;
-	public static var t2:Int;
-	public static var t3:Int;
-	
-	public static function swaptwononplayerentities() {
-		//Swap two non-player entities
-		t1 = Random.int(0, Obj.nentity);
-		t2 = Random.int(0, Obj.nentity);
-		if (Obj.entities[t1].active && Obj.entities[t2].active) {
-		  if (t1 != t2) {
-			  if (Obj.entities[t1].rule != "player" && Obj.entities[t2].rule != "player") {
-				  tempx = Obj.entities[t1].xp;
-					tempy = Obj.entities[t1].yp;
-					Obj.entities[t1].xp = Obj.entities[t2].xp;
-					Obj.entities[t1].yp = Obj.entities[t2].yp;
-					Obj.entities[t2].xp = tempx;
-					Obj.entities[t2].yp = tempy;
-				}
-			}
-		}	
-	}
-	
-	public static function swaptwoblocks() {
-		tempx = Random.int(0, World.mapwidth - 1);
-		tempy = Random.int(0, World.mapheight - 1);
-		tempx2 = Random.int(0, World.mapwidth - 1);
-		tempy2 = Random.int(0, World.mapheight - 1);
-		
-		t1 = Obj.getplayer();
-		if (t1 > -1) {
-			if (Math.abs(Obj.entities[t1].xp - tempx) > 3 || Math.abs(Obj.entities[t1].yp - tempy) > 3) {
-				if (Math.abs(Obj.entities[t1].xp - tempx2) > 3 || Math.abs(Obj.entities[t1].yp - tempy2) > 3) {
-					t2 = World.at(tempx, tempy);
-					World.placetile(tempx, tempy, World.at(tempx2, tempy2));
-					World.placetile(tempx2, tempy2, t2);
-				}
-			}
-		}	
-	}
-	
-	public static function shiftcolumn(c:Int) {
-		//Cancel it if the player is in it
-		t1 = Obj.getplayer();
-		if (t1 >-1) {
-			if (Obj.entities[t1].xp != c) {
-				//First the blocks
-				t2 = World.at(c, 0);
-				for (j in 0 ... World.mapheight - 2) {
-				  World.placetile(c, j, World.at(c, j + 1));	
-				}
-				World.placetile(c,  World.mapheight - 1, t2);
-				
-				//Then the entities
-				for (j in 0 ... Obj.nentity) {
-				  if (Obj.entities[j].active) {
-						if(Obj.entities[j].xp == c){
-							Obj.entities[j].yp--;
-							if (Obj.entities[j].yp < 0) {
-								Obj.entities[j].yp += World.mapheight;
-							}
-						}
-					}
-				}
-			}			
-		}
-	}
-	
-	public static function glitch() {
-		//Distort the level in some unexpected way
-		t1 = Random.int(0, 100);
-		if (t1 < 50) {
-		}else if(t1 < 65){
-			swaptwononplayerentities();
-		}else if (t1 < 68) {
-			shiftcolumn(Random.int(0, World.mapwidth));
-		}else {
-			swaptwoblocks();
-		}
-	}
-	
-	public static function glitchoutside(level:Int) {
-		if (level >= 5) {
-			for (i in 0 ... (level - 5) * 4) {
-				swaptwoblocks();	
-			}
+		if (Glitch.glitchmode) {
+			style = Random.pick([Roomstyle.ROBOT, Roomstyle.HIGH, Roomstyle.SHOPKEEPER, Roomstyle.INTRO, Roomstyle.ROOFTOP, Roomstyle.ERROR, Roomstyle.OUTSIDE]);
 		}
 	}
 	
@@ -858,7 +747,7 @@ class AIDirector {
 		//Reject the room if a dog is sleeping on a key!
 		for (i in 0 ... Obj.nentity) {
 			if (Obj.entities[i].active) {
-				if (Obj.entities[i].type != Enemy.GUARD && Obj.entities[i].type != Enemy.LASERGUARD) {
+				if (Obj.entities[i].type != EnemyType.GUARD && Obj.entities[i].type != EnemyType.LASERGUARD) {
 					if (World.at(Obj.entities[i].xp, Obj.entities[i].yp) == Localworld.KEY) {
 						if(Buildconfig.showtraces) trace("rejecting this level: we placed an entity (" + Obj.entities[i].type + ") on a key");
 						return false;	
@@ -872,7 +761,7 @@ class AIDirector {
 		copymaptotestbuffer(true);
 		for (i in 0 ... Obj.nentity) {
 			if (Obj.entities[i].active) {
-			  if (Obj.entities[i].type == Enemy.GUARD || Obj.entities[i].type == Enemy.LASERGUARD) {
+			  if (Obj.entities[i].type == EnemyType.GUARD || Obj.entities[i].type == EnemyType.LASERGUARD) {
 					//ok: is this guard in a corridor?
 					if ((testbufferat(Obj.entities[i].xp, Obj.entities[i].yp - 1) != Localworld.FLOOR &&
 					    testbufferat(Obj.entities[i].xp, Obj.entities[i].yp + 1) != Localworld.FLOOR) ||
@@ -918,36 +807,36 @@ class AIDirector {
 		}
 		
 		//Consider placing a shopkeeper:
-		if ((floor == 3 || floor == 4) && !placedfirstshopkeeper && Game.cash >= 2) {
+		if ((floor == 3 || floor == 4) && !placedfirstshopkeeper && Game.gems >= 2) {
 			//Consider placing a shopkeeper on this floor
 			if ((Rand.pbool() && floor == 3) || floor == 4) {
 				if (Game.health < 3) {
-					Levelgen.placeshopkeeper(Rand.ppickstring(Item.FIRSTAIDKIT, Weapon.PISTOL, Item.BANANAPEEL));
+					Levelgen.placeshopkeeper(Rand.ppickstring(ItemType.FIRSTAIDKIT, ItemType.PISTOL, ItemType.BANANAPEEL));
 				}else{
-					Levelgen.placeshopkeeper(Rand.ppickstring(Item.LIGHTBULB, Item.SIGNALJAMMER, Item.DRILL, Item.BOMB));
+					Levelgen.placeshopkeeper(Rand.ppickstring(ItemType.LIGHTBULB, ItemType.SIGNALJAMMER, ItemType.DRILL, ItemType.BOMB));
 				}
 			placedfirstshopkeeper = true;
 			}
 		}
 		
-		if ((floor == 6 || floor == 7) && !placedsecondshopkeeper && Game.cash >= 2) {
+		if ((floor == 6 || floor == 7) && !placedsecondshopkeeper && Game.gems >= 2) {
 			//Consider placing a shopkeeper on this floor
 			if ((Rand.pbool() && floor == 6) || floor == 7) {
 				if (Game.health < 3) {
-					Levelgen.placeshopkeeper(Rand.ppickstring(Item.FIRSTAIDKIT, Weapon.PISTOL, Weapon.TELEPORTER, Item.BOMB));
+					Levelgen.placeshopkeeper(Rand.ppickstring(ItemType.FIRSTAIDKIT, ItemType.PISTOL, ItemType.TELEPORTER, ItemType.BOMB));
 				}else{
-					Levelgen.placeshopkeeper(Rand.ppickstring(Weapon.PISTOL, Item.LIGHTBULB, Item.SIGNALJAMMER, Item.DRILL, Weapon.TELEPORTER, Item.BOMB));
+					Levelgen.placeshopkeeper(Rand.ppickstring(ItemType.PISTOL, ItemType.LIGHTBULB, ItemType.SIGNALJAMMER, ItemType.DRILL, ItemType.TELEPORTER, ItemType.BOMB));
 				}
 			placedsecondshopkeeper = true;
 			}
 		}
 		
-		if ((floor == 13 || floor == 14) && !placedthirdshopkeeper && Game.cash >= 2) {
+		if ((floor == 13 || floor == 14) && !placedthirdshopkeeper && Game.gems >= 2) {
 			//Consider placing a shopkeeper on this floor
 			if (Game.health < 3) {
-				Levelgen.placeshopkeeper(Item.FIRSTAIDKIT);
+				Levelgen.placeshopkeeper(ItemType.FIRSTAIDKIT);
 			}else{
-				Levelgen.placeshopkeeper(Rand.ppickstring(Weapon.PISTOL, Item.LIGHTBULB, Weapon.SWORD, Item.DRILL));
+				Levelgen.placeshopkeeper(Rand.ppickstring(ItemType.PISTOL, ItemType.LIGHTBULB, ItemType.SWORD, ItemType.DRILL));
 			}
 			placedthirdshopkeeper = true;
 		}
@@ -1026,7 +915,7 @@ class AIDirector {
 	public static var keys:Int = 1;
 	public static var lockedexit:Bool = true;
 	public static var extralockeddoors:Int = 1;
-	public static var style:Roomstyle = Roomstyle.intro;
+	public static var style:Roomstyle = Roomstyle.INTRO;
 	public static var blueprint:Array<String> = [];
 	public static var enemylist:Array<String> = [];
 	public static var weaponlist:Array<String> = [];
@@ -1036,7 +925,6 @@ class AIDirector {
 	public static var reinforcementtime:Array<Int> = [];
 	public static var reinforcementdelay:Int;
 	
-	public static var glitchmode:Bool = false;
 	public static var outside:Bool = false;
 	
 	//Internal variables
@@ -1065,16 +953,19 @@ class AIDirector {
 			if (startingitems[i].toLowerCase() == "key") {
 				Game.keys++;
 			}else if (startingitems[i].toLowerCase() == "gem") {
-				Game.cash++;
-			}else if (Itemstats.get(startingitems[i]).hasmultipleshots) {
-				Modern.inventory[j] = startingitems[i];
-				Modern.inventory_num[j] = Itemstats.get(startingitems[i]).typical;
-				j++;
+				Game.gems++;
 			}else{
-				Modern.inventory[j] = startingitems[i];
-				j++;
+				var item:ItemData = GameData.getitem(startingitems[i].toLowerCase());
+				if (item.numuses > 1) {
+					Inventory.inventory[j] = startingitems[i];
+					Inventory.inventory_num[j] = item.numuses;
+					j++;
+				}else{
+					Inventory.inventory[j] = startingitems[i];
+					j++;
+				}	
 			}
-		}	
+		}
 	}
 	
 	public static var testmap:Array<Array<Int>>;

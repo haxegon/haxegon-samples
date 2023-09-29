@@ -1,10 +1,21 @@
 package modernversion;
 
 import haxegon.*;
-import gamecontrol.*;
-import obj.*;
-import terrylib.*;
-import config.Entclass;
+import entities.ItemType;
+import entities.EnemyType;
+import entities.Entclass;
+import world.Localworld;
+import world.Roomstyle;
+import world.Levelgen;
+import world.Glitch;
+import world.World;
+import entities.Obj;
+import util.Rand;
+import util.Glow;
+import gamecontrol.Game;
+import gamecontrol.Use;
+import visuals.Draw;
+import visuals.MessageBox;
 
 //This project is a mess that I can barely interact with. So I'm creating this modern interface;
 //from here, I can plug into the game without really touching anything.
@@ -28,28 +39,9 @@ class Modern {
 	public static var itembottomright:String = "";
 	public static var itembottomleft:String = "";
 	
-	public static function popup(mode:String, item:Itemclass) {
-		popupwindow = true;
-		popupmode = mode;
-		popuplerp = 0;
-		popupstate = 0;
-		popupitem = item;
-		
-		menuselection = 0;
-	}
-	
-	public static var popupwindow:Bool = false;
-	public static var popupmode:String = "";
-	public static var popupstate:Int = 0;
-	public static var popuplerp:Int = 0;
-	public static var popupitem:Itemclass;
-	public static var popupspeed:Int = 20;
-	public static var popupanimationtype_appear:String = "back_out";
-	public static var popupanimationtype_disappear:String = "back_out";
 	public static var shopkeepcol:Int;
 	public static var keygemrate:Int = 0;
 	public static var keygemratelevel:Int = 0;
-	public static var menuselection:Int = 0;
 	public static var currentshopkeeper:Int = 0;
 	public static var streakcount:Int = 0;
 	
@@ -81,15 +73,6 @@ class Modern {
 	
 	//Called from titlestate, this starts the game from the first floor.
   public static function start() {
-		//Starting items
-		inventory = [];
-		inventory_num = [];
-		initslots = 3;
-		for (i in 0 ... initslots + 1) {
-		  inventory.push("");	
-			inventory_num.push(0);
-		}
-		
 		//100x150 is the upper limit on map sizes
 		AIDirector.testmap = Data.create2darray(100, 100, 0);
 		AIDirector.seed = "random";
@@ -117,8 +100,8 @@ class Modern {
 		  //Let's generate the outside world now
 			worldx = 50;
 			worldy = 50;
-			var outsideitemlist:Array<String> = [Item.HELIXWING];
-			outsideitemlist.push(Random.pick([Item.TIMESTOPPER, Item.CARDBOARDBOX, Weapon.MATCHSTICK, Weapon.TELEPORTER]));
+			var outsideitemlist:Array<String> = [ItemType.HELIXWING];
+			outsideitemlist.push(Random.pick([ItemType.TIMESTOPPER, ItemType.CARDBOARDBOX, ItemType.MATCHSTICK, ItemType.TELEPORTER]));
 			outsideitemlist.push("");
 			outsideitemlist.push("");
 			Random.shuffle(outsideitemlist);
@@ -127,9 +110,10 @@ class Modern {
 			itembottomleft = outsideitemlist.pop();
 			itembottomright = outsideitemlist.pop();
 		}
-		AIDirector.glitchmode = false;
+		
+		Glitch.glitchmode = false;
 		AIDirector.outside = true;
-		AIDirector.style = Roomstyle.outside;
+		AIDirector.style = Roomstyle.OUTSIDE;
 		AIDirector.floor = Game.floor;
 		
 		Levelgen.outsidegen();
@@ -157,14 +141,8 @@ class Modern {
 	
 	public static function restart() {
 		AIDirector.outside = true;
-		inventoryslots = initslots;
 		Game.reinforcestate = 0;
-		currentslot = 0;
-		
-		for (i in 0 ... initslots + 1) {
-		  inventory[i] = "";
-			inventory_num[i] = 0;
-		}
+		Inventory.restart();
 		
 		hpflash = 0;
 		gemflash = 0;
@@ -191,73 +169,48 @@ class Modern {
 		
 		while (!AIDirector.assessroom()) Levelgen.createroom();
 		startfadein();
-		
-		Render.backgrounddirty = true;
 	}
 	
 	public static function updatepalette(?forcechange:Roomstyle) {
 		if (forcechange != null) {
 			switch(forcechange) {
-				case Roomstyle.intro:
+				case Roomstyle.INTRO:
 					Localworld.changepalette("blue", 0);
-				case Roomstyle.high:
+				case Roomstyle.HIGH:
 					Localworld.changepalette("purple", 1);
-				case Roomstyle.shopkeeper:
+				case Roomstyle.SHOPKEEPER:
 					Localworld.changepalette("green", 3);
-				case Roomstyle.robot:
+				case Roomstyle.ROBOT:
 					Localworld.changepalette("gray", 2);
-				case Roomstyle.executive:
-					Localworld.changepalette("darkred", 0);
-				case Roomstyle.outside:
+				case Roomstyle.OUTSIDE:
 					Localworld.changepalette("gray", 5);
-				case Roomstyle.rooftop:
+				case Roomstyle.ROOFTOP:
 					Localworld.changepalette("blue", 4);
-				case Roomstyle.error:
+				case Roomstyle.ERROR:
 					Localworld.changepalette("darkred", 0);
 				default:
 					Localworld.changepalette("darkred", 0);
 			}	
 		}else {
 			switch(AIDirector.style) {
-				case Roomstyle.intro:
+				case Roomstyle.INTRO:
 					Localworld.changepalette("blue", 0);
-				case Roomstyle.high:
+				case Roomstyle.HIGH:
 					Localworld.changepalette("purple", 1);
-				case Roomstyle.shopkeeper:
+				case Roomstyle.SHOPKEEPER:
 					Localworld.changepalette("green", 3);
-				case Roomstyle.robot:
+				case Roomstyle.ROBOT:
 					Localworld.changepalette("gray", 2);
-				case Roomstyle.executive:
-					Localworld.changepalette("darkred", 0);
-				case Roomstyle.outside:
+				case Roomstyle.OUTSIDE:
 					Localworld.changepalette("gray", 5);
-				case Roomstyle.rooftop:
+				case Roomstyle.ROOFTOP:
 					Localworld.changepalette("blue", 4);
-				case Roomstyle.error:
+				case Roomstyle.ERROR:
 					Localworld.changepalette("darkred", 0);
 				default:
 					Localworld.changepalette("darkred", 0);
 			}	
 		}
-	}
-	
-	public static function updatepalettealarm() {
-		switch(AIDirector.style) {
-		  case Roomstyle.intro:
-				Localworld.changepalette("red", 0);
-			case Roomstyle.high:
-				Localworld.changepalette("red", 1);
-			case Roomstyle.shopkeeper:
-				Localworld.changepalette("red", 3);
-			case Roomstyle.robot:
-				Localworld.changepalette("red", 2);
-			case Roomstyle.executive:
-				Localworld.changepalette("red", 0);
-			case Roomstyle.error:
-				Localworld.changepalette("red", 0);
-			default:
-				Localworld.changepalette("red", 0);
-		}	
 	}
 	
 	public static var playeronstairs:Bool = false;
@@ -271,31 +224,24 @@ class Modern {
 		  var zone:Int = Std.int(Math.max(Math.abs(Modern.worldx - 50), Math.abs(Modern.worldy - 50)));
 			if (zone > 0) {
 				//You used glitch stairs! Nice! Let's make a glitchy version of the tower
-				AIDirector.glitchmode = true;
-				Achievements.award("glitch", 1);
+				Glitch.glitchmode = true;
 			}else {
 			  streakcount++;
 			}
 		}
 		
-		//if (AIDirector.floor == 11) {
-		//	endlevelanimationstate = 1;
-		//	endlevelanimationaction = "alpha_level12";
-		//}else{
 		endlevelanimationstate = 1;
 		if (AIDirector.floor >= 16) {
 			endlevelanimationaction = "endgame";
 		}else{
 			endlevelanimationaction = "next";
 		}
-		//}
 	}
 	
-	private static var temptile:Int;
 	public static function checkfortowerexit() {
 		if (AIDirector.outside) {
 			var player:Int = Obj.getplayer();
-			if (!Help.inboxw(Obj.entities[player].xp, Obj.entities[player].yp, 0, 0, World.mapwidth-1, World.mapheight-1)) {
+			if (!Geom.inbox(Obj.entities[player].xp, Obj.entities[player].yp, 0, 0, World.mapwidth, World.mapheight)) {
 				if (Obj.entities[player].xp < 0) {
 					Obj.entities[player].xp += 32;
 					worldx--;
@@ -323,10 +269,9 @@ class Modern {
 			}
 		}else{
 			var player:Int = Obj.getplayer();
-			if (!Help.inboxw(Obj.entities[player].xp, Obj.entities[player].yp, 0, 0, World.mapwidth-1, World.mapheight-1)) {
+			if (!Geom.inbox(Obj.entities[player].xp, Obj.entities[player].yp, 0, 0, World.mapwidth, World.mapheight)) {
 				endlevelanimationstate = 1;
 				endlevelanimationaction = "leftmap";
-				Achievements.award("exittower", 1);
 				
 				if (Obj.entities[player].xp < 0) {
 					lefttowerdir = "left";
@@ -339,7 +284,7 @@ class Modern {
 				}
 			}else {
 				if (Game.floor == 16) {
-					temptile = World.at(Obj.entities[player].xp, Obj.entities[player].yp);
+					var temptile:Int = World.at(Obj.entities[player].xp, Obj.entities[player].yp);
 					if (temptile == Localworld.ROOFBACKGROUND || temptile == Localworld.ROOFSIDE || temptile == Localworld.ROOFSTARS) {
 						endlevelanimationstate = 1;
 						endlevelanimationaction = "leftmap";
@@ -364,7 +309,6 @@ class Modern {
 		playerjustteleported = false;
 		
 		AIDirector.floor++;	
-		Achievements.award("floor", AIDirector.floor);
 		
 		if (AIDirector.seed == "random") {
 			Rand.setseed(Std.int(Math.random() * 16807));
@@ -379,7 +323,7 @@ class Modern {
 		
 		while (!AIDirector.assessroom()) Levelgen.createroom();
 		
-		if (AIDirector.glitchmode) {
+		if (Glitch.glitchmode) {
 		  //Swap all the gems for glitch bombs
 			var gempositions:Array<Int> = [];
 			for (i in 0 ... Obj.nentity) {
@@ -392,7 +336,7 @@ class Modern {
 			}
 			
 			for (i in 0 ... gempositions.length) {
-			  Obj.createentity(Obj.entities[gempositions[i]].xp, Obj.entities[gempositions[i]].yp, "item", Item.ERRORBOMB);
+			  Obj.createentity(Obj.entities[gempositions[i]].xp, Obj.entities[gempositions[i]].yp, "item", ItemType.ERRORBOMB);
 			}
 		}
 		
@@ -403,7 +347,7 @@ class Modern {
 				var guardpositions:Array<Int> = [];
 				for (i in 0 ... Obj.nentity) {
 					if (Obj.entities[i].active) {
-						if (Obj.entities[i].type == Enemy.GUARD) {
+						if (Obj.entities[i].type == EnemyType.GUARD) {
 							guardpositions.push(i);
 							Obj.entities[i].active = false;
 						}
@@ -411,13 +355,13 @@ class Modern {
 				}
 				
 				for (i in 0 ... guardpositions.length) {
-					Obj.createentity(Obj.entities[guardpositions[i]].xp, Obj.entities[guardpositions[i]].yp, "enemy", Enemy.LASERGUARD);
+					Obj.createentity(Obj.entities[guardpositions[i]].xp, Obj.entities[guardpositions[i]].yp, "enemy", EnemyType.LASERGUARD);
 				}
 				
 				guardpositions = [];
 				for (i in 0 ... Obj.nentity) {
 					if (Obj.entities[i].active) {
-						if (Obj.entities[i].type == Enemy.CAMERA) {
+						if (Obj.entities[i].type == EnemyType.CAMERA) {
 							guardpositions.push(i);
 							Obj.entities[i].active = false;
 						}
@@ -425,13 +369,13 @@ class Modern {
 				}
 				
 				for (i in 0 ... guardpositions.length) {
-					Obj.createentity(Obj.entities[guardpositions[i]].xp, Obj.entities[guardpositions[i]].yp, "enemy", Enemy.LASERCAMERA);
+					Obj.createentity(Obj.entities[guardpositions[i]].xp, Obj.entities[guardpositions[i]].yp, "enemy", EnemyType.LASERCAMERA);
 				}
 				
 				guardpositions = [];
 				for (i in 0 ... Obj.nentity) {
 					if (Obj.entities[i].active) {
-						if (Obj.entities[i].type == Enemy.SENTINAL) {
+						if (Obj.entities[i].type == EnemyType.SENTINAL) {
 							guardpositions.push(i);
 							Obj.entities[i].active = false;
 						}
@@ -439,7 +383,7 @@ class Modern {
 				}
 				
 				for (i in 0 ... guardpositions.length) {
-					Obj.createentity(Obj.entities[guardpositions[i]].xp, Obj.entities[guardpositions[i]].yp, "enemy", Enemy.LASERSENTINAL);
+					Obj.createentity(Obj.entities[guardpositions[i]].xp, Obj.entities[guardpositions[i]].yp, "enemy", EnemyType.LASERSENTINAL);
 				}
 			}
 			if (streakcount >= 2) {
@@ -447,7 +391,7 @@ class Modern {
 				var guardpositions:Array<Int> = [];
 				for (i in 0 ... Obj.nentity) {
 					if (Obj.entities[i].active) {
-						if (Obj.entities[i].type == Enemy.ROBOT) {
+						if (Obj.entities[i].type == EnemyType.ROBOT) {
 							guardpositions.push(i);
 							Obj.entities[i].active = false;
 						}
@@ -455,12 +399,11 @@ class Modern {
 				}
 				
 				for (i in 0 ... guardpositions.length) {
-					Obj.createentity(Obj.entities[guardpositions[i]].xp, Obj.entities[guardpositions[i]].yp, "enemy", Enemy.TERMINATOR);
+					Obj.createentity(Obj.entities[guardpositions[i]].xp, Obj.entities[guardpositions[i]].yp, "enemy", EnemyType.TERMINATOR);
 				}
 			}
 		}
 		
-		Render.backgrounddirty = true;
 		startfadein();
 	}
 	
@@ -470,259 +413,5 @@ class Modern {
 		
 		endlevelanimationx = Obj.entities[player].xp;
 		endlevelanimationy = Obj.entities[player].yp;
-	}
-	
-	//New inventory stuff
-	public static var currentslot:Int = 0;
-	public static var oldcurrentslot:Int = 0;
-	public static var initslots:Int;
-	public static var inventory:Array<String>;
-	public static var inventory_num:Array<Int>;
-	public static var inventoryslots:Int;
-	
-	public static function drawbubble(x:Int, y:Int, w:Int, h:Int, backingcol:Int, bordercol:Int, innercol:Int) {
-		Draw.roundfillrect(x, y, w, h, bordercol);
-		Draw.roundfillrect(x + 1, y + 1, w - 2, h - 2, backingcol);
-		Draw.roundfillrect(x + 2, y + 2, w - 4, h - 4, innercol);
-	}
-	
-	public static var currentitem:Itemclass;
-	
-	public static function useitem(e:Entclass, itemname:String) {
-		currentitem = Itemstats.get(itemname);
-		if (currentitem.type == Inventory.USEABLE) {
-			Use.doitemaction(currentitem.index);
-			//Free up the item slot
-			inventory[currentslot] = "";
-		}else if (currentitem.type == Inventory.GADGET) {
-			Use.usegadget(Obj.entities.indexOf(e), currentitem.index);
-			inventory_num[currentslot]--;
-			if (inventory_num[currentslot] <= 0) {
-				inventory[currentslot] = "";
-			  //Game.showmessage("OUT OF " + currentitem.multiname + "...", "flashing", 120);
-			}
-		}
-		
-		reorderinventory();
-	}
-	
-	public static function swapinventory(a:Int, b:Int) {
-		var temp:String = inventory[a];
-		inventory[a] = inventory[b];
-		inventory[b] = temp;
-		
-		var temp_amount:Int = inventory_num[a];
-		inventory_num[a] = inventory_num[b];
-		inventory_num[b] = temp_amount;
-	}
-	
-	public static function reorderinventory() {
-		//lazy bubble sort :3
-	  if (inventory[2] != "" && inventory[1] == "") swapinventory(2, 1);
-		if (inventory[1] != "" && inventory[0] == "") swapinventory(1, 0);
-		if (inventory[2] != "" && inventory[1] == "") swapinventory(2, 1);
-	}
-	
-	public static function slotsfree():Int {
-	  var s:Int = 0;
-		for (i in 0 ... inventoryslots) {
-		  if (inventory[i] == "") s++;	
-		}
-		return s;
-	}
-	
-	public static function pickupitembyitemclass(e:Itemclass) {
-		//Duplicating all this is *probably* a bad idea, idk, but yolo, it's a jam game
-		if (AIDirector.outside) {
-		  if (Modern.worldx - 50 == -1 && Modern.worldy - 50 == -1) {
-				Modern.itemtopleft = "";
-			}else if (Modern.worldx - 50 == 1 && Modern.worldy - 50 == -1) {
-				Modern.itemtopright = "";
-			}else if (Modern.worldx - 50 == -1 && Modern.worldy - 50 == 1) {
-				Modern.itembottomleft = "";
-			}else if (Modern.worldx - 50 == 1 && Modern.worldy - 50 == 1) {
-				Modern.itembottomright = "";
-			}
-		}
-		
-		//IF YOU UPDATE THIS FUNCTION, ALSO UPDATE THE ONE BELOW
-		//We find a free inventory slot
-		var freeslot:Int = -1;
-		var emptyinventory:Bool = true;
-		for (i in 0 ... inventoryslots) {
-			if (inventory[i] != "") emptyinventory = false;
-			if(freeslot == -1){
-				if (inventory[i] == "")	{
-					freeslot = i;
-				}
-			}
-		}
-		
-		if (freeslot == -1) {
-			//let's assume that bit just works for now
-		  freeslot = inventoryslots;
-			oldcurrentslot = currentslot;
-		}
-		
-		currentitem = e;
-		
-		if (currentitem.type == Inventory.GADGET || currentitem.type == Inventory.USEABLE) {
-		  Sound.play("collectitem");	
-		}else {
-			
-		}
-		
-		inventory[freeslot] = currentitem.name;
-		//try out only getting 1 of everything
-		if (currentitem.hasmultipleshots) {
-			inventory_num[freeslot] = currentitem.typical;//e.para;
-		}else{
-			inventory_num[freeslot] = 1;//e.para;
-		}
-		
-		//If we had an empty inventory, choose the thing we just collected
-		if (emptyinventory) currentslot = freeslot;
-	  //trace("picked up " + e.name + ", " + e.para);	
-		
-		//Deal with full inventory here
-		if (freeslot == inventoryslots) {
-			popup("newitem_drop", currentitem);
-		}else {
-			popup("newitem", currentitem);
-		}
-	}
-	
-	public static function pickupitem(e:Entclass) {
-		//We find a free inventory slot
-		
-		//Check for outside world persistance
-		if (AIDirector.outside) {
-		  if (Modern.worldx - 50 == -1 && Modern.worldy - 50 == -1) {
-				Modern.itemtopleft = "";
-			}else if (Modern.worldx - 50 == 1 && Modern.worldy - 50 == -1) {
-				Modern.itemtopright = "";
-			}else if (Modern.worldx - 50 == -1 && Modern.worldy - 50 == 1) {
-				Modern.itembottomleft = "";
-			}else if (Modern.worldx - 50 == 1 && Modern.worldy - 50 == 1) {
-				Modern.itembottomright = "";
-			}
-		}
-		
-		//IF YOU UPDATE THIS FUNCTION, ALSO UPDATE THE ONE ABOVE
-		var freeslot:Int = -1;
-		var emptyinventory:Bool = true;
-		for (i in 0 ... inventoryslots) {
-			if (inventory[i] != "") emptyinventory = false;
-			if(freeslot == -1){
-				if (inventory[i] == "")	{
-					freeslot = i;
-				}
-			}
-		}
-		
-		if (freeslot == -1) {
-			//let's assume that bit just works for now
-		  freeslot = inventoryslots;
-			oldcurrentslot = currentslot;
-		}
-		
-		currentitem = Itemstats.get(e.name);
-		
-		if (currentitem.type == Inventory.GADGET || currentitem.type == Inventory.USEABLE) {
-		  Sound.play("collectitem");	
-		}else {
-			
-		}
-		
-		inventory[freeslot] = currentitem.name;
-		//try out only getting 1 of everything
-		if (currentitem.hasmultipleshots) {
-			inventory_num[freeslot] = currentitem.typical;//e.para;
-		}else{
-			inventory_num[freeslot] = 1;//e.para;
-		}
-		
-		//If we had an empty inventory, choose the thing we just collected
-		if (emptyinventory) currentslot = freeslot;
-	  //trace("picked up " + e.name + ", " + e.para);	
-		
-		//Deal with full inventory here
-		if (freeslot == inventoryslots) {
-			popup("newitem_drop", currentitem);
-		}else {
-			popup("newitem", currentitem);
-		}
-	}
-	
-	public static var guibackingcolour:Int;
-	public static function showitems() {
-		var tx:Int = Gfx.screenwidth - (inventoryslots * 28);
-		var ty:Int = Gfx.screenheight - 25;
-		
-		guibackingcolour = Game.backgroundcolour;
-		if (Game.messagedelay != 0) {
-			guibackingcolour = Draw.messagecolback(Game.messagecol);
-		}
-		/*
-		Gfx.fillbox(tx - 4, ty - 4, Gfx.screenwidth - (tx - 4), Gfx.screenheight - (ty - 4), guibackingcolour);
-		for (j in 0 ... 20) {
-		  Gfx.fillbox(tx - Std.int(j / 2) - 4, ty - 4 + j, Std.int(j / 2), 1, guibackingcolour);
-		}*/
-		
-		for (i in 0 ... inventory.length) {
-			if (inventory[i] != "") {
-				//Use brighter colours and draw a border
-				Draw.roundfillrect(tx + (i * 28) - 2, ty - 1, 24 + 2, 24, Localworld.worldblock[Localworld.WALL].front_fog);
-			}
-			currentitem = Itemstats.get(inventory[i]);
-			//trying out only getting 1 of everything, so disabling ammo display
-			if(currentitem.hasmultipleshots == true){
-				drawbubble(tx + (i * 28), ty, 22, 22, Draw.shade(Col.rgb(currentitem.r, currentitem.g, currentitem.b), 0.8), 0x000000, 0x000000);
-				Gfx.imagecolor = Col.rgb(currentitem.r, currentitem.g, currentitem.b);
-				Gfx.drawtile(tx + (i * 28) + 5, ty + 5, "terminal", currentitem.character.charCodeAt(0));
-				Gfx.resetcolor();
-				
-				Gfx.fillbox(tx + (i * 28) + 14 - 1, ty - 3 - 1, Text.width("x" + inventory_num[i]) + 4, 10 + 2, 0x000000);
-				Gfx.fillbox(tx + (i * 28) + 14, ty - 3, Text.width("x" + inventory_num[i]) + 2, 10, Draw.shade(Col.rgb(currentitem.r, currentitem.g, currentitem.b), 0.8));
-				Text.display(tx + (i * 28) + 15, ty - 5, "x" + inventory_num[i], 0x000000);
-			}else if(currentitem.type == Inventory.USEABLE || currentitem.type == Inventory.GADGET){
-				drawbubble(tx + (i * 28), ty, 22, 22, Draw.shade(Col.rgb(currentitem.r, currentitem.g, currentitem.b), 0.8), 0x000000, 0x000000);
-				Gfx.imagecolor = Col.rgb(currentitem.r, currentitem.g, currentitem.b);
-				Gfx.drawtile(tx + (i * 28) + 5, ty + 5, "terminal", currentitem.character.charCodeAt(0));
-				Gfx.resetcolor();
-			}else {
-				drawbubble(tx + (i * 28), ty, 22, 22, 0x444444, 0x000000, 0x000000);
-			}
-			Text.display(tx + (i * 28) + 18, ty + 12, (i + 1) + "", 0xFFFFFF);
-		}
-		/*
-		if (Game.messagedelay == 0) {
-			var texty:Int = Gfx.screenheight - 14;
-			Draw.setnormaltext();
-			Text.align(Text.RIGHT);
-			if (inventory[currentslot] != "") {
-				currentitem = Itemstats.get(inventory[currentslot]);
-				
-				if (currentitem.type == Inventory.USEABLE || currentitem.type == Inventory.GADGET) {
-					Text.display(Gfx.screenwidth - (inventoryslots * 26) - 12, texty, inventory[currentslot].toUpperCase(), currentitem.highlightcol);
-				}else if(currentitem.type == Inventory.GADGET){
-					Text.display(Gfx.screenwidth - (inventoryslots * 26) - 12, texty, inventory[currentslot].toUpperCase() + " [x" + inventory_num[currentslot] +"]", currentitem.highlightcol);
-				}
-			}else{
-				Text.display(Gfx.screenwidth - (inventoryslots * 26) - 12, texty, "EMPTY", Col.rgb(164, 164, 164));
-			}
-			Text.align(Text.LEFT);
-		}*/
-		if (Game.messagedelay == 0) {
-			Text.align = Text.RIGHT;
-			var waitcol:Int = Col.rgb(220, 220, 220);
-			if (waitflash > 0) {
-				var waitflashamount:Int = Std.int(Math.min(220 + waitflash * 5, 255));
-			  waitcol = Col.rgb(waitflashamount, waitflashamount, waitflashamount);
-				waitflash--;
-			}
-			Text.display(Gfx.screenwidth - (inventoryslots * 26) - 18, Gfx.screenheight - 14, "Z - Wait", waitcol);
-			Text.align = Text.LEFT;
-		}
 	}
 }

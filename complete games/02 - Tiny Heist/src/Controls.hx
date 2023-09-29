@@ -1,5 +1,7 @@
 import haxegon.*;
 
+import gamecontrol.Use;
+
 class Keygroup {
   public function new(_name:String, _list:Array<Key>) {
 		name = _name;
@@ -11,8 +13,13 @@ class Keygroup {
 	public var held:Int = 0;
 }
 
-@:access(haxegom.Mouse)
+@:access(haxegon.Mouse)
 class Controls {
+	public static var lastpressed:String;
+	public static var heldkeys:Array<Int> = [0, 0, 0, 0];
+	public static var newestkey:Int;
+	public static var newestkeyheld:Int;
+	
 	public static function init() {
 		keyindex = new Map<String, Int>();
 		
@@ -27,6 +34,40 @@ class Controls {
 		
 		for (i in 0 ... keygroups.length) {
 		  keyindex.set(keygroups[i].name, i);	
+		}
+	}
+	
+	public static function getkeypriority() {
+		heldkeys[0] = Std.int(Math.max(Input.pressheldtime(Key.UP), Input.pressheldtime(Key.W)));
+		heldkeys[1] = Std.int(Math.max(Input.pressheldtime(Key.DOWN), Input.pressheldtime(Key.S)));
+		heldkeys[2] = Std.int(Math.max(Input.pressheldtime(Key.LEFT), Input.pressheldtime(Key.A)));
+		heldkeys[3] = Std.int(Math.max(Input.pressheldtime(Key.RIGHT), Input.pressheldtime(Key.D)));
+		
+		lastpressed = "";
+		if (heldkeys[0] > 0 && (heldkeys[1] <= 0 && heldkeys[2] <= 0 && heldkeys[3] <= 0)) {
+		  lastpressed = "up";	
+		}else if (heldkeys[1] > 0 && (heldkeys[0] <= 0 && heldkeys[2] <= 0 && heldkeys[3] <= 0)) {
+		  lastpressed = "down";	
+		}else if (heldkeys[2] > 0 && (heldkeys[0] <= 0 && heldkeys[1] <= 0 && heldkeys[3] <= 0)) {
+		  lastpressed = "left";	
+		}else if (heldkeys[3] > 0 && (heldkeys[0] <= 0 && heldkeys[1] <= 0 && heldkeys[2] <= 0)) {
+		  lastpressed = "right";	
+		}else {
+		  newestkey = -2; newestkeyheld = -2;
+			for (i in 0 ... 4) {
+			  if (heldkeys[i] > -1 && (heldkeys[i] < newestkeyheld || newestkeyheld == -2)) {
+					newestkey = i;
+				  newestkeyheld = heldkeys[i];
+				}
+			}
+			if(newestkey == 0) lastpressed = "up";
+			if(newestkey == 1) lastpressed = "down";
+			if(newestkey == 2) lastpressed = "left";
+			if(newestkey == 3) lastpressed = "right";
+		}
+		
+		if (lastpressed == "") {
+		  Use.doorknockcheck = false;	
 		}
 	}
 	

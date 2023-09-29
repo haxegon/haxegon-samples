@@ -29,8 +29,10 @@
       allow-high-dpi="true"
    ></window>
    
-	<source path="src" />
-	<source path="plugins" />
+	<source path="src" />    
+	<!-- this haxe define needs to appear before adding the OpenFL library to enable uncaught events -->
+    <haxedef name="openfl-enable-handle-error" />
+    <haxelib name="crashdumper" />
 	<haxelib name="openfl" />
 	<haxelib name="haxegon" />
 	<haxedef name="windowwidth" value="${windowwidth}" />
@@ -39,6 +41,10 @@
 	<assets path="data" exclude="*.mp3" if="cpp || neko"/>
 	<assets path="data" exclude="*.ogg" if="flash"/>
 	<assets path="data" if="html5"/>
+
+  <section if="haxeserver">
+    <haxeflag name="--connect 6000"/>
+  </section>
 	
 	<icon path="data/icon.png"/>
 </project>

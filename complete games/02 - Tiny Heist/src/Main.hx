@@ -1,53 +1,58 @@
 package;
 
-import modernversion.Itemstats;
-import openfl.display.*;
-import config.*;
-import gamecontrol.*;
 import haxegon.*;
-import terrylib.*;
-import openfl.geom.Rectangle;
-import starling.core.Starling;
+import gamecontrol.Game;
+import entities.Obj;
+import states.TitleScreen;
+import states.EndingScreen;
+import states.FallingFromTower;
+import states.InGame;
+import util.Rand;
+import util.Glow;
+import util.Lerp;
+import util.BresenhamLine;
+import util.Perlinarray;
+import visuals.Draw;
+import visuals.ScreenEffects;
+import visuals.Fade;
+import world.RoomData;
+import world.Generator;
+import world.Localworld;
+import world.World;
 
-@:access(haxegon.Gfx)
 class Main {
+	var standalonemode:Bool = false;
+	var gamemenu:Bool = false;
+	
 	public function new () {
+		initcrashdumper();
+		
+		Core.fps = 30;
 		Gfx.resizescreen(384, 240);
-		Gfx.createimage("cachemap", 384, 240);
-		Achievements.init();
+		
+		GameData.init();
+		Perlinarray.load();
+		RoomData.load();
 		
 		Controls.init();
-		Help.init();
+		Glow.init();
+		BresenhamLine.init();
 		Lerp.init();
-		Flag.init();
-		Script.init();
 		World.init();
+		Camera.init();
 		Obj.init();
-		Textbox.init();
 		
 		Game.init();
 		Localworld.init();
 		Generator.init();
-		Openworld.init();
 		Draw.init();
-		
-		Itemstats.init();
-		
-		Rand.initperlin(Std.random(10), 8, 0.5);
-		
-		// Sitelock code!
-		if (Achievements.sitelockpassed()) {
-			Init.init();
-		}else {
-			Game.changestate(Game.EXPIREDMODE);
-		}
-		
-		//Turn this on for testing
-		//Profiler.init();
+		Init.init();
 	}
 	
-	var standalonemode:Bool = false;
-	var gamemenu:Bool = false;
+	function cleanup(){
+		Perlinarray.unload();
+		RoomData.unload();
+	}
 	
 	function update() {
 		if (standalonemode) {
@@ -77,7 +82,14 @@ class Main {
 	}
 	
 	function render() {
-		dorender();
+		switch(Game.gamestate) {
+			case Game.TITLEMODE: TitleScreen.render();
+			case Game.GAMEMODE: InGame.render(); 
+			case Game.ENDINGMODE: EndingScreen.render();
+			case Game.FALLINGFROMTOWER: FallingFromTower.render();
+		}
+		
+		Fade.draw();
 		
 		if (standalonemode) {
 			if (gamemenu) {
@@ -94,78 +106,75 @@ class Main {
 				Text.display(Gfx.screenwidthmid, Gfx.screenheight - 25, "Press F5 to toggle fullscreen");
 			}
 		}
-		
-		//Profiler.callafterframe();
 	}
 	
 	function doinput() {
 		switch(Game.gamestate) {
-			case Game.TITLEMODE: GameInput.titleinput();
-			case Game.GAMEMODE: GameInput.gameinput();
-			case Game.ENDINGMODE: GameInput.endinginput();
-			case Game.FALLINGFROMTOWER: GameInput.fallfromtowerinput();
-			case Game.SPLASHSCREEN: GameInput.splashscreeninput();
+			case Game.TITLEMODE: TitleScreen.input();
+			case Game.GAMEMODE: InGame.input();
+			case Game.ENDINGMODE: EndingScreen.input();
+			case Game.FALLINGFROMTOWER: FallingFromTower.input();
 		}
 	}
 	
 	function dologic() {
-		Script.runscript();
-		Textbox.updatetextboxes();
 		Lerp.update();
 		
-		//Profiler.startframe(Profiler.PROFILE_LOGIC);
 		switch(Game.gamestate) {
-			case Game.TITLEMODE: Logic.titlelogic();
-			case Game.GAMEMODE: Logic.gamelogic(); 
-			case Game.ENDINGMODE: Logic.endinglogic();
-			case Game.FALLINGFROMTOWER: Logic.fallfromtowerlogic();
-			case Game.SPLASHSCREEN: Logic.splashscreenlogic();
+			case Game.TITLEMODE: TitleScreen.logic();
+			case Game.GAMEMODE: InGame.logic(); 
+			case Game.ENDINGMODE: EndingScreen.logic();
+			case Game.FALLINGFROMTOWER: FallingFromTower.logic();
 		}
-		//Profiler.endframe(Profiler.PROFILE_LOGIC);
 		
-		Game.fadelogic();
+		Fade.fadelogic();
 		Obj.cleanup();
-		Draw.processfade();
-		Help.updateglow();
-		
-		if (Draw.screenshake > 0) {
-			var viewPortRectangle:Rectangle = Starling.current.viewPort;
-			if(!screenshakestart){
-			  realviewportx = viewPortRectangle.x;
-			  realviewporty = viewPortRectangle.y;
-				screenshakestart = true;
-			}
-			
-			viewPortRectangle.x = realviewportx + Random.int( -4, 4);
-			viewPortRectangle.y = realviewporty + Random.int( -4, 4);
-			Starling.current.viewPort = viewPortRectangle;
-			
-			Draw.screenshake--;
-			
-			if (Draw.screenshake <= 0) {
-				viewPortRectangle.x = realviewportx;
-			  viewPortRectangle.y = realviewporty;
-				Starling.current.viewPort = viewPortRectangle;
-				screenshakestart = false;
-			}
-		}
+		Fade.update();
+		Glow.update();
+		ScreenEffects.updatescreenshake();
 	}
 	
-	function dorender() {
-		//Profiler.startframe(Profiler.PROFILE_RENDER);
-		switch(Game.gamestate) {
-			case Game.TITLEMODE: Render.titlerender();
-			case Game.GAMEMODE: Render.gamerender(); 
-			case Game.ENDINGMODE: Render.endingrender();
-			case Game.FALLINGFROMTOWER: Render.fallfromtowerrender();
-			case Game.SPLASHSCREEN: Render.splashscreenrender();
+	public static function initcrashdumper() {
+		// Crashdumper
+		#if (crashdumper && (desktop || flash)) // (crashdumper && (desktop || flash || mobile)) not sure if crashdumper works in mobile or not
+
+		//trace("Crashdumper is active.");
+		var unique_id:String = crashdumper.SessionData.generateID("haxegon_");
+		#if flash
+		var crashDumper = new crashdumper.CrashDumper(unique_id, null, null, false, null, null, openfl.Lib.current.stage);
+		#else
+		var crashDumper = new crashdumper.CrashDumper(unique_id);
+		#end
+
+		crashDumper.session.version = "1";
+
+		#if debug
+		crashDumper.closeOnCrash = true;
+		#else
+		crashDumper.closeOnCrash = false;
+		#end
+		crashDumper.url = null;
+		crashDumper.path = "%APP%";
+		var path = new haxe.io.Path(crashDumper.path);
+		// Avoid exposing user folder in MacOS
+		#if !flash
+		if (StringTools.startsWith(path.dir, "/Users")) {
+			var split = path.dir.split('/');
+			split.splice(0, 3);
+			split.unshift('~');
+			path.dir = split.join('/');
 		}
-		//Profiler.endframe(Profiler.PROFILE_RENDER);
-		
-		Draw.drawfade();
+		#end
+		crashDumper.postCrashMethod = function(e) {
+			var window = openfl.Lib.current.stage.application.window;
+			if (window.fullscreen) {
+				window.minimized = true;
+			}
+			#if !debug
+			window.alert('Oh, no! What a terryible crash!\nCheck ${path.toString()} for the crash log.',
+				"Tiny Heist crashed :(");
+			#end
+		}
+		#end
 	}
-	
-	var screenshakestart:Bool = false;
-	var realviewportx:Float;
-	var realviewporty:Float;
 }
