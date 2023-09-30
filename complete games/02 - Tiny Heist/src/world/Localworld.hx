@@ -8,7 +8,7 @@ import modernversion.AIDirector;
 import modernversion.Modern;
 import world.World;
 import entities.Obj;
-import util.Rand;
+import util.TinyRand;
 import util.Glow;
 import util.Lerp;
 import util.Direction;
@@ -510,7 +510,7 @@ class Localworld {
 				if (Obj.entities[i].rule == "enemy") {
 					if (Obj.entities[i].type == EnemyType.FIREMAN) {
 						if(Obj.entities[i].xp == x && Obj.entities[i].yp == y){
-							Obj.entities[i].setmessage(Rand.ppickstring("Stop!", "No!!!", "Hiss!!!"), "flashing"); 
+							Obj.entities[i].setmessage(TinyRand.ppickstring("Stop!", "No!!!", "Hiss!!!"), "flashing"); 
 							Game.stunenemy(i, 20);
 						}
 					}
@@ -577,7 +577,7 @@ class Localworld {
 				World.fire[x + (y * World.mapwidth)]++;
 				if (worldblock[World.at(x, y)].flamable > -1) {
 					if (World.fire[x + (y * World.mapwidth)] >= worldblock[World.at(x, y)].flamable) {
-						if (Rand.pint(1, 5) == 5) {
+						if (TinyRand.pint(1, 5) == 5) {
 							//Try a little randomness
 							World.fire[x + (y * World.mapwidth)] = 0;
 						}else{
@@ -697,7 +697,7 @@ class Localworld {
 					if (World.at(x + j, y + k) == Localworld.ROOFSIDE) protectedsquares = false;
 					if (World.at(x + j, y + k) == Localworld.ROOFSTARS) protectedsquares = false;
 					if(protectedsquares){
-						World.placetile(x + j, y + k, Rand.ppickint(Localworld.RUBBLE, Localworld.EMPTYBACKGROUND, Localworld.EMPTYBACKGROUND));
+						World.placetile(x + j, y + k, TinyRand.ppickint(Localworld.RUBBLE, Localworld.EMPTYBACKGROUND, Localworld.EMPTYBACKGROUND));
 						if (Math.sqrt(Math.pow(j, 2) + Math.pow(k, 2)) <= Std.int((rad * 2) / 3)) {
 							World.placetile(x + j, y + k, Localworld.EMPTYBACKGROUND);
 						}

@@ -8,7 +8,7 @@ import world.World;
 import entities.Obj;
 import entities.ItemType;
 import util.Line;
-import util.Rand;
+import util.TinyRand;
 import util.Glow;
 import util.StraightAstar;
 import util.Astar;
@@ -79,7 +79,7 @@ class Generator {
 	}
 	
 	public static function randomwall():Void {
-		World.placetile(Rand.pint(0, World.mapwidth - 1), Rand.pint(0, World.mapheight - 1), Localworld.WALL);
+		World.placetile(TinyRand.pint(0, World.mapwidth - 1), TinyRand.pint(0, World.mapheight - 1), Localworld.WALL);
 	}
 	
 	public static function checkfreespace(x:Int, y:Int, w:Int, h:Int, offset:Int = 0):Bool {
@@ -268,23 +268,23 @@ class Generator {
 				boundx = World.mapwidth - 1;
 				boundy = World.mapheight - 1;
 			case "top":
-				boundx = Rand.pint(0, World.mapwidth - 1);
+				boundx = TinyRand.pint(0, World.mapwidth - 1);
 				boundy = 0;
 			case "bottom":
-				boundx = Rand.pint(0, World.mapwidth - 1);
+				boundx = TinyRand.pint(0, World.mapwidth - 1);
 				boundy = World.mapheight - 1;
 			case "middle":
-				boundx = Rand.pint(0, World.mapwidth - 1);
+				boundx = TinyRand.pint(0, World.mapwidth - 1);
 				boundy = Std.int(World.mapheight / 2);
 			case "left":
 				boundx = 0;
-				boundy = Rand.pint(0, World.mapheight - 1);
+				boundy = TinyRand.pint(0, World.mapheight - 1);
 			case "right":
 				boundx = World.mapwidth -1;
-				boundy = Rand.pint(0, World.mapheight - 1);
+				boundy = TinyRand.pint(0, World.mapheight - 1);
 			case "center":
 				boundx = Std.int(World.mapwidth / 2);
-				boundy = Rand.pint(0, World.mapheight - 1);
+				boundy = TinyRand.pint(0, World.mapheight - 1);
 		}
 	}
 	
@@ -318,10 +318,10 @@ class Generator {
 			attempts = 500;
 			
 			while (!checkfreespace(tx1, ty1, tx2, ty2, 1) && attempts > 0) {
-				tr = Rand.pint(0, RoomData.numrooms(type) - 1);
+				tr = TinyRand.pint(0, RoomData.numrooms(type) - 1);
 				tx2 = RoomData.width(type, tr); ty2 = RoomData.height(type, tr);
-				tx1 = x + Rand.pint(-offset, offset);
-				ty1 = y + Rand.pint(-offset, offset);
+				tx1 = x + TinyRand.pint(-offset, offset);
+				ty1 = y + TinyRand.pint(-offset, offset);
 				
 				attempts--;
 			}
@@ -338,7 +338,7 @@ class Generator {
 	/** Place a room exactly where you want it, with a small variable */
 	public static function exactplace(type:String, x:Int, y:Int):Void {
 		if (!rejectmap) {
-			tr = Rand.pint(0, RoomData.numrooms(type) - 1);
+			tr = TinyRand.pint(0, RoomData.numrooms(type) - 1);
 				
 			addroom(x, y, type, tr);
 			placeactualroom();
@@ -355,10 +355,10 @@ class Generator {
 			attempts = 500;
 			
 			while (!checkfreespace(tx1, ty1, tx2, ty2, 1) && attempts > 0) {
-				tr = Rand.pint(0, RoomData.numrooms(type) - 1);
+				tr = TinyRand.pint(0, RoomData.numrooms(type) - 1);
 				tx2 = RoomData.width(type, tr); ty2 = RoomData.height(type, tr);
-				tx1 = Rand.pint(boundx, boundx + boundw - tx2 - 1);
-				ty1 = Rand.pint(boundy, boundy + boundh - ty2 - 1);
+				tx1 = TinyRand.pint(boundx, boundx + boundw - tx2 - 1);
+				ty1 = TinyRand.pint(boundy, boundy + boundh - ty2 - 1);
 				
 				attempts--;
 			}
@@ -448,7 +448,7 @@ class Generator {
 						for (j2 in -1 ... 2) {
 							for (i2 in -1 ... 2) {
 								if (World.at(i + i2, j + j2) == Localworld.BACKGROUND) {
-									if(Rand.pbool() && Rand.pbool()){
+									if(TinyRand.pbool() && TinyRand.pbool()){
 										//World.placetile(i + i2, j + j2, Localworld.WALL);
 									}
 								}
@@ -776,10 +776,10 @@ class Generator {
 					World.placetile(tx2, ty2, Localworld.CONSIDERLOCKEDDOOR);
 				}
 				if (rooms[a].doorodds == 2) {
-					if (Rand.pint(1, 8) == 1) World.placetile(tx1, ty1, Localworld.DOOR);
+					if (TinyRand.pint(1, 8) == 1) World.placetile(tx1, ty1, Localworld.DOOR);
 				}
 				if (rooms[b].doorodds == 2) {
-					if (Rand.pint(1, 8) == 1) World.placetile(tx2, ty2, Localworld.DOOR);
+					if (TinyRand.pint(1, 8) == 1) World.placetile(tx2, ty2, Localworld.DOOR);
 				}
 			}
 		}
@@ -1087,16 +1087,16 @@ class Generator {
 		if (Geom.inbox(x, y, Std.int(World.mapwidth / 2) - 10, Std.int(World.mapheight / 2) - 5, 21, 11)) {
 			if (World.at(x, y) != -100) {
 				World.placetile(x, y, -100);
-				if (Rand.pint(1, 2) == 1) dighole(x, y - 1);
-				if (Rand.pint(1, 2) == 1) dighole(x, y + 1);
-				if (Rand.pint(1, 2) == 1) dighole(x - 1, y);
-				if (Rand.pint(1, 2) == 1) dighole(x + 1, y);
+				if (TinyRand.pint(1, 2) == 1) dighole(x, y - 1);
+				if (TinyRand.pint(1, 2) == 1) dighole(x, y + 1);
+				if (TinyRand.pint(1, 2) == 1) dighole(x - 1, y);
+				if (TinyRand.pint(1, 2) == 1) dighole(x + 1, y);
 			}
 		}
 	}
 	
 	public static function placeoutsidecrater():Void {
-		tx = Rand.pint(Std.int(World.mapwidth / 2) - 10, Std.int(World.mapwidth / 2) + 10);	ty = Rand.pint(Std.int(World.mapheight / 2) - 5, Std.int(World.mapheight / 2) + 5);
+		tx = TinyRand.pint(Std.int(World.mapwidth / 2) - 10, Std.int(World.mapwidth / 2) + 10);	ty = TinyRand.pint(Std.int(World.mapheight / 2) - 5, Std.int(World.mapheight / 2) + 5);
 		//Don't care about collisions
 		dighole(tx, ty);
 		
@@ -1115,22 +1115,22 @@ class Generator {
 	
 	/** Get a random point in the room, not including the edges */
 	public static function getrandompoint_awayfromedge():Void {
-		tx = Rand.pint(2, World.mapwidth - 3);	ty = Rand.pint(2, World.mapheight - 3);
+		tx = TinyRand.pint(2, World.mapwidth - 3);	ty = TinyRand.pint(2, World.mapheight - 3);
 	}
 	
 	
 	/** Get a random point in the given rectangle*/
 	public static function getrandompointin(x:Int, y:Int, w:Int, h:Int):Void {
-		tx = Rand.pint(x, x + w - 1);	ty = Rand.pint(y, y + h - 1);
+		tx = TinyRand.pint(x, x + w - 1);	ty = TinyRand.pint(y, y + h - 1);
 	}
 	
 	
 	/** Pick a side of the rectangle and place a door randomly in it. Mostly for outdoors */
 	public static function placedoorin(x:Int, y:Int, w:Int, h:Int, open:Bool = true):Void {
-		if (Rand.pbool()) {
+		if (TinyRand.pbool()) {
 			//Horizontal
-			tx = Rand.pint(x + 2, x + w - 4);
-			if (Rand.pbool()) {
+			tx = TinyRand.pint(x + 2, x + w - 4);
+			if (TinyRand.pbool()) {
 				//Top
 				World.placetile(tx, y, open?Localworld.OUTSIDE_GROUND:Localworld.DOOR);
 			}else {
@@ -1138,8 +1138,8 @@ class Generator {
 				World.placetile(tx, y+h-1, open?Localworld.OUTSIDE_GROUND:Localworld.DOOR);
 			}
 		}else {
-			ty = Rand.pint(y + 2, y + h - 4);
-			if (Rand.pbool()) {
+			ty = TinyRand.pint(y + 2, y + h - 4);
+			if (TinyRand.pbool()) {
 				//Left
 				World.placetile(x, ty, open?Localworld.OUTSIDE_GROUND:Localworld.DOOR);
 			}else {
@@ -1150,10 +1150,10 @@ class Generator {
 	}
 	
 	public static function placestairsin(x:Int, y:Int, w:Int, h:Int):Void {
-		if (Rand.pbool()) {
+		if (TinyRand.pbool()) {
 			//Horizontal
-			tx = Rand.pint(x + 2, x + w - 4);
-			if (Rand.pbool()) {
+			tx = TinyRand.pint(x + 2, x + w - 4);
+			if (TinyRand.pbool()) {
 				//Top
 				World.placetile(tx, y, Localworld.STAIRS);
 			}else {
@@ -1161,8 +1161,8 @@ class Generator {
 				World.placetile(tx, y+h-1, Localworld.STAIRS);
 			}
 		}else {
-			ty = Rand.pint(y + 2, y + h - 4);
-			if (Rand.pbool()) {
+			ty = TinyRand.pint(y + 2, y + h - 4);
+			if (TinyRand.pbool()) {
 				//Left
 				World.placetile(x, ty, Localworld.STAIRS);
 			}else {
@@ -1174,8 +1174,8 @@ class Generator {
 	
 	public static function placeitemin(x:Int, y:Int, w:Int, h:Int, item:String):Void {
 		//Randomly pick a point in the building for a thing to be in.
-		tx = Rand.pint(x + 1, x + w - 2);
-		ty = Rand.pint(y + 1, y + h - 2);
+		tx = TinyRand.pint(x + 1, x + w - 2);
+		ty = TinyRand.pint(y + 1, y + h - 2);
 		
 		if (item == "key") {
 			World.placetile(tx, ty, Localworld.KEY);
@@ -1194,7 +1194,7 @@ class Generator {
 				
 				for (j in ty1 - 2 ... ty1 + ty2 + 4) {
 					for (i in tx1 - 2 ... tx1 + tx2 + 4) {
-						if(Rand.pint(0,100) >= 66){	
+						if(TinyRand.pint(0,100) >= 66){	
 							World.placetile(i, j, Localworld.DEBRIS);
 						}else {
 							World.placetile(i, j, Localworld.FLOOR);
@@ -1259,7 +1259,7 @@ class Generator {
 	
 	public static function picktopfloorlayout() {
 		//0 is entrance, 1 is exit, 2 is wide and 3 is long. 4 is ignored.
-		var layout:Int = Rand.pint(0, 11);
+		var layout:Int = TinyRand.pint(0, 11);
 		switch(layout) {
 			case 0:	 topfloorlayout = [[2, 4, 3], [0, 3, 4], [3, 4, 3], [4, 1, 4]];
 		  case 1:	 topfloorlayout = [[3, 3, 0], [4, 4, 3], [3, 1, 4], [4, 2, 4]];
@@ -1402,7 +1402,7 @@ class Generator {
 				/*
 				tx = -1; ty = -1;
 				while(World.at(tx, ty) != Localworld.FLOOR){
-					tx = Rand.pint(0, World.mapwidth - 1); ty = Rand.pint(0, World.mapheight -1);
+					tx = TinyRand.pint(0, World.mapwidth - 1); ty = TinyRand.pint(0, World.mapheight -1);
 				}
 				Generator.placelater(tx, ty, "item", "Letter from Terry");
 				*/
@@ -1425,7 +1425,7 @@ class Generator {
 				changemapsize(32, 19);
 				clearrooms();
 				
-				if (Rand.pbool()) {
+				if (TinyRand.pbool()) {
 					roughplace("exit", "tl");
 					place("exit", 25, 14);					
 				}else {
@@ -1444,7 +1444,7 @@ class Generator {
 				changemapsize(32, 19);
 				clearrooms();
 				
-				if (Rand.pbool()) {
+				if (TinyRand.pbool()) {
 					roughplace("exit", "tl");
 					place("exit", 25, 14);					
 				}else {
@@ -1464,7 +1464,7 @@ class Generator {
 				changemapsize(32, 19);
 				clearrooms();
 				
-				if (Rand.pbool()) {
+				if (TinyRand.pbool()) {
 					roughplace("exit", "tl");
 					place("exit", 25, 14);					
 				}else {
@@ -1543,7 +1543,7 @@ class Generator {
 				var roomlist:Array<String> = [];
 				for (i in 0 ... 7) roomlist.push("rooftop_ripple");
 				roomlist.push("rooftop_gemroom");
-				Rand.pshuffle(roomlist);
+				TinyRand.pshuffle(roomlist);
 				
 				exactplace(roomlist.pop(), 9, 9);
 				exactplace(roomlist.pop(), 27 + 4, 9);
@@ -1633,7 +1633,7 @@ class Generator {
 				changemapsize(32, 36);
 				clearrooms();
 				
-				if (Rand.pbool()) {
+				if (TinyRand.pbool()) {
 					roughplace("exit", "tl");
 					place("exit", 25, 14);					
 				}else {
@@ -1654,7 +1654,7 @@ class Generator {
 				changemapsize(32, 36);
 				clearrooms();
 				
-				if (Rand.pbool()) {
+				if (TinyRand.pbool()) {
 					roughplace("exit", "tl");
 					place("exit", 25, 14);					
 				}else {
@@ -1675,7 +1675,7 @@ class Generator {
 				changemapsize(32, 36);
 				clearrooms();
 				
-				if (Rand.pbool()) {
+				if (TinyRand.pbool()) {
 					roughplace("exit", "tl");
 					place("exit", 25, 14);					
 				}else {
@@ -1697,7 +1697,7 @@ class Generator {
 				changemapsize(32, 50);
 				clearrooms();
 				
-				if (Rand.pbool()) {
+				if (TinyRand.pbool()) {
 					roughplace("exit", "tl");
 					place("exit", 25, 14);					
 				}else {
@@ -1706,12 +1706,12 @@ class Generator {
 				}
 				place("high_ripple", 16-6, 5);
 				place("high_ripple", 16 - 6, 25);
-				if (Rand.pbool()) {
+				if (TinyRand.pbool()) {
 					place("high_ripple", 16 - 6, 25);
 				}else{
 					randomroom("normal");
 				}
-				if (Rand.prare()) {
+				if (TinyRand.prare()) {
 					randomroom("intro_ripple");
 				}else{
 					randomroom("normal");
@@ -1729,7 +1729,7 @@ class Generator {
 				changemapsize(32, 50);
 				clearrooms();
 				
-				if (Rand.pbool()) {
+				if (TinyRand.pbool()) {
 					roughplace("exit", "tl");
 					place("exit", 25, 14);					
 				}else {
@@ -1753,7 +1753,7 @@ class Generator {
 				changemapsize(32, 50);
 				clearrooms();
 				
-				if (Rand.pbool()) {
+				if (TinyRand.pbool()) {
 					roughplace("exit", "tl");
 					place("exit", 25, 14);					
 				}else {
@@ -1762,12 +1762,12 @@ class Generator {
 				}
 				place("high_ripple", 16-6, 5);
 				place("high_ripple", 16 - 6, 25);
-				if (Rand.pbool()) {
+				if (TinyRand.pbool()) {
 					place("high_ripple", 16 - 6, 25);
 				}else{
 					randomroom("normal");
 				}
-				if (Rand.prare()) {
+				if (TinyRand.prare()) {
 					randomroom("intro_ripple");
 				}else{
 					randomroom("normal");
@@ -1912,12 +1912,12 @@ class Generator {
 	}
 	
 	public static function generate(currentblueprint:String, regenerate:Bool = false):Void {
-		if(Buildconfig.showtraces) trace("Generating new room " + currentblueprint + ": seed(" + Std.string(Rand.seed + numrejections) + ")");
+		if(Buildconfig.showtraces) trace("Generating new room " + currentblueprint + ": seed(" + Std.string(TinyRand.seed + numrejections) + ")");
 		
 		rejectmap = false; startconnections = false;
 		if (!regenerate) numrejections = 0;
 		if (numrejections > 0) {
-			Rand.setseed(Rand.seed + numrejections);
+			TinyRand.setseed(TinyRand.seed + numrejections);
 		}
 		Draw.screentilewidth = Std.int(Gfx.screenwidth / Draw.tilewidth);
 		Draw.screentileheight = Std.int(Gfx.screenheight / Draw.tileheight);

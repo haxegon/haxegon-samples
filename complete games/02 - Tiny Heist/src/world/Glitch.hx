@@ -4,7 +4,7 @@ import entities.Obj;
 import gamecontrol.Game;
 import modernversion.AIDirector;
 import visuals.ScreenEffects;
-import util.Rand;
+import util.TinyRand;
 import util.Direction;
 import haxegon.Random;
 
@@ -129,12 +129,12 @@ class Glitch{
 					if (World.at(x + j, y + k) == Localworld.ROOFSIDE) protectedsquares = false;
 					if (World.at(x + j, y + k) == Localworld.ROOFSTARS) protectedsquares = false;
 					if (protectedsquares) {
-						World.placetile(x + j, y + k, Rand.ppick(randomblocks));
-						if (Rand.prare()) {
+						World.placetile(x + j, y + k, TinyRand.ppick(randomblocks));
+						if (TinyRand.prare()) {
 							//Low probablity of weird blocks	
-							World.placetile(x + j, y + k, Rand.ppick([Localworld.BANANAPEEL, Localworld.OUTSIDE_EDGE, 
+							World.placetile(x + j, y + k, TinyRand.ppick([Localworld.BANANAPEEL, Localworld.OUTSIDE_EDGE, 
 																								Localworld.ENTRANCE, Localworld.LOCKEDDOOR]));
-							if (Rand.prare() && x + j > 5 && y + k > 5 && x + j < World.mapwidth - 5 && y + k < World.mapheight - 5) {
+							if (TinyRand.prare() && x + j > 5 && y + k > 5 && x + j < World.mapwidth - 5 && y + k < World.mapheight - 5) {
 								World.placetile(x + j, y + k, Localworld.STAIRS);
 							}
 						}

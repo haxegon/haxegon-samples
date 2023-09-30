@@ -8,7 +8,7 @@ import modernversion.Modern;
 import entities.ItemType;
 import entities.Obj;
 import world.World;
-import util.Rand;
+import util.TinyRand;
 import util.Glow;
 import openfl.geom.Point;
 
@@ -27,7 +27,7 @@ class Levelgen {
 			Game.showmessage("FLOOR " + Std.string(Game.floor), "white", 120);
 		}
 		
-		Generator.generate(Rand.ppick(AIDirector.blueprint));
+		Generator.generate(TinyRand.ppick(AIDirector.blueprint));
 		
 		//Place the entrance and exit
 		if (Generator.lastblueprint == "intro_topfloor") {
@@ -111,7 +111,7 @@ class Levelgen {
 			for (i in x ... x + w) {
 				if (Geom.inbox(i, j, 0, 0, World.mapwidth, World.mapheight)){
 					if (i == x || i == x + w - 1 || j == y || j == y + h - 1) {
-						if(Rand.pbool()) Localworld.startfire(i, j);
+						if(TinyRand.pbool()) Localworld.startfire(i, j);
 					}else{
 						Localworld.startfire(i, j);
 					}
@@ -128,17 +128,17 @@ class Levelgen {
 		//Totally redoing outside world generation from here:
 		Generator.changemapsize(32, 19);
 		
-		Rand.setseed(Std.int(Math.abs((Modern.currentrunseed + (Modern.worldx * Modern.worldy)) % 2147483647)));
+		TinyRand.setseed(Std.int(Math.abs((Modern.currentrunseed + (Modern.worldx * Modern.worldy)) % 2147483647)));
 		
 		var zone:Int = Std.int(Math.max(Math.abs(Modern.worldx - 50), Math.abs(Modern.worldy - 50)));
 		
 		//Standard terrain:
 		for (j in 0 ... World.mapheight) {
 			for (i in 0 ... World.mapwidth) {
-				if (Rand.pint(0, 100) > 90) {
+				if (TinyRand.pint(0, 100) > 90) {
 					World.placetile(i, j, Localworld.WALL);
 				}else {
-					if(Rand.pint(0,100) >= 66){	
+					if(TinyRand.pint(0,100) >= 66){	
 						World.placetile(i, j, Localworld.DEBRIS);
 					}else {
 						World.placetile(i, j, Localworld.FLOOR);
@@ -149,7 +149,7 @@ class Levelgen {
 		
 		for (j in 17 ... 19) {
 			for (i in 24 ... 32) {
-				if(Rand.pint(0,100) >= 66){	
+				if(TinyRand.pint(0,100) >= 66){	
 					World.placetile(i, j, Localworld.DEBRIS);
 				}else {
 					World.placetile(i, j, Localworld.FLOOR);
@@ -165,14 +165,14 @@ class Levelgen {
 		}else if(zone == 1){
 			//The treasure ring: the corner rooms have stuff
 			if (Math.abs(Modern.worldx - 50) == Math.abs(Modern.worldy - 50)) {
-				Generator.tx1 = Rand.pint(3, World.mapwidth - 1 - 14);
-				Generator.ty1 = Rand.pint(3, World.mapheight - 1 - 13);
-				Generator.tx2 = Rand.pint(7, 12); 
-				Generator.ty2 = Rand.pint(7, 10);
+				Generator.tx1 = TinyRand.pint(3, World.mapwidth - 1 - 14);
+				Generator.ty1 = TinyRand.pint(3, World.mapheight - 1 - 13);
+				Generator.tx2 = TinyRand.pint(7, 12); 
+				Generator.ty2 = TinyRand.pint(7, 10);
 				
 				for (j in Generator.ty1 - 1 ... Generator.ty1 + Generator.ty2 + 2) {
 					for (i in Generator.tx1 - 1 ... Generator.tx1 + Generator.tx2 + 2) {
-						if(Rand.pint(0,100) >= 66){	
+						if(TinyRand.pint(0,100) >= 66){	
 							World.placetile(i, j, Localworld.DEBRIS);
 						}else {
 							World.placetile(i, j, Localworld.FLOOR);
@@ -221,23 +221,23 @@ class Levelgen {
 				firebox(3, -2, World.mapwidth - 6, World.mapheight + 4);
 			}
 			
-			var numfiremen:Int = Rand.pint(3, 5);
+			var numfiremen:Int = TinyRand.pint(3, 5);
 			for (i in 0 ... numfiremen) {
-				Obj.createentity(Rand.pint(2, World.mapwidth - 3), Rand.pint(2, World.mapheight - 3), "enemy", EnemyType.FIREMAN);
+				Obj.createentity(TinyRand.pint(2, World.mapwidth - 3), TinyRand.pint(2, World.mapheight - 3), "enemy", EnemyType.FIREMAN);
 			}
 		}else if (zone == 3) {
 			//The boundary
 			//Place boundary!
 			if (Modern.worldx - 50 == -3) {
 				for (j in 0 ... World.mapheight) {
-					Generator.tx = Rand.pint(3, 5);
+					Generator.tx = TinyRand.pint(3, 5);
 					for(i in 0 ... Generator.tx){
 						World.placetile(i, j, Localworld.WALL);
 					}
 				}
 			}else if (Modern.worldx - 50 == 3) {
 				for (j in 0 ... World.mapheight) {
-					Generator.tx = Rand.pint(3, 5);
+					Generator.tx = TinyRand.pint(3, 5);
 					for(i in 0 ... Generator.tx){
 						World.placetile(World.mapwidth - 1 - i, j, Localworld.WALL);
 					}
@@ -246,21 +246,21 @@ class Levelgen {
 			
 			if (Modern.worldy - 50 == -3) {
 				for (i in 0 ... World.mapwidth) {
-					Generator.ty = Rand.pint(3, 5);
+					Generator.ty = TinyRand.pint(3, 5);
 					for(j in 0 ... Generator.ty){
 						World.placetile(i, j, Localworld.WALL);
 					}
 				}
 			}else if (Modern.worldy - 50 == 3) {
 				for (i in 0 ... World.mapwidth) {
-					Generator.ty = Rand.pint(3, 5);
+					Generator.ty = TinyRand.pint(3, 5);
 					for(j in 0 ... Generator.ty){
 						World.placetile(i, World.mapheight - 1 - j, Localworld.WALL);
 					}
 				}
 			}
 		}else{
-			Modern.updatepalette(Rand.ppick([Roomstyle.ROBOT, Roomstyle.HIGH, Roomstyle.SHOPKEEPER, Roomstyle.INTRO, Roomstyle.ROOFTOP, Roomstyle.ERROR, Roomstyle.OUTSIDE]));
+			Modern.updatepalette(TinyRand.ppick([Roomstyle.ROBOT, Roomstyle.HIGH, Roomstyle.SHOPKEEPER, Roomstyle.INTRO, Roomstyle.ROOFTOP, Roomstyle.ERROR, Roomstyle.OUTSIDE]));
 			//Glitch ring: everything beyond this is just noise
 			var randomblocks:Array<Int> = [Localworld.FLOOR, Localworld.BLOOD, Localworld.WALL,
 			                               Localworld.DOOR, Localworld.OPENDOOR, Localworld.RUBBLE, Localworld.EMPTYBACKGROUND,
@@ -269,12 +269,12 @@ class Levelgen {
 																		 ];
 			for (j in 0 ... World.mapheight) {
 				for (i in 0 ... World.mapwidth) {
-					World.placetile(i, j, Rand.ppick(randomblocks));
-					if (Rand.prare()) {
+					World.placetile(i, j, TinyRand.ppick(randomblocks));
+					if (TinyRand.prare()) {
 					  //Low probablity of weird blocks	
-						World.placetile(i, j, Rand.ppick([Localworld.BANANAPEEL, Localworld.OUTSIDE_EDGE, 
+						World.placetile(i, j, TinyRand.ppick([Localworld.BANANAPEEL, Localworld.OUTSIDE_EDGE, 
 						                                  Localworld.ENTRANCE, Localworld.LOCKEDDOOR]));
-						if (Rand.prare() && i > 5 && j > 5 && i < World.mapwidth - 5 && j < World.mapheight - 5) {
+						if (TinyRand.prare() && i > 5 && j > 5 && i < World.mapwidth - 5 && j < World.mapheight - 5) {
 							World.placetile(i, j, Localworld.STAIRS);
 						}
 					}
@@ -305,7 +305,7 @@ class Levelgen {
 		}
 		
 		//Randomlly 
-		Rand.pshuffle(doorlocations);
+		TinyRand.pshuffle(doorlocations);
 		for (i in 0 ... t) {
 			if(i < doorlocations.length){
 				World.placetile(Std.int(doorlocations[i].x), Std.int(doorlocations[i].y), Localworld.FLOOR);
@@ -348,7 +348,7 @@ class Levelgen {
 		}
 		
 		//Randomlly 
-		Rand.pshuffle(keylocations);
+		TinyRand.pshuffle(keylocations);
 		for (i in 0 ... t) {
 			if(i < keylocations.length){
 				World.placetile(Std.int(keylocations[i].x), Std.int(keylocations[i].y), Localworld.FLOOR);
@@ -439,7 +439,7 @@ class Levelgen {
 		
 		//Pick randomlly 
 		if(possiblelocations.length > 0){
-			Rand.pshuffle(possiblelocations);
+			TinyRand.pshuffle(possiblelocations);
 			Obj.createentity(Std.int(possiblelocations[0].x), Std.int(possiblelocations[0].y), "shopkeeper", sellingitem);
 		}
 	}

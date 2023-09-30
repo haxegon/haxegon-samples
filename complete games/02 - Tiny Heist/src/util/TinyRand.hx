@@ -1,6 +1,5 @@
 package util;
 
-import openfl.display.BitmapData;
 /****
 * Copyright (c) 2013 Jason O'Neil
 * 
@@ -11,21 +10,11 @@ import openfl.display.BitmapData;
 * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 * 
 ****/
-	/**
-Title:      Perlin noise
-Version:    1.3
-Author:      Ron Valstar
-Author URI:    http://www.sjeiti.com/
-Original code port from http://mrl.nyu.edu/~perlin/noise/
-and some help from http://freespace.virgin.net/hugo.elias/models/m_perlin.htm
-AS3 optimizations by Mario Klingemann http://www.quasimondo.com
-Haxe port and optimization by Nicolas Cannasse http://haxe.org
-*/
 
 //Some of this code is from Jason O'Neil's class, some is some other stuff I found online,
 //some is mine (the messy stuff)
 
-class Rand{
+class TinyRand{
 	/** Return a pseudorandom boolean value (true or false) */
 	public static inline function pbool():Bool
 	{
@@ -197,22 +186,4 @@ class Rand{
 	
 	public static var temp:Int;
 	public static var seed:Int = 0;
-
-  public static var perlinoctaves:Int;
-
-  public static var aOctFreq:Array<Float>; // frequency per octave
-  public static var aOctPers:Array<Float>; // persistence per octave
-  public static var fPersMax:Float;// 1 / max persistence
-
-  public static var iXoffset:Float;
-  public static var iYoffset:Float;
-  public static var iZoffset:Float;
-
-  public static var baseFactor:Float;
-
-  public static function seedOffset( iSeed : Int ):Void {
-    iXoffset = iSeed = Std.int((iSeed * 16807.) % 2147483647);
-    iYoffset = iSeed = Std.int((iSeed * 16807.) % 2147483647);
-    iZoffset = iSeed = Std.int((iSeed * 16807.) % 2147483647);
-  }
 }

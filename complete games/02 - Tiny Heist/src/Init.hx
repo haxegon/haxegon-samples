@@ -5,7 +5,7 @@ import entities.entities.*;
 import gamecontrol.Game;
 import modernversion.Modern;
 import entities.Obj;
-import util.Rand;
+import util.TinyRand;
 import visuals.Starfield;
 
 class Init {
@@ -68,7 +68,7 @@ class Init {
 		//Load resources
 		loadresources();
 		
-		Rand.setseed(Std.int(Math.random() * 50000));
+		TinyRand.setseed(Std.int(Math.random() * 50000));
 		
 		Starfield.init();
 		

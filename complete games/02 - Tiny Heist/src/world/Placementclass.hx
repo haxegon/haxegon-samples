@@ -1,7 +1,7 @@
 package world;
 
 import openfl.geom.Point;
-import util.Rand;
+import util.TinyRand;
 
 class Placementclass {
 	public function new(_name:String) {
@@ -36,7 +36,7 @@ class Placementclass {
 	public function pick(thing:String = ""):Void {
 		//if (thing == "") {
 		if (length > 0) {
-			selection = Rand.pint(0, length - 1);
+			selection = TinyRand.pint(0, length - 1);
 		}else{
 			selection = -1;
 		}

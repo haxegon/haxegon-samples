@@ -8,7 +8,7 @@ import world.Generator;
 import world.Localworld;
 import world.World;
 import entities.Obj;
-import util.Rand;
+import util.TinyRand;
 import util.Glow;
 import util.Direction;
 import visuals.ScreenEffects;
@@ -115,7 +115,7 @@ class EnemyEntity extends BaseEntity {
 				switch(Obj.entities[i].type){
 					case EnemyType.GUARD, EnemyType.LASERGUARD:
 						Obj.entities[i].dir = Direction.random();
-						Obj.entities[i].ai = Rand.ppickstring("clockwiserandommarch", "anticlockwiserandommarch");
+						Obj.entities[i].ai = TinyRand.ppickstring("clockwiserandommarch", "anticlockwiserandommarch");
 					case EnemyType.GUARD_CLOCKWISE_UP:
 						Obj.entities[i].dir = Direction.UP;
 						Obj.entities[i].type = EnemyType.GUARD;
@@ -281,7 +281,7 @@ class EnemyEntity extends BaseEntity {
 							if (Obj.entities[i].type == EnemyType.LASERCAMERA) Obj.entities[i].col = 0xFF0000;
 							Obj.entities[i].lightsource = Obj.entities[i].type;
 							Obj.entities[i].collidable = true;
-							Obj.entities[i].setmessage(Rand.ppickstring("REBOOTING...", "SCANNING AREA..."), "whisper");
+							Obj.entities[i].setmessage(TinyRand.ppickstring("REBOOTING...", "SCANNING AREA..."), "whisper");
 						}
 					}
 				}
@@ -301,7 +301,7 @@ class EnemyEntity extends BaseEntity {
 							if (Obj.entities[i].type == EnemyType.LASERSENTINAL) Obj.entities[i].col = 0xFF0000;
 							Obj.entities[i].lightsource = Obj.entities[i].type;
 							Obj.entities[i].collidable = true;
-							Obj.entities[i].setmessage(Rand.ppickstring("REBOOTING...", "SCANNING AREA..."), "whisper");
+							Obj.entities[i].setmessage(TinyRand.ppickstring("REBOOTING...", "SCANNING AREA..."), "whisper");
 						}
 					}
 				}
@@ -314,7 +314,7 @@ class EnemyEntity extends BaseEntity {
 							Obj.entities[i].state = Game.NORMAL;
 							Obj.entities[i].ai = Obj.entities[i].stringpara;
 							Obj.entities[i].lightsource = "none";
-							Obj.entities[i].setmessage(Rand.ppickstring("Lol, fire", "HAHAHA"), "whisper");
+							Obj.entities[i].setmessage(TinyRand.ppickstring("Lol, fire", "HAHAHA"), "whisper");
 							Obj.entities[i].collidable = true;
 						}
 					}
@@ -348,7 +348,7 @@ class EnemyEntity extends BaseEntity {
 							Obj.entities[i].ai = Obj.entities[i].stringpara;
 							Obj.entities[i].lightsource = "laserbeside";
 							Obj.entities[i].collidable = true;
-							Obj.entities[i].setmessage(Rand.ppickstring("REBOOTING...", "SCANNING AREA..."), "whisper");
+							Obj.entities[i].setmessage(TinyRand.ppickstring("REBOOTING...", "SCANNING AREA..."), "whisper");
 						}
 					}
 				}
@@ -371,7 +371,7 @@ class EnemyEntity extends BaseEntity {
 							}
 							Obj.entities[i].col = 0xFFFFFF;
 							Obj.entities[i].speed = 1;
-							Obj.entities[i].setmessage(Rand.ppickstring("???", "What was that?", "Ugh, my head...", "Huh?", "Ouch..."), "whisper");
+							Obj.entities[i].setmessage(TinyRand.ppickstring("???", "What was that?", "Ugh, my head...", "Huh?", "Ouch..."), "whisper");
 							Obj.entities[i].collidable = true;
 							if (Game.alarm) Localworld.alertedtoplayer(i);
 						}
@@ -415,7 +415,7 @@ class EnemyEntity extends BaseEntity {
 					//Looking for a guard!
 					if (Game.adjacent(Obj.entities[i].xp, Obj.entities[i].yp, Obj.entities[Obj.entities[i].target].xp, Obj.entities[Obj.entities[i].target].yp)) {
 						Obj.entities[i].state = Game.ALERTED;
-						Obj.entities[i].setmessage(Rand.ppickstring("WOOF! WOOF! WOOF!", "WOOF!", "WOOF! WOOF!"), "flashing");
+						Obj.entities[i].setmessage(TinyRand.ppickstring("WOOF! WOOF! WOOF!", "WOOF!", "WOOF! WOOF!"), "flashing");
 						Localworld.alertedtoplayer(Obj.entities[i].target);
 					}
 				}else if (Obj.entities[i].state == Game.DOG_CHASEPLAYER) {
@@ -463,7 +463,7 @@ class EnemyEntity extends BaseEntity {
 							Obj.entities[i].col = 0xFF0000;
 							Obj.entities[i].lightsource = "laser_narrow";
 							Obj.entities[i].collidable = true;
-							Obj.entities[i].setmessage(Rand.ppickstring("REBOOTING...", "SCANNING AREA..."), "whisper");
+							Obj.entities[i].setmessage(TinyRand.ppickstring("REBOOTING...", "SCANNING AREA..."), "whisper");
 						}
 					}
 				}
@@ -486,7 +486,7 @@ class EnemyEntity extends BaseEntity {
 							Obj.entities[i].col = 0xFFFF44;
 							Obj.entities[i].lightsource = "laser_bubble";
 							Obj.entities[i].collidable = true;
-							Obj.entities[i].setmessage(Rand.ppickstring("REBOOTING...", "SCANNING AREA..."), "whisper");
+							Obj.entities[i].setmessage(TinyRand.ppickstring("REBOOTING...", "SCANNING AREA..."), "whisper");
 						}
 					}
 				}
@@ -502,7 +502,7 @@ class EnemyEntity extends BaseEntity {
 				Game.hurtplayer(Obj.entities[i].dir);
 				Game.checkifplayerdead();
 			case EnemyType.LASERGUARD:
-				Obj.entities[i].setmessage(Rand.ppickstring("Enemy detected! Firing!", "Got you!"), "shout");
+				Obj.entities[i].setmessage(TinyRand.ppickstring("Enemy detected! Firing!", "Got you!"), "shout");
 				Game.hurtplayer(Obj.entities[i].dir);
 				Game.checkifplayerdead();
 			case EnemyType.ROOK:
@@ -529,9 +529,9 @@ class EnemyEntity extends BaseEntity {
 			case EnemyType.DOG, EnemyType.LASERDOG:
 				Obj.entities[i].setmessage("Woof?", "whisper");
 			case EnemyType.GUARD, EnemyType.LASERGUARD:
-				Obj.entities[i].setmessage(Rand.ppickstring("Huh?", "Where they'd go?", "Must be imagining things..."), "whisper");
+				Obj.entities[i].setmessage(TinyRand.ppickstring("Huh?", "Where they'd go?", "Must be imagining things..."), "whisper");
 			case EnemyType.SENTINAL, EnemyType.LASERSENTINAL, EnemyType.CAMERA, EnemyType.LASERCAMERA, EnemyType.ROBOT, EnemyType.BOMBBOT:
-				Obj.entities[i].setmessage(Rand.ppickstring("Error!", "Target Lost..."), "whisper");
+				Obj.entities[i].setmessage(TinyRand.ppickstring("Error!", "Target Lost..."), "whisper");
 			case EnemyType.TERMINATOR:
 				Obj.entities[i].setmessage("YOU CANNOT HIDE FROM ME", "flashing");
 			default:
@@ -545,7 +545,7 @@ class EnemyEntity extends BaseEntity {
 				Obj.entities[i].ai = "pathfind";
 				Obj.entities[i].state = Game.NORMAL;
 				if (Obj.entities[i].messagedelay <= 0) {
-					Obj.entities[i].setmessage(Rand.ppickstring("HAHAHAHAHAHAHAHA", "BWAAHAHAHA!", "Burn!"), "shout");
+					Obj.entities[i].setmessage(TinyRand.ppickstring("HAHAHAHAHAHAHAHA", "BWAAHAHAHA!", "Burn!"), "shout");
 				}
 			case EnemyType.SENTINAL, EnemyType.LASERSENTINAL:
 				if(Obj.entities[i].state != Game.ALERTED) Sound.play("spotted");
@@ -576,7 +576,7 @@ class EnemyEntity extends BaseEntity {
 				if (Obj.entities[i].alertframe <= 0) {
 					Obj.entities[i].col = 0xFF0000;
 					Obj.entities[i].alertframe = 120;
-					Obj.entities[i].setmessage(Rand.ppickstring("Error! Intruder detected!", "Intruder!", "Stop!", "Intruder!", "Found you!"), "shout");
+					Obj.entities[i].setmessage(TinyRand.ppickstring("Error! Intruder detected!", "Intruder!", "Stop!", "Intruder!", "Found you!"), "shout");
 				}
 			case EnemyType.DOG:
 				if(Obj.entities[i].state != Game.ALERTED){
@@ -588,7 +588,7 @@ class EnemyEntity extends BaseEntity {
 					if (Obj.entities[i].alertframe <= 0) {
 						Obj.entities[i].col = 0xFF0000;
 						Obj.entities[i].alertframe = 120;
-						Obj.entities[i].setmessage(Rand.ppickstring("WOOF! WOOF! WOOF!", "WOOF!", "WOOF! WOOF!"), "flashing");
+						Obj.entities[i].setmessage(TinyRand.ppickstring("WOOF! WOOF! WOOF!", "WOOF!", "WOOF! WOOF!"), "flashing");
 					}
 				}
 			case EnemyType.BOMBBOT:
@@ -710,7 +710,7 @@ class EnemyEntity extends BaseEntity {
 							Obj.entities[i].tile = 165;
 						}else {
 							if (Obj.entities[i].life >= 10) {
-								Obj.entities[i].tile = "z".charCodeAt(0) + Rand.pint(1, 10);
+								Obj.entities[i].tile = "z".charCodeAt(0) + TinyRand.pint(1, 10);
 							}else{
 								Obj.entities[i].tile = "0".charCodeAt(0) + Obj.entities[i].life;
 							}
@@ -742,7 +742,7 @@ class EnemyEntity extends BaseEntity {
 						}else {
 							//Obj.entities[i].tile = "z".charCodeAt(0);
 							if (Obj.entities[i].life >= 10) {
-								Obj.entities[i].tile = "z".charCodeAt(0) + Rand.pint(1, 10);
+								Obj.entities[i].tile = "z".charCodeAt(0) + TinyRand.pint(1, 10);
 							}else{
 								Obj.entities[i].tile = "0".charCodeAt(0) + Obj.entities[i].life;
 							}
@@ -771,7 +771,7 @@ class EnemyEntity extends BaseEntity {
 						}else {
 							//Obj.entities[i].tile = "z".charCodeAt(0);
 							if (Obj.entities[i].life >= 10) {
-								Obj.entities[i].tile = "z".charCodeAt(0) + Rand.pint(1, 10);
+								Obj.entities[i].tile = "z".charCodeAt(0) + TinyRand.pint(1, 10);
 							}else{
 								Obj.entities[i].tile = "0".charCodeAt(0) + Obj.entities[i].life;
 							}
@@ -822,7 +822,7 @@ class EnemyEntity extends BaseEntity {
 							}else {
 								//Obj.entities[i].tile = "z".charCodeAt(0);
 								if (Obj.entities[i].life >= 10) {
-									Obj.entities[i].tile = "z".charCodeAt(0) + Rand.pint(1, 10);
+									Obj.entities[i].tile = "z".charCodeAt(0) + TinyRand.pint(1, 10);
 								}else{
 									Obj.entities[i].tile = "0".charCodeAt(0) + Obj.entities[i].life;
 								}
@@ -850,7 +850,7 @@ class EnemyEntity extends BaseEntity {
 							Obj.entities[i].tile = 236 + Obj.entities[i].dir;
 						}else {
 							if (Obj.entities[i].life >= 10) {
-								Obj.entities[i].tile = "z".charCodeAt(0) + Rand.pint(1, 10);
+								Obj.entities[i].tile = "z".charCodeAt(0) + TinyRand.pint(1, 10);
 							}else{
 								Obj.entities[i].tile = "0".charCodeAt(0) + Obj.entities[i].life;
 							}
@@ -906,7 +906,7 @@ class EnemyEntity extends BaseEntity {
 							Obj.entities[i].tile = "c".charCodeAt(0);
 						}else {
 							if (Obj.entities[i].life >= 10) {
-								Obj.entities[i].tile = "z".charCodeAt(0) + Rand.pint(1, 10);
+								Obj.entities[i].tile = "z".charCodeAt(0) + TinyRand.pint(1, 10);
 							}else{
 								Obj.entities[i].tile = "0".charCodeAt(0) + Obj.entities[i].life;
 							}
@@ -934,7 +934,7 @@ class EnemyEntity extends BaseEntity {
 							Obj.entities[i].tile = "C".charCodeAt(0)+ Game.cameraframe(Obj.entities[i].cameradir);
 						}else {
 							if (Obj.entities[i].life >= 10) {
-								Obj.entities[i].tile = "z".charCodeAt(0) + Rand.pint(1, 10);
+								Obj.entities[i].tile = "z".charCodeAt(0) + TinyRand.pint(1, 10);
 							}else{
 								Obj.entities[i].tile = "0".charCodeAt(0) + Obj.entities[i].life;
 							}
@@ -962,7 +962,7 @@ class EnemyEntity extends BaseEntity {
 							Obj.entities[i].tile = 252 + Obj.entities[i].dir;
 						}else {
 							if (Obj.entities[i].life >= 10) {
-								Obj.entities[i].tile = "z".charCodeAt(0) + Rand.pint(1, 10);
+								Obj.entities[i].tile = "z".charCodeAt(0) + TinyRand.pint(1, 10);
 							}else{
 								Obj.entities[i].tile = "0".charCodeAt(0) + Obj.entities[i].life;
 							}

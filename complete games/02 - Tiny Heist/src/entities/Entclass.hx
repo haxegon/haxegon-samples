@@ -1,7 +1,7 @@
 package entities;
 
 import haxegon.*;
-import util.Rand;
+import util.TinyRand;
 import util.Lerp;
 
 class Entclass {
@@ -163,7 +163,7 @@ class Entclass {
 	
 	public function shakex():Float {
 		if (xbound != 0 || ybound != 0) {
-			return Rand.pint( -3, 3);	
+			return TinyRand.pint( -3, 3);	
 		}
 		
 		if (xbound < 0) {
@@ -178,7 +178,7 @@ class Entclass {
 	
 	public function shakey():Float {
 		if (xbound != 0 || ybound != 0) {
-			return Rand.pint( -3, 3);	
+			return TinyRand.pint( -3, 3);	
 		}
 		
 		if (ybound < 0) {

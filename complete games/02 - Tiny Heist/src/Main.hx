@@ -7,7 +7,7 @@ import states.TitleScreen;
 import states.EndingScreen;
 import states.FallingFromTower;
 import states.InGame;
-import util.Rand;
+import util.TinyRand;
 import util.Glow;
 import util.Lerp;
 import util.BresenhamLine;

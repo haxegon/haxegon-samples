@@ -7,7 +7,7 @@ import entities.Obj;
 import world.Levelgen;
 import world.Roomstyle;
 import world.World;
-import util.Rand;
+import util.TinyRand;
 import gamecontrol.Game;
 import world.Glitch;
 import world.Generator;
@@ -85,11 +85,11 @@ class AIDirector {
 				reinforcements = [EnemyType.GUARD];
 				reinforcementtime = [60];
 				enemylist = [EnemyType.GUARD, EnemyType.CAMERA];
-				if (Rand.poccasional()) {
-				  enemylist.push(Rand.ppickstring(EnemyType.GUARD, EnemyType.DOG, EnemyType.CAMERA));
+				if (TinyRand.poccasional()) {
+				  enemylist.push(TinyRand.ppickstring(EnemyType.GUARD, EnemyType.DOG, EnemyType.CAMERA));
 				}
 				//Always give a slightly crappy item on floor one to prevent restart spamming
-				itemlist.push(Rand.ppickstring(ItemType.LIGHTBULB, ItemType.SIGNALJAMMER, ItemType.BANANAPEEL));
+				itemlist.push(TinyRand.ppickstring(ItemType.LIGHTBULB, ItemType.SIGNALJAMMER, ItemType.BANANAPEEL));
 			case 2, 3, 4:
 				if(Buildconfig.showtraces) trace(" - designing floor " + floor);
 				style = Roomstyle.INTRO;
@@ -97,7 +97,7 @@ class AIDirector {
 				blueprint = ["intro_small", "intro_small2", "intro_small3"];
 				
 				gems = 1;
-				if (Rand.pbool()) {
+				if (TinyRand.pbool()) {
 				  keys = 1;
 					lockedexit = true;
 				}else {
@@ -108,14 +108,14 @@ class AIDirector {
 				reinforcements = [EnemyType.GUARD];
 				reinforcementtime = [60];
 				enemylist = [EnemyType.GUARD, EnemyType.GUARD, EnemyType.CAMERA];
-				if (Rand.poccasional()) {
-				  enemylist.push(Rand.ppickstring(EnemyType.GUARD, EnemyType.DOG, EnemyType.CAMERA));
+				if (TinyRand.poccasional()) {
+				  enemylist.push(TinyRand.ppickstring(EnemyType.GUARD, EnemyType.DOG, EnemyType.CAMERA));
 				}
-				if (Rand.poccasional()) {
-				  enemylist.push(Rand.ppickstring(EnemyType.GUARD, EnemyType.DOG, EnemyType.CAMERA));
+				if (TinyRand.poccasional()) {
+				  enemylist.push(TinyRand.ppickstring(EnemyType.GUARD, EnemyType.DOG, EnemyType.CAMERA));
 				}else {
-				  if (Rand.prare()) {
-					  enemylist.push(Rand.ppickstring(EnemyType.ROBOT, EnemyType.CAMERA));	
+				  if (TinyRand.prare()) {
+					  enemylist.push(TinyRand.ppickstring(EnemyType.ROBOT, EnemyType.CAMERA));	
 					}
 				}
 				
@@ -127,16 +127,16 @@ class AIDirector {
 				
 				if (itemsgiven_intro == 0 && floor == 4) {
 				  //If I haven't given you anything by floor 4, let's make up for it now
-					itemlist.push(Rand.ppickstring(
+					itemlist.push(TinyRand.ppickstring(
 							ItemType.PISTOL, ItemType.LEAFBLOWER, ItemType.BANANAPEEL, ItemType.CARDBOARDBOX, ItemType.BOMB,
 							ItemType.FIRSTAIDKIT, ItemType.SIGNALJAMMER, ItemType.LIGHTBULB, ItemType.DRILL, ItemType.SKATEBOARD
 						));
 					itemsgiven_intro++;
 				}else	if (itemsgiven_intro < 2) {
 				  //Consider giving you something!
-					if (Rand.prare()) {
+					if (TinyRand.prare()) {
 					  //1/20 chance of getting something weird
-						itemlist.push(Rand.ppickstring(
+						itemlist.push(TinyRand.ppickstring(
 						  ItemType.MATCHSTICK, 
 							ItemType.SWORD,
 							ItemType.TIMESTOPPER,
@@ -145,9 +145,9 @@ class AIDirector {
 						));
 						itemsgiven_intro++;
 					}else {
-						if (Rand.poccasional()) {
+						if (TinyRand.poccasional()) {
 						  //1/5 chance of getting something standard
-							itemlist.push(Rand.ppickstring(
+							itemlist.push(TinyRand.ppickstring(
 							  ItemType.PISTOL, ItemType.LEAFBLOWER, ItemType.CARDBOARDBOX, ItemType.BANANAPEEL,
 								ItemType.FIRSTAIDKIT, ItemType.SIGNALJAMMER, ItemType.LIGHTBULB, ItemType.DRILL, ItemType.DRILL,
 								ItemType.BOMB
@@ -158,9 +158,9 @@ class AIDirector {
 				}
 				
 				if (itemsgiven_intro == 0 && floor == 2) {
-					if (Rand.poccasional()) {
+					if (TinyRand.poccasional()) {
 						//Let's occasionally give you a pistol, but that's it
-						if(Rand.pbool()){
+						if(TinyRand.pbool()){
 							itemlist.push(ItemType.PISTOL);
 							itemsgiven_intro += 2;
 						}else {
@@ -198,13 +198,13 @@ class AIDirector {
 				reinforcementtime = [50, 60];
 				
 				enemylist = [EnemyType.GUARD, EnemyType.GUARD, EnemyType.LASERCAMERA];
-				if (Rand.poccasional()) {
-				  enemylist.push(Rand.ppickstring(EnemyType.GUARD, EnemyType.DOG, EnemyType.CAMERA));
+				if (TinyRand.poccasional()) {
+				  enemylist.push(TinyRand.ppickstring(EnemyType.GUARD, EnemyType.DOG, EnemyType.CAMERA));
 				}
-				if (Rand.poccasional()) {
-				  enemylist.push(Rand.ppickstring(EnemyType.LASERGUARD, EnemyType.LASERCAMERA, EnemyType.LASERGUARD));
+				if (TinyRand.poccasional()) {
+				  enemylist.push(TinyRand.ppickstring(EnemyType.LASERGUARD, EnemyType.LASERCAMERA, EnemyType.LASERGUARD));
 				}else {
-				  if (Rand.prare()) {
+				  if (TinyRand.prare()) {
 					  enemylist.push(EnemyType.ROBOT);	
 					}
 				}
@@ -212,22 +212,22 @@ class AIDirector {
 			  //What about items?
 				if (itemsgiven_high < 2) {
 				  //Consider giving you something!
-					if (Rand.prare()) {
+					if (TinyRand.prare()) {
 					  //1/20 chance of getting something weird
-						itemlist.push(Rand.ppickstring(
+						itemlist.push(TinyRand.ppickstring(
 						  ItemType.MATCHSTICK, 
 							ItemType.SWORD,
 							ItemType.TIMESTOPPER
 						));
 						itemsgiven_high++;
 					}else {
-						if (Rand.poccasional()) {
+						if (TinyRand.poccasional()) {
 						  //1/5 chance of getting something standard
 							if (floor == 9 && Game.health <= 1) {
 								//You're not doing so well. Find a health pack!
 								itemlist.push(ItemType.FIRSTAIDKIT);
 							}else{				
-								itemlist.push(Rand.ppickstring(
+								itemlist.push(TinyRand.ppickstring(
 									ItemType.PISTOL, ItemType.LEAFBLOWER, ItemType.CARDBOARDBOX, ItemType.BANANAPEEL,
 									ItemType.FIRSTAIDKIT, ItemType.SIGNALJAMMER, ItemType.LIGHTBULB, ItemType.DRILL, ItemType.DRILL, ItemType.BOMB
 								));
@@ -239,9 +239,9 @@ class AIDirector {
 				
 				//Like on floors 2, you occasionally find a pistol on floor 6
 				if (itemsgiven_high == 0 && floor == 6) {
-					if (Rand.poccasional()) {
+					if (TinyRand.poccasional()) {
 						//Let's occasionally give you a pistol, but that's it
-						if(Rand.pbool()){
+						if(TinyRand.pbool()){
 							itemlist.push(ItemType.PISTOL);
 							itemsgiven_high += 2;
 						}else {
@@ -273,7 +273,7 @@ class AIDirector {
 							ItemType.FIRSTAIDKIT, ItemType.FIRSTAIDKIT, ItemType.SIGNALJAMMER, ItemType.LIGHTBULB, ItemType.DRILL,
 							ItemType.TELEPORTER];
 				for (i in 0 ... 5) {
-				  Rand.pshuffle(shopitems);	
+				  TinyRand.pshuffle(shopitems);	
 					if (shopitems.length > 0) {
 						itemlist.push(shopitems.pop());
 					}
@@ -292,16 +292,16 @@ class AIDirector {
 				reinforcementtime = [50, 50];
 				
 				enemylist = [EnemyType.ROOK, EnemyType.ROBOT];
-				if (Rand.poccasional()) {
-				  enemylist.push(Rand.ppickstring(EnemyType.LASERCAMERA, EnemyType.CAMERA, EnemyType.GUARD));
+				if (TinyRand.poccasional()) {
+				  enemylist.push(TinyRand.ppickstring(EnemyType.LASERCAMERA, EnemyType.CAMERA, EnemyType.GUARD));
 				}
-				if (Rand.pbool()) {
-					itemlist.push(Rand.ppickstring(ItemType.SKATEBOARD, ItemType.PISTOL));
+				if (TinyRand.pbool()) {
+					itemlist.push(TinyRand.ppickstring(ItemType.SKATEBOARD, ItemType.PISTOL));
 				}else{
-					itemlist.push(Rand.ppickstring(ItemType.LEAFBLOWER, ItemType.SKATEBOARD, ItemType.DRILL, ItemType.PISTOL, ItemType.LIGHTBULB, ItemType.LIGHTBULB));
+					itemlist.push(TinyRand.ppickstring(ItemType.LEAFBLOWER, ItemType.SKATEBOARD, ItemType.DRILL, ItemType.PISTOL, ItemType.LIGHTBULB, ItemType.LIGHTBULB));
 				}
-				if (Rand.poccasional()) {
-				  itemlist.push(Rand.ppickstring(ItemType.LIGHTBULB, ItemType.SIGNALJAMMER, ItemType.SWORD, ItemType.BANANAPEEL));
+				if (TinyRand.poccasional()) {
+				  itemlist.push(TinyRand.ppickstring(ItemType.LIGHTBULB, ItemType.SIGNALJAMMER, ItemType.SWORD, ItemType.BANANAPEEL));
 				}
 			case 13:
 				if(Buildconfig.showtraces) trace(" - designing floor " + floor);
@@ -318,14 +318,14 @@ class AIDirector {
 				
 				enemylist = [EnemyType.ROOK, EnemyType.ROBOT, EnemyType.ROOK];
 				
-				if (Rand.poccasional()) {
-				  enemylist.push(Rand.ppickstring(EnemyType.LASERCAMERA, EnemyType.CAMERA, EnemyType.GUARD, EnemyType.ROOK));
+				if (TinyRand.poccasional()) {
+				  enemylist.push(TinyRand.ppickstring(EnemyType.LASERCAMERA, EnemyType.CAMERA, EnemyType.GUARD, EnemyType.ROOK));
 				}
-				if (Rand.poccasional()) {
-				  itemlist.push(Rand.ppickstring(ItemType.LEAFBLOWER, ItemType.SKATEBOARD, ItemType.DRILL, ItemType.SKATEBOARD, ItemType.LIGHTBULB, ItemType.LIGHTBULB));
+				if (TinyRand.poccasional()) {
+				  itemlist.push(TinyRand.ppickstring(ItemType.LEAFBLOWER, ItemType.SKATEBOARD, ItemType.DRILL, ItemType.SKATEBOARD, ItemType.LIGHTBULB, ItemType.LIGHTBULB));
 				}
-				if (Rand.poccasional()) {
-				  itemlist.push(Rand.ppickstring(ItemType.LIGHTBULB, ItemType.SIGNALJAMMER, ItemType.SWORD));
+				if (TinyRand.poccasional()) {
+				  itemlist.push(TinyRand.ppickstring(ItemType.LIGHTBULB, ItemType.SIGNALJAMMER, ItemType.SWORD));
 				}
 			case 14:
 				if(Buildconfig.showtraces) trace(" - designing floor " + floor);
@@ -342,16 +342,16 @@ class AIDirector {
 				
 				enemylist = [EnemyType.ROOK, EnemyType.ROBOT, EnemyType.ROOK, EnemyType.LASERGUARD, EnemyType.LASERGUARD, EnemyType.LASERCAMERA, EnemyType.LASERCAMERA];
 				
-				if (Rand.poccasional()) {
-				  enemylist.push(Rand.ppickstring(EnemyType.LASERCAMERA, EnemyType.CAMERA, EnemyType.LASERCAMERA, EnemyType.ROOK));
+				if (TinyRand.poccasional()) {
+				  enemylist.push(TinyRand.ppickstring(EnemyType.LASERCAMERA, EnemyType.CAMERA, EnemyType.LASERCAMERA, EnemyType.ROOK));
 				}
-				if (Rand.poccasional()) {
-				  itemlist.push(Rand.ppickstring(ItemType.LEAFBLOWER, ItemType.SKATEBOARD, ItemType.DRILL, ItemType.SKATEBOARD, ItemType.LIGHTBULB, ItemType.LIGHTBULB));
+				if (TinyRand.poccasional()) {
+				  itemlist.push(TinyRand.ppickstring(ItemType.LEAFBLOWER, ItemType.SKATEBOARD, ItemType.DRILL, ItemType.SKATEBOARD, ItemType.LIGHTBULB, ItemType.LIGHTBULB));
 				}
-				if (Rand.poccasional()) {
-				  itemlist.push(Rand.ppickstring(ItemType.LIGHTBULB, ItemType.SIGNALJAMMER, ItemType.SWORD));
+				if (TinyRand.poccasional()) {
+				  itemlist.push(TinyRand.ppickstring(ItemType.LIGHTBULB, ItemType.SIGNALJAMMER, ItemType.SWORD));
 				}
-				if (Game.health <= 1 && Rand.poccasional()) {
+				if (Game.health <= 1 && TinyRand.poccasional()) {
 					//You're not doing so well. Find a health pack!
 					itemlist.push(ItemType.FIRSTAIDKIT);
 				}
@@ -380,7 +380,7 @@ class AIDirector {
 				reinforcements = [EnemyType.TERMINATOR];
 				reinforcementtime = [200];
 		  default:
-				//If I haven't specifically designed it, just give me something totally Rand.
+				//If I haven't specifically designed it, just give me something totally TinyRand.
 				if(Buildconfig.showtraces) trace(" - huh! giving up");
 				style = Roomstyle.ERROR;
 		}
@@ -809,11 +809,11 @@ class AIDirector {
 		//Consider placing a shopkeeper:
 		if ((floor == 3 || floor == 4) && !placedfirstshopkeeper && Game.gems >= 2) {
 			//Consider placing a shopkeeper on this floor
-			if ((Rand.pbool() && floor == 3) || floor == 4) {
+			if ((TinyRand.pbool() && floor == 3) || floor == 4) {
 				if (Game.health < 3) {
-					Levelgen.placeshopkeeper(Rand.ppickstring(ItemType.FIRSTAIDKIT, ItemType.PISTOL, ItemType.BANANAPEEL));
+					Levelgen.placeshopkeeper(TinyRand.ppickstring(ItemType.FIRSTAIDKIT, ItemType.PISTOL, ItemType.BANANAPEEL));
 				}else{
-					Levelgen.placeshopkeeper(Rand.ppickstring(ItemType.LIGHTBULB, ItemType.SIGNALJAMMER, ItemType.DRILL, ItemType.BOMB));
+					Levelgen.placeshopkeeper(TinyRand.ppickstring(ItemType.LIGHTBULB, ItemType.SIGNALJAMMER, ItemType.DRILL, ItemType.BOMB));
 				}
 			placedfirstshopkeeper = true;
 			}
@@ -821,11 +821,11 @@ class AIDirector {
 		
 		if ((floor == 6 || floor == 7) && !placedsecondshopkeeper && Game.gems >= 2) {
 			//Consider placing a shopkeeper on this floor
-			if ((Rand.pbool() && floor == 6) || floor == 7) {
+			if ((TinyRand.pbool() && floor == 6) || floor == 7) {
 				if (Game.health < 3) {
-					Levelgen.placeshopkeeper(Rand.ppickstring(ItemType.FIRSTAIDKIT, ItemType.PISTOL, ItemType.TELEPORTER, ItemType.BOMB));
+					Levelgen.placeshopkeeper(TinyRand.ppickstring(ItemType.FIRSTAIDKIT, ItemType.PISTOL, ItemType.TELEPORTER, ItemType.BOMB));
 				}else{
-					Levelgen.placeshopkeeper(Rand.ppickstring(ItemType.PISTOL, ItemType.LIGHTBULB, ItemType.SIGNALJAMMER, ItemType.DRILL, ItemType.TELEPORTER, ItemType.BOMB));
+					Levelgen.placeshopkeeper(TinyRand.ppickstring(ItemType.PISTOL, ItemType.LIGHTBULB, ItemType.SIGNALJAMMER, ItemType.DRILL, ItemType.TELEPORTER, ItemType.BOMB));
 				}
 			placedsecondshopkeeper = true;
 			}
@@ -836,14 +836,14 @@ class AIDirector {
 			if (Game.health < 3) {
 				Levelgen.placeshopkeeper(ItemType.FIRSTAIDKIT);
 			}else{
-				Levelgen.placeshopkeeper(Rand.ppickstring(ItemType.PISTOL, ItemType.LIGHTBULB, ItemType.SWORD, ItemType.DRILL));
+				Levelgen.placeshopkeeper(TinyRand.ppickstring(ItemType.PISTOL, ItemType.LIGHTBULB, ItemType.SWORD, ItemType.DRILL));
 			}
 			placedthirdshopkeeper = true;
 		}
 		
 		if (floor >= 6 && floor < 10) {
 		  //On the 6th - 10th floor, very rarely randomly swap a door for a fake portable door sometimes	
-			if (Rand.prare()) {
+			if (TinyRand.prare()) {
 			  if (!donethedoorjoke) {	
 					Levelgen.swaprealdoorforfakedoor(1);
 					donethedoorjoke = true;

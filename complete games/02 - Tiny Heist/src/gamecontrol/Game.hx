@@ -11,7 +11,7 @@ import world.Placementclass;
 import world.Generator;
 import world.Localworld;
 import world.World;
-import util.Rand;
+import util.TinyRand;
 import util.Direction;
 import util.Astar;
 import visuals.Draw;
@@ -216,7 +216,7 @@ class Game {
 			}else {
 				tx = -1;
 				while (tx == -1 || World.at(tx, ty) != Localworld.FLOOR) {
-					tx = Rand.pint(0, World.mapwidth);	ty = Rand.pint(0, World.mapheight);
+					tx = TinyRand.pint(0, World.mapwidth);	ty = TinyRand.pint(0, World.mapheight);
 				}
 			}
 			switch(rule) {
@@ -277,7 +277,7 @@ class Game {
 		//Place the player somewhere random on the map.
 		tx = -1;
 		while (tx == -1 || World.at(tx, ty) != Localworld.FLOOR) {
-			tx = Rand.pint(0, World.mapwidth);	ty = Rand.pint(0, World.mapheight);
+			tx = TinyRand.pint(0, World.mapwidth);	ty = TinyRand.pint(0, World.mapheight);
 		}
 		World.placetile(tx, ty, Localworld.ENTRANCE);
 	}
@@ -310,7 +310,7 @@ class Game {
 		//Like above, but looking for different blocks
 		tx = -1;
 		while (tx == -1 || World.at(tx, ty) != Localworld.OUTSIDE_GROUND) {
-			tx = Rand.pint(0, World.mapwidth);	ty = Rand.pint(0, World.mapheight);
+			tx = TinyRand.pint(0, World.mapwidth);	ty = TinyRand.pint(0, World.mapheight);
 		}
 		Obj.createentity(tx, ty, rule, type);
 	}
@@ -319,13 +319,13 @@ class Game {
 		//Like above, but looking for different blocks
 		tx = -1;
 		while (tx == -1 || World.at(tx, ty) != Localworld.OUTSIDE_GROUND) {
-			tx = Rand.pint(0, World.mapwidth);	ty = Rand.pint(0, World.mapheight);
+			tx = TinyRand.pint(0, World.mapwidth);	ty = TinyRand.pint(0, World.mapheight);
 		}
 		Obj.createentity(tx, ty, rule, type);
 	}
 	
 	public static function placeatrandom(rule:String, type:String = ""):Void {
-		tx = Rand.pint(0, Astar.oln - 1);
+		tx = TinyRand.pint(0, Astar.oln - 1);
 		tx1 = Astar.fcost[tx];
 		ty1 = Astar.gcost[tx];
 		
@@ -336,7 +336,7 @@ class Game {
 		//Find an empty floor tile for the player in the stupiest way possible
 		tx = -1;
 		while (tx == -1 || World.at(tx, ty) != Localworld.FLOOR) {
-			tx = Rand.pint(0, World.mapwidth);	ty = Rand.pint(0, World.mapheight);
+			tx = TinyRand.pint(0, World.mapwidth);	ty = TinyRand.pint(0, World.mapheight);
 		}
 		World.placetile(tx, ty, item);
 	}
@@ -347,7 +347,7 @@ class Game {
 		tx = -1;
 		attempts = 100;
 		while (attempts > 0 && (tx == -1 || World.at(tx, ty) != Localworld.FLOOR || Math.abs(tx1 - tx) < 6 || Math.abs(ty1 - ty) < 6)) {
-			tx = Rand.pint(0, World.mapwidth);	ty = Rand.pint(0, World.mapheight);
+			tx = TinyRand.pint(0, World.mapwidth);	ty = TinyRand.pint(0, World.mapheight);
 			attempts--;
 		}
 		
@@ -746,7 +746,7 @@ class Game {
 			if (!World.collide(Obj.entities[i].xp + Localworld.xstep(Direction.clockwise(Obj.entities[i].dir)), Obj.entities[i].yp + Localworld.ystep(Direction.clockwise(Obj.entities[i].dir))) &&
 					!World.collide(Obj.entities[i].xp + Localworld.xstep(Direction.anticlockwise(Obj.entities[i].dir)), Obj.entities[i].yp + Localworld.ystep(Direction.anticlockwise(Obj.entities[i].dir)))) {
 				//Out in the open!
-				if (Rand.pbool()) {
+				if (TinyRand.pbool()) {
 					//Clockwise move
 					Obj.entities[i].dir = Direction.clockwise(Obj.entities[i].dir);
 					while (!World.collide(Obj.entities[i].xp + Localworld.xstep(Obj.entities[i].dir), Obj.entities[i].yp + Localworld.ystep(Obj.entities[i].dir))) {
@@ -1278,7 +1278,7 @@ class Game {
 			for (i in 0 ... AIDirector.reinforcements.length) {
 				if (S.isinstring(AIDirector.reinforcements[i], "_")) {
 					var options:Array<String> = AIDirector.reinforcements[i].split("_");
-					Rand.pshuffle(options);
+					TinyRand.pshuffle(options);
 					setupreinforcements(options[0], AIDirector.reinforcementtime[i]);
 				}else{
 					setupreinforcements(AIDirector.reinforcements[i], AIDirector.reinforcementtime[i]);

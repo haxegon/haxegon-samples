@@ -10,7 +10,7 @@ import world.Levelgen;
 import world.Glitch;
 import world.World;
 import entities.Obj;
-import util.Rand;
+import util.TinyRand;
 import util.Glow;
 import gamecontrol.Game;
 import gamecontrol.Use;
@@ -157,10 +157,10 @@ class Modern {
 		
 		if (AIDirector.seed == "random") {
 			currentrunseed = Std.int(Math.random() * 16807);
-			Rand.setseed(currentrunseed);
+			TinyRand.setseed(currentrunseed);
 		}else{	
 			currentrunseed = Levelgen.stringseed(AIDirector.seed) + Game.floor;
-			Rand.setseed(currentrunseed);
+			TinyRand.setseed(currentrunseed);
 		}
 		if(Buildconfig.showtraces) trace("level seed is " + AIDirector.seed + ":(" + Levelgen.stringseed(AIDirector.seed) + Game.floor + ")");
 		
@@ -311,9 +311,9 @@ class Modern {
 		AIDirector.floor++;	
 		
 		if (AIDirector.seed == "random") {
-			Rand.setseed(Std.int(Math.random() * 16807));
+			TinyRand.setseed(Std.int(Math.random() * 16807));
 		}else{	
-			Rand.setseed(Levelgen.stringseed(AIDirector.seed) + Game.floor);
+			TinyRand.setseed(Levelgen.stringseed(AIDirector.seed) + Game.floor);
 		}
 		if(Buildconfig.showtraces) trace("level seed is " + Levelgen.stringseed(AIDirector.seed) + Game.floor);
 		

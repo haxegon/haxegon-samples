@@ -8,7 +8,7 @@ import world.Glitch;
 import world.Localworld;
 import world.World;
 import entities.Obj;
-import util.Rand;
+import util.TinyRand;
 import util.Glow;
 import util.Direction;
 import visuals.Draw;
@@ -39,7 +39,7 @@ class Use {
 				var attempts:Int = 1000;
 				//Pick a random point away from the player.
 				while (attempts > 0 && (tx2 == -1 || World.at(tx2, ty2) != Localworld.FLOOR || Math.abs(tx - tx2) < 4 || Math.abs(ty - ty2) < 4)) {
-					tx2 = Rand.pint(0, World.mapwidth);	ty2 = Rand.pint(0, World.mapheight);
+					tx2 = TinyRand.pint(0, World.mapwidth);	ty2 = TinyRand.pint(0, World.mapheight);
 					attempts--;
 				}
 				

@@ -5,7 +5,7 @@ import modernversion.*;
 import visuals.Draw;
 import world.Localworld;
 import entities.Obj;
-import util.Rand;
+import util.TinyRand;
 
 class ShopkeeperEntity extends BaseEntity {
 	public function new() {
@@ -25,7 +25,7 @@ class ShopkeeperEntity extends BaseEntity {
 		Obj.entities[i].tile = 2;
 		Obj.entities[i].lightsource = "none";
 		Obj.entities[i].mysteryvalue = 5;
-		Obj.entities[i].col = Rand.ppickint(Col.rgb(255, 128, 128), Col.rgb(255, 255, 128), Col.rgb(196, 196, 255));
+		Obj.entities[i].col = TinyRand.ppickint(Col.rgb(255, 128, 128), Col.rgb(255, 255, 128), Col.rgb(196, 196, 255));
 		Modern.shopkeepcol = Obj.entities[i].col;
 	}
 	

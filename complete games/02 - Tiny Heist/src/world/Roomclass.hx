@@ -5,7 +5,7 @@ import modernversion.*;
 import entities.ItemType;
 import entities.EnemyType;
 import gamecontrol.Game;
-import util.Rand;
+import util.TinyRand;
 import util.Direction;
 
 class Roomclass {
@@ -110,14 +110,14 @@ class Roomclass {
 				return Localworld.KEY;
       case 24:
 				//An ok item
-				Generator.placelater(xp, yp, "item", Rand.ppickstring(
+				Generator.placelater(xp, yp, "item", TinyRand.ppickstring(
 				  ItemType.DRILL, ItemType.LIGHTBULB, ItemType.FIRSTAIDKIT, ItemType.SIGNALJAMMER,
 					ItemType.SKATEBOARD, ItemType.LEAFBLOWER, ItemType.BANANAPEEL
 				));
 				return Localworld.FLOOR;
 			case 25:
 				//A great item
-				Generator.placelater(xp, yp, "item", Rand.ppickstring(
+				Generator.placelater(xp, yp, "item", TinyRand.ppickstring(
 				  ItemType.DRILL, ItemType.TIMESTOPPER, ItemType.CARDBOARDBOX, ItemType.TELEPORTER,
 					ItemType.PISTOL, ItemType.FIREEXTINGUISHER, ItemType.SWORD, ItemType.BOMB
 				));
@@ -316,7 +316,7 @@ class Roomclass {
 		}
 		
 		if (Generator.numconnectionsort > 0) {
-			var pick:Int = Rand.pint(0, Generator.numconnectionsort - 1);
+			var pick:Int = TinyRand.pint(0, Generator.numconnectionsort - 1);
 			connections[pick].inuse = true;
 			return Generator.connectionsort[pick];
 		}else {
